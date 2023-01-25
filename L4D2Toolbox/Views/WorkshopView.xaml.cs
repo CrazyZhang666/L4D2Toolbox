@@ -1,28 +1,45 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using L4D2Toolbox.Data;
+using L4D2Toolbox.Utils;
 
-namespace L4D2Toolbox.Views
+namespace L4D2Toolbox.Views;
+
+/// <summary>
+/// WorkshopView.xaml 的交互逻辑
+/// </summary>
+public partial class WorkshopView : UserControl
 {
     /// <summary>
-    /// WorkshopView.xaml 的交互逻辑
+    /// 玩家创意工坊物品列表动态集合
     /// </summary>
-    public partial class WorkshopView : UserControl
+    public ObservableCollection<ItemInfo> ItemInfoLists { get; set; } = new();
+
+    public WorkshopView()
     {
-        public WorkshopView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
+        this.DataContext = this;
+    }
+
+    /// <summary>
+    /// 超链接请求导航事件
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
+    {
+        ProcessUtil.OpenLink(e.Uri.OriginalString);
+        e.Handled = true;
+    }
+
+    /// <summary>
+    /// 刷新MOD列表
+    /// </summary>
+    private void Button_RefushMODList_Click(object sender, RoutedEventArgs e)
+    {
+        Button_RefushMODList.IsEnabled = false;
+        ItemInfoLists.Clear();
+
+
+
+        Button_RefushMODList.IsEnabled = true;
     }
 }

@@ -16,10 +16,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Folder Include="Converters\" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<Resource Include="Fonts\iconfont.ttf" />
 	</ItemGroup>
 

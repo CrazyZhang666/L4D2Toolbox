@@ -3,18 +3,111 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:L4D2Toolbox.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
+    xmlns:metro="https://github.com/CrazyZhang666/MetroSkin"
+    d:DesignHeight="720"
+    d:DesignWidth="1280"
     mc:Ignorable="d">
 
     <Grid>
-        <TextBlock
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            FontSize="50"
-            Text="WorkshopView" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+            <RowDefinition Height="100" />
+        </Grid.RowDefinitions>
+        <!--  //////////////////////  -->
+        <DockPanel Grid.Row="0">
+            <StackPanel Orientation="Horizontal">
+                <metro:MetroButton
+                    x:Name="Button_RefushMODList"
+                    Margin="5,5,0,5"
+                    Click="Button_RefushMODList_Click"
+                    Content="刷新MOD列表"
+                    Icon="&#xec08;"
+                    IconForeground="Green"
+                    Style="{StaticResource MetroButton_IconFont}" />
+                <metro:MetroButton
+                    Margin="5,5,0,5"
+                    Content="编辑选中MOD信息"
+                    Icon="&#xe6b9;"
+                    IconForeground="Blue"
+                    IsEnabled="{Binding ElementName=ListBox_Workshops, Path=SelectedIndex, Converter={StaticResource IsSelectedNullConverter}}"
+                    Style="{StaticResource MetroButton_IconFont}" />
+                <metro:MetroButton
+                    Margin="5,5,0,5"
+                    Content="删除选中MOD"
+                    Icon="&#xe8c1;"
+                    IconForeground="Red"
+                    IsEnabled="{Binding ElementName=ListBox_Workshops, Path=SelectedIndex, Converter={StaticResource IsSelectedNullConverter}}"
+                    Style="{StaticResource MetroButton_IconFont}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" />
+        </DockPanel>
+        <!--  //////////////////////  -->
+        <ListBox
+            x:Name="ListBox_Workshops"
+            Grid.Row="1"
+            Margin="5,0,5,0"
+            Style="{StaticResource ListBoxStyle_Normal}">
+            <ListBox.ItemTemplate>
+                <DataTemplate DataType="{x:Type ListBoxItem}">
+                    <Border>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Image
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Width="100"
+                                Height="100"
+                                Source="{Binding PreviewImage, Converter={StaticResource StringToImageSourceConverter}}">
+                                <Image.ToolTip>
+                                    <Image
+                                        MaxWidth="500"
+                                        MaxHeight="500"
+                                        Source="{Binding PreviewImage, Converter={StaticResource StringToImageSourceConverter}}" />
+                                </Image.ToolTip>
+                            </Image>
+                            <TextBlock Grid.Row="1" Grid.Column="0">
+                                <Hyperlink NavigateUri="{Binding Url}" RequestNavigate="Hyperlink_RequestNavigate">
+                                    <Run Text="{Binding Id}" />
+                                </Hyperlink>
+                            </TextBlock>
+                            <StackPanel Grid.Row="0" Grid.Column="1">
+                                <TextBlock Text="{Binding Title}" />
+                                <UniformGrid Columns="2">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding FileSize, StringFormat='大小：{0}'}" />
+                                        <TextBlock Text="{Binding Updated, StringFormat='更新日期：{0}'}" />
+                                        <TextBlock Text="{Binding Created, StringFormat='发表于：{0}'}" />
+                                    </StackPanel>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding NumUniqueWebsiteViews, StringFormat='不重复访客数：{0}'}" />
+                                        <TextBlock Text="{Binding NumSubscriptions, StringFormat='当前订阅者：{0}'}" />
+                                        <TextBlock Text="{Binding NumFavorites, StringFormat='当前收藏人数：{0}'}" />
+                                    </StackPanel>
+                                </UniformGrid>
+                            </StackPanel>
+                            <StackPanel
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Orientation="Horizontal">
+                                <TextBlock Text="{Binding PublicState, StringFormat='可见性：{0}'}" />
+                                <TextBlock Text="{Binding TagsContent, StringFormat='标签：{0}'}" />
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <!--  //////////////////////  -->
+        <TextBox Grid.Row="2" Margin="5" />
     </Grid>
 
 </UserControl>

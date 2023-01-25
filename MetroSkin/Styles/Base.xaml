@@ -1,0 +1,16 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cvt="clr-namespace:L4D2Toolbox.Themes.Converters">
+
+    <cvt:StringToImageSourceConverter x:Key="StringToImageSourceConverter" />
+    <cvt:IsSelectedNullConverter x:Key="IsSelectedNullConverter" />
+    <cvt:BoolToOpacityConverter x:Key="BoolToOpacityConverter" />
+    <cvt:IsNotEmptyConverter x:Key="IsNotEmptyConverter" />
+
+    <!--  ToolTip背景色为白色  -->
+    <Style TargetType="{x:Type ToolTip}">
+        <Setter Property="Background" Value="White" />
+    </Style>
+
+</ResourceDictionary>
