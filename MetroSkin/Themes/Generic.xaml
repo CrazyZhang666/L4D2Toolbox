@@ -1,0 +1,13 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/MetroSkin;component/Styles/ScrollViewer.xaml" />
+
+        <ResourceDictionary Source="/MetroSkin;component/Styles/TextBlock.xaml" />
+
+        <ResourceDictionary Source="/MetroSkin;component/Styles/ListBox.xaml" />
+
+        <ResourceDictionary Source="/MetroSkin;component/Styles/MetroWindow.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+</ResourceDictionary>

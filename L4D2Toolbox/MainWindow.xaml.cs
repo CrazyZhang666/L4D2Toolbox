@@ -1,0 +1,70 @@
+﻿using L4D2Toolbox.Data;
+
+namespace L4D2Toolbox;
+
+/// <summary>
+/// MainWindow.xaml 的交互逻辑
+/// </summary>
+public partial class MainWindow
+{
+    /// <summary>
+    /// 导航菜单
+    /// </summary>
+    public List<NavMenu> NavMenus { get; set; } = new();
+    /// <summary>
+    /// 导航字典
+    /// </summary>
+    private readonly Dictionary<string, UserControl> NavDictionary = new();
+
+    ///////////////////////////////////////////////////////
+
+    public MainWindow()
+    {
+        InitializeComponent();
+        this.DataContext = this;
+
+        CreateNavMenu();
+        Navigate(NavDictionary.First().Key);
+    }
+
+    private void Window_Main_Loaded(object sender, RoutedEventArgs e)
+    {
+
+    }
+
+    private void Window_Main_Closing(object sender, CancelEventArgs e)
+    {
+
+    }
+
+    /// <summary>
+    /// 创建导航菜单
+    /// </summary>
+    private void CreateNavMenu()
+    {
+        NavMenus.Add(new() { Icon = "\xe603", Title = "首页", ViewName = "HomeView" });
+        NavMenus.Add(new() { Icon = "\xe60f", Title = "管理创意工坊", ViewName = "WorkshopView" });
+        NavMenus.Add(new() { Icon = "\xe603", Title = "发布新MOD", ViewName = "PublishView" });
+        NavMenus.Add(new() { Icon = "\xe603", Title = "Steam云存储", ViewName = "StorageView" });
+        NavMenus.Add(new() { Icon = "\xe60f", Title = "关于", ViewName = "AboutView" });
+
+        NavMenus.ForEach(menu =>
+        {
+            var type = Type.GetType($"L4D2Toolbox.Views.{menu.ViewName}");
+            NavDictionary.Add(menu.ViewName, Activator.CreateInstance(type) as UserControl);
+        });
+    }
+
+    /// <summary>
+    /// 页面导航
+    /// </summary>
+    /// <param name="menu"></param>
+    [RelayCommand]
+    private void Navigate(string viewName)
+    {
+        if (NavDictionary.ContainsKey(viewName))
+        {
+            ContentControl_NavRegion.Content = NavDictionary[viewName];
+        }
+    }
+}

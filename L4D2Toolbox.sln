@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L4D2Toolbox", "L4D2Toolbox\L4D2Toolbox.csproj", "{2A3D2985-272F-439D-9DC1-58CC60F98134}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steamworks", "Steamworks\Steamworks.csproj", "{4B231F69-C2FB-41A8-9017-BA34C6D26A2C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetroSkin", "MetroSkin\MetroSkin.csproj", "{2546F672-68CC-4FEE-8AF3-823F36DB0726}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpVPK", "SharpVPK\SharpVPK.csproj", "{E91CAAD6-F899-479B-A8C1-EBDC3824F13A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2A3D2985-272F-439D-9DC1-58CC60F98134}.Debug|x64.ActiveCfg = Debug|x64
+		{2A3D2985-272F-439D-9DC1-58CC60F98134}.Debug|x64.Build.0 = Debug|x64
+		{2A3D2985-272F-439D-9DC1-58CC60F98134}.Release|x64.ActiveCfg = Release|x64
+		{2A3D2985-272F-439D-9DC1-58CC60F98134}.Release|x64.Build.0 = Release|x64
+		{4B231F69-C2FB-41A8-9017-BA34C6D26A2C}.Debug|x64.ActiveCfg = Debug|x64
+		{4B231F69-C2FB-41A8-9017-BA34C6D26A2C}.Debug|x64.Build.0 = Debug|x64
+		{4B231F69-C2FB-41A8-9017-BA34C6D26A2C}.Release|x64.ActiveCfg = Release|x64
+		{4B231F69-C2FB-41A8-9017-BA34C6D26A2C}.Release|x64.Build.0 = Release|x64
+		{2546F672-68CC-4FEE-8AF3-823F36DB0726}.Debug|x64.ActiveCfg = Debug|x64
+		{2546F672-68CC-4FEE-8AF3-823F36DB0726}.Debug|x64.Build.0 = Debug|x64
+		{2546F672-68CC-4FEE-8AF3-823F36DB0726}.Release|x64.ActiveCfg = Release|x64
+		{2546F672-68CC-4FEE-8AF3-823F36DB0726}.Release|x64.Build.0 = Release|x64
+		{E91CAAD6-F899-479B-A8C1-EBDC3824F13A}.Debug|x64.ActiveCfg = Debug|x64
+		{E91CAAD6-F899-479B-A8C1-EBDC3824F13A}.Debug|x64.Build.0 = Debug|x64
+		{E91CAAD6-F899-479B-A8C1-EBDC3824F13A}.Release|x64.ActiveCfg = Release|x64
+		{E91CAAD6-F899-479B-A8C1-EBDC3824F13A}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2868416B-A437-4A1D-8773-F44BC0D9D305}
+	EndGlobalSection
+EndGlobal
