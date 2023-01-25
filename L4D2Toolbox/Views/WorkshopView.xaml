@@ -22,20 +22,20 @@
                     x:Name="Button_RefushMODList"
                     Margin="5,5,0,5"
                     Click="Button_RefushMODList_Click"
-                    Content="刷新MOD列表"
+                    Content="刷新"
                     Icon="&#xec08;"
                     IconForeground="Green"
                     Style="{StaticResource MetroButton_IconFont}" />
                 <metro:MetroButton
                     Margin="5,5,0,5"
-                    Content="编辑选中MOD信息"
+                    Content="编辑"
                     Icon="&#xe6b9;"
                     IconForeground="Blue"
                     IsEnabled="{Binding ElementName=ListBox_Workshops, Path=SelectedIndex, Converter={StaticResource IsSelectedNullConverter}}"
                     Style="{StaticResource MetroButton_IconFont}" />
                 <metro:MetroButton
                     Margin="5,5,0,5"
-                    Content="删除选中MOD"
+                    Content="删除"
                     Icon="&#xe8c1;"
                     IconForeground="Red"
                     IsEnabled="{Binding ElementName=ListBox_Workshops, Path=SelectedIndex, Converter={StaticResource IsSelectedNullConverter}}"
@@ -48,10 +48,14 @@
             x:Name="ListBox_Workshops"
             Grid.Row="1"
             Margin="5,0,5,0"
+            ItemsSource="{Binding ItemInfoLists}"
             Style="{StaticResource ListBoxStyle_Normal}">
             <ListBox.ItemTemplate>
                 <DataTemplate DataType="{x:Type ListBoxItem}">
-                    <Border>
+                    <Border
+                        Width="530"
+                        BorderBrush="#C2C3C9"
+                        BorderThickness="1">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition />
@@ -61,45 +65,87 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
-                            <Image
+                            <Border
                                 Grid.Row="0"
                                 Grid.Column="0"
-                                Width="100"
-                                Height="100"
-                                Source="{Binding PreviewImage, Converter={StaticResource StringToImageSourceConverter}}">
-                                <Image.ToolTip>
-                                    <Image
-                                        MaxWidth="500"
-                                        MaxHeight="500"
-                                        Source="{Binding PreviewImage, Converter={StaticResource StringToImageSourceConverter}}" />
-                                </Image.ToolTip>
-                            </Image>
-                            <TextBlock Grid.Row="1" Grid.Column="0">
+                                Width="90"
+                                Height="90"
+                                Margin="5,5,5,0"
+                                BorderBrush="#C2C3C9"
+                                BorderThickness="1">
+                                <Image Source="{Binding PreviewImage, Converter={StaticResource StringToImageSourceConverter}}">
+                                    <Image.ToolTip>
+                                        <Image
+                                            MaxWidth="400"
+                                            MaxHeight="400"
+                                            Source="{Binding PreviewImage, Converter={StaticResource StringToImageSourceConverter}}" />
+                                    </Image.ToolTip>
+                                </Image>
+                            </Border>
+                            <TextBlock
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
                                 <Hyperlink NavigateUri="{Binding Url}" RequestNavigate="Hyperlink_RequestNavigate">
                                     <Run Text="{Binding Id}" />
                                 </Hyperlink>
                             </TextBlock>
-                            <StackPanel Grid.Row="0" Grid.Column="1">
-                                <TextBlock Text="{Binding Title}" />
-                                <UniformGrid Columns="2">
-                                    <StackPanel>
-                                        <TextBlock Text="{Binding FileSize, StringFormat='大小：{0}'}" />
-                                        <TextBlock Text="{Binding Updated, StringFormat='更新日期：{0}'}" />
-                                        <TextBlock Text="{Binding Created, StringFormat='发表于：{0}'}" />
-                                    </StackPanel>
-                                    <StackPanel>
-                                        <TextBlock Text="{Binding NumUniqueWebsiteViews, StringFormat='不重复访客数：{0}'}" />
-                                        <TextBlock Text="{Binding NumSubscriptions, StringFormat='当前订阅者：{0}'}" />
-                                        <TextBlock Text="{Binding NumFavorites, StringFormat='当前收藏人数：{0}'}" />
-                                    </StackPanel>
-                                </UniformGrid>
-                            </StackPanel>
+                            <DockPanel Grid.Row="0" Grid.Column="1">
+                                <TextBlock
+                                    Margin="5,10,5,0"
+                                    DockPanel.Dock="Top"
+                                    FontSize="16"
+                                    FontWeight="Bold"
+                                    Text="{Binding Title}"
+                                    TextTrimming="CharacterEllipsis" />
+                                <DockPanel Margin="5,0,5,0" DockPanel.Dock="Bottom">
+                                    <TextBlock
+                                        Margin="5"
+                                        VerticalAlignment="Bottom"
+                                        DockPanel.Dock="Right">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}{0} / {1}">
+                                                <Binding Path="Index" />
+                                                <Binding ElementName="ListBox_Workshops" Path="Items.Count" />
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                    <UniformGrid
+                                        VerticalAlignment="Center"
+                                        Columns="2"
+                                        DockPanel.Dock="Left">
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding FileSize, StringFormat='大小：{0}'}" />
+                                            <TextBlock Margin="0,3,0,3" Text="{Binding Updated, StringFormat='更新日期：{0}'}" />
+                                            <TextBlock Text="{Binding Created, StringFormat='发布日期：{0}'}" />
+                                        </StackPanel>
+                                        <StackPanel Margin="10,0,0,0">
+                                            <TextBlock Text="{Binding NumUniqueWebsiteViews, StringFormat='不重复访客：{0}'}" />
+                                            <TextBlock Margin="0,3,0,3" Text="{Binding NumSubscriptions, StringFormat='当前订阅者：{0}'}" />
+                                            <TextBlock Text="{Binding NumFavorites, StringFormat='当前收藏数：{0}'}" />
+                                        </StackPanel>
+                                    </UniformGrid>
+                                </DockPanel>
+                            </DockPanel>
                             <StackPanel
                                 Grid.Row="1"
                                 Grid.Column="1"
+                                VerticalAlignment="Center"
                                 Orientation="Horizontal">
-                                <TextBlock Text="{Binding PublicState, StringFormat='可见性：{0}'}" />
-                                <TextBlock Text="{Binding TagsContent, StringFormat='标签：{0}'}" />
+                                <TextBlock
+                                    Margin="5"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding PublicState, StringFormat='可见性：{0}'}" />
+                                <TextBlock
+                                    Margin="5"
+                                    VerticalAlignment="Center"
+                                    Text="|" />
+                                <TextBlock
+                                    Margin="5"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding TagsContent, StringFormat='标签：{0}'}"
+                                    TextTrimming="CharacterEllipsis" />
                             </StackPanel>
                         </Grid>
                     </Border>

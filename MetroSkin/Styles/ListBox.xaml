@@ -3,12 +3,13 @@
     <Style x:Key="ListBoxStyle_NavMenu" TargetType="{x:Type ListBox}">
         <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="VirtualizingPanel.IsVirtualizing" Value="True" />
+        <Setter Property="VirtualizingPanel.ScrollUnit" Value="Item" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBox}">
                     <Border Background="{TemplateBinding Background}">
-                        <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto">
+                        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                             <StackPanel IsItemsHost="True" />
                         </ScrollViewer>
                     </Border>
@@ -59,15 +60,20 @@
     <Style x:Key="ListBoxStyle_Normal" TargetType="{x:Type ListBox}">
         <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="BorderBrush" Value="#ABADB3" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="VirtualizingPanel.IsVirtualizing" Value="True" />
+        <Setter Property="VirtualizingPanel.ScrollUnit" Value="Item" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBox}">
                     <Border
-                        BorderBrush="#ACACAC"
-                        BorderThickness="1"
-                        SnapsToDevicePixels="True">
-                        <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto">
-                            <StackPanel IsItemsHost="True" />
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                            <WrapPanel IsItemsHost="True" />
                         </ScrollViewer>
                     </Border>
                 </ControlTemplate>
@@ -78,16 +84,12 @@
                 <Style TargetType="{x:Type ListBoxItem}">
                     <Setter Property="OverridesDefaultStyle" Value="True" />
                     <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-                    <Setter Property="MinHeight" Value="35" />
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                                <Grid Margin="0,0,0,1" Background="Transparent">
+                                <Grid Margin="3,3,3,4" Background="Transparent">
                                     <Border x:Name="border" />
-                                    <ContentPresenter
-                                        Margin="10,0,10,0"
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Center" />
+                                    <ContentPresenter VerticalAlignment="Center" />
                                 </Grid>
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsSelected" Value="True">

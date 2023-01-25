@@ -24,12 +24,18 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<EmbeddedResource Include="Files\AppData.zip" />
+		<EmbeddedResource Include="Files\steam_api64.dll" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
 		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\MetroSkin\MetroSkin.csproj" />
+		<ProjectReference Include="..\Steamworks\Steamworks.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

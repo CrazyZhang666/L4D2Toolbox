@@ -19,77 +19,75 @@
     mc:Ignorable="d">
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="180" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <!--  ////////// 左侧背景 //////////  -->
-        <Border
-            Grid.Row="0"
-            Grid.RowSpan="2"
-            Grid.Column="0"
-            Background="#F1F1F1" />
-        <!--  ////////// 主标题 //////////  -->
-        <StackPanel
-            Grid.Row="0"
-            Grid.Column="0"
-            Margin="5"
-            Orientation="Horizontal">
-            <Image
-                Height="35"
-                Margin="3,3,7,0"
-                Source="Assets\favicon.ico"
-                Style="{StaticResource ImageStyle_HighQuality}" />
-            <TextBlock
-                VerticalAlignment="Center"
-                FontSize="20"
-                FontWeight="Bold"
-                Text="L4D2工具箱" />
-        </StackPanel>
-        <!--  ////////// 主标题 //////////  -->
-        <StackPanel
-            Grid.Row="0"
-            Grid.Column="1"
-            Margin="10,0,10,0"
-            Orientation="Horizontal" />
-        <!--  ////////// 导航区 //////////  -->
-        <ListBox
-            x:Name="ListBox_NavMenu"
-            Grid.Row="1"
-            Grid.Column="0"
-            Margin="5"
-            ItemsSource="{Binding NavMenus}"
-            SelectedIndex="0"
-            Style="{StaticResource ListBoxStyle_NavMenu}">
-            <b:Interaction.Triggers>
-                <b:EventTrigger EventName="SelectionChanged">
-                    <b:InvokeCommandAction Command="{Binding NavigateCommand}" CommandParameter="{Binding ElementName=ListBox_NavMenu, Path=SelectedItem.ViewName}" />
-                </b:EventTrigger>
-            </b:Interaction.Triggers>
-            <ListBox.ItemTemplate>
-                <DataTemplate DataType="{x:Type ListBoxItem}">
-                    <Border Padding="7,5,5,5">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock
-                                Margin="3,0,7,0"
-                                FontSize="20"
-                                Style="{StaticResource TextBlockStyle_IconFontVerCen}"
-                                Text="{Binding Icon}" />
-                            <TextBlock VerticalAlignment="Center" Text="{Binding Title}" />
-                        </StackPanel>
-                    </Border>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        <!--  ////////// 内容呈现区 //////////  -->
-        <ContentControl
-            x:Name="ContentControl_NavRegion"
-            Grid.Row="1"
-            Grid.Column="1" />
+        <!--  ////////// 左侧区域 //////////  -->
+        <DockPanel Grid.Column="0" Background="#F1F1F1">
+            <!--  ////////// 主标题 //////////  -->
+            <StackPanel
+                Margin="5,7,5,5"
+                DockPanel.Dock="Top"
+                Orientation="Horizontal">
+                <Image
+                    Height="30"
+                    Margin="3,0,7,0"
+                    Source="Assets\favicon.ico"
+                    Style="{StaticResource ImageStyle_HighQuality}" />
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="20"
+                    FontWeight="Bold"
+                    Text="L4D2工具箱" />
+            </StackPanel>
+            <!--  ////////// 导航区 //////////  -->
+            <ListBox
+                x:Name="ListBox_NavMenu"
+                Margin="5"
+                DockPanel.Dock="Bottom"
+                ItemsSource="{Binding NavMenus}"
+                SelectedIndex="0"
+                Style="{StaticResource ListBoxStyle_NavMenu}">
+                <b:Interaction.Triggers>
+                    <b:EventTrigger EventName="SelectionChanged">
+                        <b:InvokeCommandAction Command="{Binding NavigateCommand}" CommandParameter="{Binding ElementName=ListBox_NavMenu, Path=SelectedItem.ViewName}" />
+                    </b:EventTrigger>
+                </b:Interaction.Triggers>
+                <ListBox.ItemTemplate>
+                    <DataTemplate DataType="{x:Type ListBoxItem}">
+                        <Border Padding="7,5,5,5">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock
+                                    Margin="3,0,7,0"
+                                    FontSize="20"
+                                    Style="{StaticResource TextBlockStyle_IconFontVerCen}"
+                                    Text="{Binding Icon}" />
+                                <TextBlock VerticalAlignment="Center" Text="{Binding Title}" />
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </DockPanel>
+        <!--  ////////// 右侧区域 //////////  -->
+        <DockPanel Grid.Column="1">
+            <!--  ////////// 展示内容 //////////  -->
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                <TextBlock
+                    Margin="15,10,0,5"
+                    FontSize="24"
+                    Style="{StaticResource TextBlockStyle_IconFontVerCen}"
+                    Text="{Binding ElementName=ListBox_NavMenu, Path=SelectedItem.Icon}" />
+                <TextBlock
+                    Margin="10,10,0,5"
+                    FontSize="18"
+                    FontWeight="Bold"
+                    Text="{Binding ElementName=ListBox_NavMenu, Path=SelectedItem.Title}" />
+            </StackPanel>
+            <!--  ////////// 内容呈现区 //////////  -->
+            <ContentControl x:Name="ContentControl_NavRegion" DockPanel.Dock="Bottom" />
+        </DockPanel>
     </Grid>
 
 </metro:MetroWindow>

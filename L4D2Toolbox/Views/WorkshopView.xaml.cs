@@ -1,4 +1,5 @@
 ﻿using L4D2Toolbox.Data;
+using L4D2Toolbox.Steam;
 using L4D2Toolbox.Utils;
 
 namespace L4D2Toolbox.Views;
@@ -33,12 +34,22 @@ public partial class WorkshopView : UserControl
     /// <summary>
     /// 刷新MOD列表
     /// </summary>
-    private void Button_RefushMODList_Click(object sender, RoutedEventArgs e)
+    private async void Button_RefushMODList_Click(object sender, RoutedEventArgs e)
     {
         Button_RefushMODList.IsEnabled = false;
         ItemInfoLists.Clear();
 
-
+        var itemInfos = await Workshop.GetUserPublished();
+        if (itemInfos.Count > 0)
+        {
+            itemInfos.ForEach(info =>
+            {
+                this.Dispatcher.BeginInvoke(DispatcherPriority.Background, () =>
+                {
+                    ItemInfoLists.Add(info);
+                });
+            });
+        }
 
         Button_RefushMODList.IsEnabled = true;
     }
