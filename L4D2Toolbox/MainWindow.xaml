@@ -37,14 +37,14 @@
         <StackPanel
             Grid.Row="0"
             Grid.Column="0"
-            Margin="10,10,5,5"
+            Margin="5"
             Orientation="Horizontal">
+            <Image
+                Height="35"
+                Margin="3,3,7,0"
+                Source="Assets\favicon.ico"
+                Style="{StaticResource ImageStyle_HighQuality}" />
             <TextBlock
-                FontSize="30"
-                Style="{StaticResource TextBlockStyle_IconFontVerCen}"
-                Text="&#xe722;" />
-            <TextBlock
-                Margin="10,0,0,0"
                 VerticalAlignment="Center"
                 FontSize="20"
                 FontWeight="Bold"

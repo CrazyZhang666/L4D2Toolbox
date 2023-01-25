@@ -7,6 +7,12 @@
 		<UseWPF>true</UseWPF>
 		<Platforms>x64</Platforms>
 		<StartupObject>L4D2Toolbox.App</StartupObject>
+		<ApplicationIcon>Assets\favicon.ico</ApplicationIcon>
+		<GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+		<GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+		<GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -18,10 +24,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Remove="Assets\l4d2.png" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
 		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
 	</ItemGroup>
@@ -31,12 +33,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Assets\Images\" />
-	  <Folder Include="Windows\" />
+		<Folder Include="Assets\Images\" />
+		<Folder Include="Windows\" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Resource Include="Assets\l4d2.png" />
+		<Resource Include="Assets\favicon.ico" />
+		<Resource Include="Assets\l4d2.png" />
 	</ItemGroup>
 
 </Project>
