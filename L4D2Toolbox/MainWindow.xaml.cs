@@ -42,11 +42,11 @@ public partial class MainWindow
     /// </summary>
     private void CreateNavMenu()
     {
-        NavMenus.Add(new() { Icon = "\xe603", Title = "首页", ViewName = "HomeView" });
-        NavMenus.Add(new() { Icon = "\xe60f", Title = "管理创意工坊", ViewName = "WorkshopView" });
-        NavMenus.Add(new() { Icon = "\xe603", Title = "发布新MOD", ViewName = "PublishView" });
-        NavMenus.Add(new() { Icon = "\xe603", Title = "Steam云存储", ViewName = "StorageView" });
-        NavMenus.Add(new() { Icon = "\xe60f", Title = "关于", ViewName = "AboutView" });
+        NavMenus.Add(new() { Icon = "\xe61f", Title = "首页", ViewName = "HomeView" });
+        NavMenus.Add(new() { Icon = "\xe899", Title = "管理创意工坊", ViewName = "WorkshopView" });
+        NavMenus.Add(new() { Icon = "\xe6a4", Title = "发布新MOD", ViewName = "PublishView" });
+        NavMenus.Add(new() { Icon = "\xe77e", Title = "Steam云存储", ViewName = "StorageView" });
+        NavMenus.Add(new() { Icon = "\xe603", Title = "关于", ViewName = "AboutView" });
 
         NavMenus.ForEach(menu =>
         {

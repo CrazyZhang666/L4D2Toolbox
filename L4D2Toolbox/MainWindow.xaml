@@ -31,7 +31,7 @@
                 DockPanel.Dock="Top"
                 Orientation="Horizontal">
                 <Image
-                    Height="30"
+                    Height="26"
                     Margin="3,0,7,0"
                     Source="Assets\favicon.ico"
                     Style="{StaticResource ImageStyle_HighQuality}" />
