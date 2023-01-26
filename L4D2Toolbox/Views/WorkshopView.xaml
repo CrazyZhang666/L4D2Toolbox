@@ -18,23 +18,31 @@
         <DockPanel Grid.Row="0">
             <StackPanel Orientation="Horizontal">
                 <metro:MetroButton
+                    x:Name="Button_PublishMOD"
+                    Margin="5,5,0,5"
+                    Click="Button_PublishMOD_Click"
+                    Content="发布新MOD"
+                    Icon="&#xe6a4;"
+                    IconForeground="#23AAF2"
+                    Style="{StaticResource MetroButton_IconFont}" />
+                <metro:MetroButton
                     x:Name="Button_RefushMODList"
                     Margin="5,5,0,5"
                     Click="Button_RefushMODList_Click"
-                    Content="刷新"
+                    Content="刷新列表"
                     Icon="&#xec08;"
                     IconForeground="Green"
                     Style="{StaticResource MetroButton_IconFont}" />
                 <metro:MetroButton
                     Margin="5,5,0,5"
-                    Content="编辑"
+                    Content="编辑选中项"
                     Icon="&#xe6b9;"
                     IconForeground="Blue"
                     IsEnabled="{Binding ElementName=ListBox_Workshops, Path=SelectedIndex, Converter={StaticResource IsSelectedNullConverter}}"
                     Style="{StaticResource MetroButton_IconFont}" />
                 <metro:MetroButton
                     Margin="5,5,0,5"
-                    Content="删除"
+                    Content="删除选中项"
                     Icon="&#xe8c1;"
                     IconForeground="Red"
                     IsEnabled="{Binding ElementName=ListBox_Workshops, Path=SelectedIndex, Converter={StaticResource IsSelectedNullConverter}}"

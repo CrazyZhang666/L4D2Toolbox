@@ -41,10 +41,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Windows\" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<Resource Include="Assets\favicon.ico" />
 		<Resource Include="Assets\Images\Avatar\select_bill.png" />
 		<Resource Include="Assets\Images\Avatar\select_francis.png" />

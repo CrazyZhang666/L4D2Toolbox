@@ -55,9 +55,9 @@
                         <DataTrigger Binding="{Binding ElementName=icon, Path=Text}" Value="">
                             <Setter TargetName="grid" Property="Margin" Value="0" />
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding Path=Content}" Value="{x:Null}">
+                        <Trigger Property="Content" Value="{x:Null}">
                             <Setter TargetName="grid" Property="Margin" Value="0" />
-                        </DataTrigger>
+                        </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
                             <Setter TargetName="border" Property="Opacity" Value="0.5" />
                             <Setter TargetName="icon" Property="Opacity" Value="0.5" />

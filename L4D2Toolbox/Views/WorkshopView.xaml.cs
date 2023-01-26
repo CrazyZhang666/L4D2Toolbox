@@ -2,6 +2,7 @@
 using L4D2Toolbox.Helper;
 using L4D2Toolbox.Steam;
 using L4D2Toolbox.Utils;
+using L4D2Toolbox.Windows;
 
 namespace L4D2Toolbox.Views;
 
@@ -30,6 +31,20 @@ public partial class WorkshopView : UserControl
     {
         ProcessUtil.OpenLink(e.Uri.OriginalString);
         e.Handled = true;
+    }
+
+    /// <summary>
+    /// 发布新MOD
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void Button_PublishMOD_Click(object sender, RoutedEventArgs e)
+    {
+        var publishWindow = new PublishWindow(new ItemInfo(), true)
+        {
+            Owner = MainWindow.MainWindowInstance
+        };
+        publishWindow.ShowDialog();
     }
 
     /// <summary>

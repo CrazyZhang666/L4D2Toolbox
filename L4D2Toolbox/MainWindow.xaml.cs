@@ -25,12 +25,19 @@ public partial class MainWindow
     /// </summary>
     public static event WindowClosingDelegate WindowClosingEvent;
 
+    /// <summary>
+    /// 向外暴露主窗口实例
+    /// </summary>
+    public static Window MainWindowInstance { get; private set; }
+
     ///////////////////////////////////////////////////////
 
     public MainWindow()
     {
         InitializeComponent();
         this.DataContext = this;
+
+        MainWindowInstance = this;
 
         CreateNavMenu();
         Navigate(NavDictionary.First().Key);
@@ -54,7 +61,6 @@ public partial class MainWindow
     {
         NavMenus.Add(new() { Icon = "\xe61f", Title = "首页", ViewName = "HomeView" });
         NavMenus.Add(new() { Icon = "\xe899", Title = "管理创意工坊", ViewName = "WorkshopView" });
-        NavMenus.Add(new() { Icon = "\xe6a4", Title = "发布新MOD", ViewName = "PublishView" });
         NavMenus.Add(new() { Icon = "\xe77e", Title = "Steam云存储", ViewName = "StorageView" });
         NavMenus.Add(new() { Icon = "\xe704", Title = "自定中文字体", ViewName = "GameFontView" });
         NavMenus.Add(new() { Icon = "\xe606", Title = "常用工具", ViewName = "ToolkitView" });
