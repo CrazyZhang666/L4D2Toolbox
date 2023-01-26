@@ -3,18 +3,166 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:L4D2Toolbox.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
+    xmlns:metro="https://github.com/CrazyZhang666/MetroSkin"
+    d:DesignHeight="720"
+    d:DesignWidth="1280"
     mc:Ignorable="d">
 
     <Grid>
-        <TextBlock
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            FontSize="50"
-            Text="StorageView" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <!--  /////////////////////////////  -->
+        <DockPanel>
+            <Grid DockPanel.Dock="Right">
+                <Border
+                    Width="300"
+                    Margin="5"
+                    Background="#EEEEF2">
+                    <Border
+                        x:Name="Border_QuotaUse"
+                        Width="0"
+                        HorizontalAlignment="Left"
+                        Background="Green" />
+                </Border>
+                <TextBlock
+                    x:Name="TextBlock_QuotaInfo"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Text="0 MB / 1024 MB" />
+            </Grid>
+            <TextBlock
+                Margin="5"
+                VerticalAlignment="Center"
+                DockPanel.Dock="Right"
+                ToolTip="https://store.steampowered.com/account/remotestorage">
+                <Hyperlink NavigateUri="https://store.steampowered.com/account/remotestorage" RequestNavigate="Hyperlink_RequestNavigate">
+                    Steam云
+                </Hyperlink>
+            </TextBlock>
+            <!--  //////////////////////  -->
+            <StackPanel DockPanel.Dock="Left" Orientation="Horizontal">
+                <metro:MetroButton
+                    x:Name="Button_RefreshStorageList"
+                    Click="Button_RefreshStorageList_Click"
+                    Content="刷新"
+                    Icon="&#xec08;"
+                    IconForeground="Green"
+                    Style="{StaticResource MetroButton_IconFont}" />
+                <metro:MetroButton
+                    x:Name="Button_DeleteStorage"
+                    Margin="0,5,5,5"
+                    Click="Button_DeleteStorage_Click"
+                    Content="删除"
+                    Foreground="Red"
+                    Icon="&#xe8c1;"
+                    IconForeground="Red"
+                    IsEnabled="{Binding ElementName=ListBox_Storages, Path=SelectedIndex, Converter={StaticResource IsSelectedNullConverter}}"
+                    Style="{StaticResource MetroButton_IconFont}" />
+                <metro:MetroButton
+                    x:Name="Button_ClearStorage"
+                    Margin="0,5,5,5"
+                    Click="Button_ClearStorage_Click"
+                    Content="清空"
+                    Foreground="Red"
+                    Icon="&#xe6dc;"
+                    IconForeground="Red">
+                    <Button.Style>
+                        <Style BasedOn="{StaticResource MetroButton_IconFont}" TargetType="{x:Type metro:MetroButton}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=ListBox_Storages, Path=Items.Count}" Value="0">
+                                    <Setter Property="IsEnabled" Value="False" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </metro:MetroButton>
+            </StackPanel>
+        </DockPanel>
+        <!--  /////////////////////////////  -->
+        <ListBox
+            x:Name="ListBox_Storages"
+            Grid.Row="1"
+            Margin="5,0,5,5"
+            ItemsSource="{Binding StorageInfoLists}"
+            Style="{StaticResource ListBoxStyle_StorageInfo}">
+            <ListBox.ItemTemplate>
+                <DataTemplate DataType="{x:Type ListBoxItem}">
+                    <Border
+                        HorizontalAlignment="Stretch"
+                        BorderBrush="#C2C3C9"
+                        BorderThickness="1">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock
+                                Grid.Column="0"
+                                Margin="5"
+                                FontSize="32"
+                                Style="{StaticResource TextBlockStyle_IconFontVerCen}"
+                                Text="&#xe793;" />
+                            <StackPanel Grid.Column="1">
+                                <TextBlock
+                                    Margin="5,10,5,0"
+                                    DockPanel.Dock="Top"
+                                    FontSize="16"
+                                    FontWeight="Bold"
+                                    Text="{Binding Name}"
+                                    TextTrimming="CharacterEllipsis" />
+                                <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                                    <TextBlock
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        Text="{Binding Date, StringFormat='更新日期：{0}'}" />
+                                    <TextBlock
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        Text="|" />
+                                    <TextBlock
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        Text="{Binding Exists, StringFormat='是否存在：{0}'}"
+                                        TextTrimming="CharacterEllipsis" />
+                                    <TextBlock
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        Text="|" />
+                                    <TextBlock
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        Text="{Binding Persisted, StringFormat='是否特殊文件：{0}'}"
+                                        TextTrimming="CharacterEllipsis" />
+                                    <TextBlock
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        Text="|" />
+                                    <TextBlock
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        Text="{Binding Size, StringFormat='大小：{0}'}" />
+                                </StackPanel>
+                            </StackPanel>
+                            <TextBlock
+                                Grid.Column="2"
+                                Margin="0,0,10,0"
+                                VerticalAlignment="Center">
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="{}{0} / {1}">
+                                        <Binding Path="Index" />
+                                        <Binding ElementName="ListBox_Storages" Path="Items.Count" />
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
 
 </UserControl>

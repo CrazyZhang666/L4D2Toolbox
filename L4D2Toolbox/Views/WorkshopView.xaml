@@ -49,7 +49,7 @@
             Grid.Row="1"
             Margin="5,0,5,0"
             ItemsSource="{Binding ItemInfoLists}"
-            Style="{StaticResource ListBoxStyle_Normal}">
+            Style="{StaticResource ListBoxStyle_ItemInfo}">
             <ListBox.ItemTemplate>
                 <DataTemplate DataType="{x:Type ListBoxItem}">
                     <Border
@@ -86,7 +86,8 @@
                                 Grid.Row="1"
                                 Grid.Column="0"
                                 HorizontalAlignment="Center"
-                                VerticalAlignment="Center">
+                                VerticalAlignment="Center"
+                                ToolTip="{Binding Url}">
                                 <Hyperlink NavigateUri="{Binding Url}" RequestNavigate="Hyperlink_RequestNavigate">
                                     <Run Text="{Binding Id}" />
                                 </Hyperlink>

@@ -37,7 +37,7 @@
                                 Margin="5,0,0,0"
                                 VerticalAlignment="Center"
                                 Focusable="False"
-                                RecognizesAccessKey="True" />
+                                SnapsToDevicePixels="True" />
                         </StackPanel>
                     </Border>
                     <ControlTemplate.Triggers>
