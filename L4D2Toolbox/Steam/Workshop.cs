@@ -11,47 +11,30 @@ namespace L4D2Toolbox.Steam;
 public static class Workshop
 {
     /// <summary>
-    /// 是否初始化成功
-    /// </summary>
-    private static bool IsInitSuccess = false;
-
-    /// <summary>
-    /// 锁标志
-    /// </summary>
-    private static readonly object ObjLock = new();
-
-    /// <summary>
     /// 初始化Steamworks
     /// </summary>
     /// <returns></returns>
-    public static bool Init()
+    public static bool Init(out string log)
     {
-        lock (ObjLock)
+        if (Client.IsRun())
         {
-            if (Client.IsRun())
+            try
             {
-                try
-                {
-                    if (!IsInitSuccess)
-                        SteamClient.Init(Globals.AppID);
+                SteamClient.Init(Globals.AppID);
 
-                    IsInitSuccess = true;
-                    return true;
-                }
-                catch (Exception ex)
-                {
-                    MsgBoxUtil.Exception($"Steamworks初始化失败，请重启程序并检查Steam状态\n\n异常信息 : \n{ex.Message}", "初始化失败");
-
-                    IsInitSuccess = false;
-                    return false;
-                }
+                log = "初始化Steamworks成功";
+                return true;
             }
-            else
+            catch (Exception ex)
             {
-                MsgBoxUtil.Warning("未发现Steam进程，请先启动Steam客户端");
-                IsInitSuccess = false;
+                log = $"Steamworks初始化失败，请重启程序并检查Steam状态\n异常信息 : {ex.Message}";
                 return false;
             }
+        }
+        else
+        {
+            log = "未发现Steam进程，请先启动Steam客户端";
+            return false;
         }
     }
 
@@ -60,8 +43,7 @@ public static class Workshop
     /// </summary>
     public static void ShutDown()
     {
-        if (IsInitSuccess)
-            SteamClient.Shutdown();
+        SteamClient.Shutdown();
     }
 
     /// <summary>
@@ -111,19 +93,7 @@ public static class Workshop
     /// <returns></returns>
     public static string GetUserName()
     {
-        try
-        {
-            if (Init())
-            {
-                return SteamClient.Name;
-            }
-        }
-        catch (Exception ex)
-        {
-            MsgBoxUtil.Exception(ex);
-        }
-
-        return string.Empty;
+        return SteamClient.Name;
     }
 
     /// <summary>
@@ -132,19 +102,7 @@ public static class Workshop
     /// <returns></returns>
     public static ulong GetUserSteamId()
     {
-        try
-        {
-            if (Init())
-            {
-                return SteamClient.SteamId.Value;
-            }
-        }
-        catch (Exception ex)
-        {
-            MsgBoxUtil.Exception(ex);
-        }
-
-        return 0;
+        return SteamClient.SteamId.Value;
     }
 
     /// <summary>
@@ -153,19 +111,7 @@ public static class Workshop
     /// <returns></returns>
     public static string GetL4D2InstallDir()
     {
-        try
-        {
-            if (Init())
-            {
-                return SteamApps.AppInstallDir(Globals.AppID);
-            }
-        }
-        catch (Exception ex)
-        {
-            MsgBoxUtil.Exception(ex);
-        }
-
-        return string.Empty;
+        return SteamApps.AppInstallDir(Globals.AppID);
     }
 
     /// <summary>
@@ -175,51 +121,42 @@ public static class Workshop
     {
         var itemInfos = new List<ItemInfo>();
 
-        try
+        var published = Query.ItemsReadyToUse.WhereUserPublished().SortByUpdateDate();
+
+        int page = 1, index = 1;
+        ResultPage? result;
+
+        do
         {
-            if (Init())
+            result = await published.GetPageAsync(page++);
+
+            foreach (var item in result.Value.Entries)
             {
-                var published = Query.ItemsReadyToUse.WhereUserPublished().SortByUpdateDate();
-                ResultPage? result = null;
-                int page = 1, index = 1;
-
-                do
+                itemInfos.Add(new()
                 {
-                    result = await published.GetPageAsync(page++);
-
-                    foreach (var item in result.Value.Entries)
-                    {
-                        itemInfos.Add(new()
-                        {
-                            Index = index++,
-                            Id = item.Id.Value,
-                            PreviewImage = item.PreviewImageUrl,
-                            Title = item.Title.Replace("\n", ""),
-                            Description = item.Description,
-                            Url = item.Url,
-                            FileSize = MiscUtil.ByteConverterMB(item.FileSize),
-                            IsPublic = item.IsPublic,
-                            IsFriendsOnly = item.IsFriendsOnly,
-                            IsPrivate = item.IsPrivate,
-                            IsUnlisted = item.IsUnlisted,
-                            PublicState = GetPublicState(item.IsPublic, item.IsFriendsOnly, item.IsPrivate, item.IsUnlisted),
-                            Updated = MiscUtil.FormatDateTime(item.Updated),
-                            Created = MiscUtil.FormatDateTime(item.Created),
-                            Tags = item.Tags,
-                            TagsContent = GetTagsContent(item.Tags),
-                            Owner = item.Owner.Name,
-                            NumUniqueWebsiteViews = item.NumUniqueWebsiteViews,
-                            NumSubscriptions = item.NumSubscriptions,
-                            NumFavorites = item.NumFavorites
-                        });
-                    }
-                } while (result.Value.ResultCount == 50);
+                    Index = index++,
+                    Id = item.Id.Value,
+                    PreviewImage = item.PreviewImageUrl,
+                    Title = item.Title.Replace("\n", " "),
+                    Description = item.Description,
+                    Url = item.Url,
+                    FileSize = MiscUtil.ByteConverterMB(item.FileSize),
+                    IsPublic = item.IsPublic,
+                    IsFriendsOnly = item.IsFriendsOnly,
+                    IsPrivate = item.IsPrivate,
+                    IsUnlisted = item.IsUnlisted,
+                    PublicState = GetPublicState(item.IsPublic, item.IsFriendsOnly, item.IsPrivate, item.IsUnlisted),
+                    Updated = MiscUtil.FormatDateTime(item.Updated),
+                    Created = MiscUtil.FormatDateTime(item.Created),
+                    Tags = item.Tags,
+                    TagsContent = GetTagsContent(item.Tags),
+                    Owner = item.Owner.Name,
+                    NumUniqueWebsiteViews = item.NumUniqueWebsiteViews,
+                    NumSubscriptions = item.NumSubscriptions,
+                    NumFavorites = item.NumFavorites
+                });
             }
-        }
-        catch (Exception ex)
-        {
-            MsgBoxUtil.Exception(ex);
-        }
+        } while (result.Value.ResultCount == 50);
 
         return itemInfos;
     }
@@ -230,9 +167,6 @@ public static class Workshop
     /// <param name="id"></param>
     public static async void DeletePublishedFile(ulong id)
     {
-        if (!Init())
-            return;
-
         var fileId = new PublishedFileId
         {
             Value = id

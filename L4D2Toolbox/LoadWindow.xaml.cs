@@ -1,5 +1,8 @@
 ﻿using L4D2Toolbox.Core;
+using L4D2Toolbox.Steam;
 using L4D2Toolbox.Utils;
+
+using Steamworks;
 
 namespace L4D2Toolbox;
 
@@ -25,23 +28,30 @@ public partial class LoadWindow
                 Directory.CreateDirectory(Globals.OutputDir);
                 Directory.CreateDirectory(Globals.ConfigDir);
 
-                // 释放数据文件
-                MiscUtil.ExtractResFile("L4D2Toolbox.Files.AppData.zip", ".\\AppData.bin");
-                MiscUtil.ExtractResFile("L4D2Toolbox.Files.steam_api64.dll", ".\\steam_api64.dll");
-
-                // 解压数据文件
-                if (File.Exists(".\\AppData.bin"))
+                if (!File.Exists(".\\AppData.bin"))
                 {
+                    // 释放数据文件
+                    MiscUtil.ExtractResFile("L4D2Toolbox.Files.AppData.zip", ".\\AppData.bin");
+
                     if (!Directory.Exists(Globals.AppDataDir))
                     {
+                        // 解压数据文件
                         using var archive = ZipFile.OpenRead(".\\AppData.bin");
                         archive.ExtractToDirectory(Globals.AppDataDir);
                     }
                 }
-                else
+
+                if (!File.Exists(".\\steam_api64.dll"))
                 {
-                    MsgBoxUtil.Error("未发现AppData.bin，请更新工具版本");
-                    Application.Current.Shutdown();
+                    // 释放数据文件
+                    MiscUtil.ExtractResFile("L4D2Toolbox.Files.steam_api64.dll", ".\\steam_api64.dll");
+                }
+
+                // 检测Steam进程
+                if (!Workshop.Init(out string log))
+                {
+                    LoadLogger(log, Brushes.Red);
+                    return;
                 }
 
                 /////////////////////////////////////////////////////////////////////
@@ -62,8 +72,8 @@ public partial class LoadWindow
             }
             catch (Exception ex)
             {
-                MsgBoxUtil.Exception(ex);
-                Application.Current.Shutdown();
+                LoadLogger(ex.Message, Brushes.Red);
+                return;
             }
         });
     }
@@ -71,5 +81,19 @@ public partial class LoadWindow
     private void Window_Load_Closing(object sender, CancelEventArgs e)
     {
 
+    }
+
+    private void LoadLogger(string log, SolidColorBrush solidColor)
+    {
+        this.Dispatcher.Invoke(() =>
+        {
+            TextBlock_LoadLogger.Text = log;
+            TextBlock_LoadLogger.Foreground = solidColor;
+        });
+    }
+
+    private void Button_ExitApp_Click(object sender, RoutedEventArgs e)
+    {
+        Application.Current.Shutdown();
     }
 }

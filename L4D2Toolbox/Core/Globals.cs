@@ -7,6 +7,11 @@ public static class Globals
     /// </summary>
     public const int AppID = 550;
 
+    /// <summary>
+    /// 求生之路2 Authing Tools AppID
+    /// </summary>
+    public const int App2ID = 563;
+
     /////////////////////////////////////////////////////////////
 
     public const string OutputDir = ".\\__Output";

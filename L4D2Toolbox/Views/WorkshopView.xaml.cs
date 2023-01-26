@@ -1,4 +1,5 @@
-﻿using L4D2Toolbox.Data;
+﻿using L4D2Toolbox.Core;
+using L4D2Toolbox.Data;
 using L4D2Toolbox.Steam;
 using L4D2Toolbox.Utils;
 

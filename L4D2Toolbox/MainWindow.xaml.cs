@@ -1,4 +1,5 @@
 ﻿using L4D2Toolbox.Data;
+using L4D2Toolbox.Steam;
 
 namespace L4D2Toolbox;
 
@@ -34,7 +35,7 @@ public partial class MainWindow
 
     private void Window_Main_Closing(object sender, CancelEventArgs e)
     {
-
+        Workshop.ShutDown();
     }
 
     /// <summary>

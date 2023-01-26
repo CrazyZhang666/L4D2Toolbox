@@ -19,7 +19,39 @@
     mc:Ignorable="d">
 
     <Grid Margin="20">
-        <Image Source="/Assets/l4d2.png" />
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <!--  /////////////////////  -->
+        <Image Margin="20" Source="/Assets/l4d2.png" />
+        <!--  /////////////////////  -->
+        <StackPanel Grid.Row="1">
+            <TextBox
+                x:Name="TextBlock_LoadLogger"
+                Height="60"
+                VerticalContentAlignment="Center"
+                Style="{StaticResource TextBoxStyle_Logger}"
+                Text="加载中..."
+                TextAlignment="Center"
+                TextWrapping="Wrap" />
+            <metro:MetroButton
+                x:Name="Button_ExitApp"
+                Click="Button_ExitApp_Click"
+                Content="初始化错误，退出程序"
+                Icon="&#xed1a;">
+                <Button.Style>
+                    <Style BasedOn="{StaticResource MetroButton_IconFont}" TargetType="{x:Type metro:MetroButton}">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=TextBlock_LoadLogger, Path=Foreground}" Value="Red">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </metro:MetroButton>
+        </StackPanel>
     </Grid>
 
 </metro:MetroWindow>
