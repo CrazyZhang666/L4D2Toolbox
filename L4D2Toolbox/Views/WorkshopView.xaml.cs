@@ -1,5 +1,5 @@
-﻿using L4D2Toolbox.Core;
-using L4D2Toolbox.Data;
+﻿using L4D2Toolbox.Data;
+using L4D2Toolbox.Helper;
 using L4D2Toolbox.Steam;
 using L4D2Toolbox.Utils;
 
@@ -38,6 +38,8 @@ public partial class WorkshopView : UserControl
     private async void Button_RefushMODList_Click(object sender, RoutedEventArgs e)
     {
         Button_RefushMODList.IsEnabled = false;
+        NotifierHelper.Show(NotifierType.Notification, "正在刷新玩家创意工坊项目列表...");
+
         ItemInfoLists.Clear();
 
         var itemInfos = await Workshop.GetUserPublished();
@@ -53,5 +55,6 @@ public partial class WorkshopView : UserControl
         }
 
         Button_RefushMODList.IsEnabled = true;
+        NotifierHelper.Show(NotifierType.Success, "刷新玩家创意工坊项目列表成功");
     }
 }

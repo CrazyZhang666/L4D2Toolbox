@@ -54,6 +54,13 @@ public partial class LoadWindow
                     return;
                 }
 
+                var dir = Workshop.GetL4D2InstallDir();
+                if (!string.IsNullOrWhiteSpace(dir))
+                {
+                    Globals.L4D2MainDir = dir;
+                    Globals.L4D2MainExec = $"{Globals.L4D2MainDir}\\left4dead2.exe";
+                }
+
                 /////////////////////////////////////////////////////////////////////
 
                 await Task.Delay(500);

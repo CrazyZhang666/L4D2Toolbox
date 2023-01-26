@@ -13,7 +13,6 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
-            <RowDefinition Height="100" />
         </Grid.RowDefinitions>
         <!--  //////////////////////  -->
         <DockPanel Grid.Row="0">
@@ -153,8 +152,6 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <!--  //////////////////////  -->
-        <TextBox Grid.Row="2" Margin="5" />
     </Grid>
 
 </UserControl>

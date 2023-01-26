@@ -31,6 +31,7 @@
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
 		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
+		<PackageReference Include="Notification.Wpf" Version="6.1.0.5" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -39,12 +40,22 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Assets\Images\" />
 		<Folder Include="Windows\" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<Resource Include="Assets\favicon.ico" />
+		<Resource Include="Assets\Images\Tools\Addons.png" />
+		<Resource Include="Assets\Images\Tools\BSPSource.png" />
+		<Resource Include="Assets\Images\Tools\Crowbar.png" />
+		<Resource Include="Assets\Images\Tools\GCFScape.png" />
+		<Resource Include="Assets\Images\Tools\Hammer.png" />
+		<Resource Include="Assets\Images\Tools\L4D2Dir.png" />
+		<Resource Include="Assets\Images\Tools\Maps.png" />
+		<Resource Include="Assets\Images\Tools\RegionEnUS.png" />
+		<Resource Include="Assets\Images\Tools\RegionZhCN.png" />
+		<Resource Include="Assets\Images\Tools\VPK.png" />
+		<Resource Include="Assets\Images\Tools\VTFEdit.png" />
 		<Resource Include="Assets\l4d2.png" />
 	</ItemGroup>
 

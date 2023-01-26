@@ -1,28 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using L4D2Toolbox.Utils;
 
-namespace L4D2Toolbox.Views
+namespace L4D2Toolbox.Views;
+
+/// <summary>
+/// AboutView.xaml 的交互逻辑
+/// </summary>
+public partial class AboutView : UserControl
 {
-    /// <summary>
-    /// AboutView.xaml 的交互逻辑
-    /// </summary>
-    public partial class AboutView : UserControl
+    public AboutView()
     {
-        public AboutView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
+        this.DataContext = this;
+        MainWindow.WindowClosingEvent += MainWindow_WindowClosingEvent;
+
+        TextBlock_VersionInfo.Text = $"版本 v{MiscUtil.VersionInfo}";
+        TextBlock_BuildTime.Text = $"编译时间 {MiscUtil.BuildTime}";
+    }
+
+    private void MainWindow_WindowClosingEvent()
+    {
+
+    }
+
+    /// <summary>
+    /// 超链接请求导航事件
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
+    {
+        ProcessUtil.OpenLink(e.Uri.OriginalString);
+        e.Handled = true;
     }
 }

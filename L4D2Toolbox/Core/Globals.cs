@@ -15,8 +15,9 @@ public static class Globals
     /////////////////////////////////////////////////////////////
 
     public const string OutputDir = ".\\__Output";
-    public const string AppDataDir = ".\\AppData";
     public const string ConfigDir = ".\\Config";
+
+    public const string AppDataDir = ".\\AppData";
 
     public const string SharedDir = $"{AppDataDir}\\__Shared";
 
@@ -29,12 +30,14 @@ public static class Globals
     public const string MacTypeDir = $"{AppDataDir}\\MacType";
     public const string FontLoaderExec = $"{MacTypeDir}\\MacLoader.exe";
 
+    public const string ToolkitDir = $"{AppDataDir}\\Toolkit";
+    public const string GCFScapeExec = $"{ToolkitDir}\\GCFScape\\GCFScape.exe";
+    public const string VTFEditExec = $"{ToolkitDir}\\VTFEdit\\VTFEdit.exe";
+    public const string BSPSourceExec = $"{ToolkitDir}\\BSPSource\\bspsrc.bat";
+    public const string VPK2Exec = $"{ToolkitDir}\\VPK\\vpk.exe";
+    public const string CrowbarExec = $"{ToolkitDir}\\Crowbar\\Crowbar.exe";
+
     public static string FullOutputDir = Directory.GetCurrentDirectory() + "\\__Output";
-
-    /////////////////////////////////////////////////////////////
-
-    public static bool IsConfigOk { get; set; } = false;
-    public static bool IsReadyOk { get; set; } = false;
 
     /////////////////////////////////////////////////////////////
 
@@ -85,6 +88,11 @@ public static class Globals
         get { return $"{L4D2MainDir}\\bin\\vpk.exe"; }
     }
 
+    public static string HammerExec
+    {
+        get { return $"{L4D2MainDir}\\bin\\hammer.exe"; }
+    }
+
     public static string L4D2SurvivorsDir
     {
         get { return $"{L4D2MainDir}\\left4dead2\\models\\survivors"; }
@@ -98,6 +106,11 @@ public static class Globals
     public static string L4D2AddonsDir
     {
         get { return $"{L4D2MainDir}\\left4dead2\\addons"; }
+    }
+
+    public static string L4D2MapsDir
+    {
+        get { return $"{L4D2MainDir}\\left4dead2\\maps"; }
     }
 
     public static string L4D2ComplieArgs

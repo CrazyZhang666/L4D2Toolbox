@@ -1,5 +1,6 @@
 ﻿using L4D2Toolbox.Data;
 using L4D2Toolbox.Utils;
+using L4D2Toolbox.Helper;
 
 using Steamworks;
 
@@ -38,6 +39,7 @@ public partial class StorageView : UserControl
     private void RefreshList()
     {
         Button_RefreshStorageList.IsEnabled = false;
+        NotifierHelper.Show(NotifierType.Notification, "正在刷新Steam云存储文件列表...");
 
         int index = 1;
         StorageInfoLists.Clear();
@@ -61,6 +63,7 @@ public partial class StorageView : UserControl
         RefushQuotaInfo();
 
         Button_RefreshStorageList.IsEnabled = true;
+        NotifierHelper.Show(NotifierType.Success, "刷新Steam云存储文件列表成功");
     }
 
     /// <summary>
@@ -73,6 +76,8 @@ public partial class StorageView : UserControl
 
         Border_QuotaUse.Width = 1.0 * quotaUsedBytes / quotaBytes * 300;
         TextBlock_QuotaInfo.Text = $"{MiscUtil.ByteConverterMB(quotaUsedBytes)} 已存储 / {MiscUtil.ByteConverterMB(quotaBytes)} 总大小";
+
+        NotifierHelper.Show(NotifierType.Success, "刷新Steam云存储配额信息成功");
     }
 
     /// <summary>
@@ -98,9 +103,9 @@ public partial class StorageView : UserControl
                 "删除文件", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
             {
                 if (SteamRemoteStorage.FileDelete(info.Name))
-                    MsgBoxUtil.Information($"删除文件 {info.Name} 成功");
+                    NotifierHelper.Show(NotifierType.Success, $"删除文件 {info.Name} 成功");
                 else
-                    MsgBoxUtil.Error($"删除文件 {info.Name} 失败");
+                    NotifierHelper.Show(NotifierType.Error, $"删除文件 {info.Name} 失败");
 
                 RefreshList();
             }
@@ -122,7 +127,7 @@ public partial class StorageView : UserControl
                 SteamRemoteStorage.FileDelete(file);
             }
 
-            MsgBoxUtil.Information("清空Steam云存储文件成功");
+            NotifierHelper.Show(NotifierType.Success, "清空Steam云存储文件成功");
             RefreshList();
         }
     }

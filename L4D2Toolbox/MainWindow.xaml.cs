@@ -17,6 +17,14 @@ public partial class MainWindow
     /// </summary>
     private readonly Dictionary<string, UserControl> NavDictionary = new();
 
+    /// 主窗口关闭委托
+    /// </summary>
+    public delegate void WindowClosingDelegate();
+    /// <summary>
+    /// 主窗口关闭事件
+    /// </summary>
+    public static event WindowClosingDelegate WindowClosingEvent;
+
     ///////////////////////////////////////////////////////
 
     public MainWindow()
@@ -35,6 +43,7 @@ public partial class MainWindow
 
     private void Window_Main_Closing(object sender, CancelEventArgs e)
     {
+        WindowClosingEvent();
         Workshop.ShutDown();
     }
 
@@ -47,6 +56,8 @@ public partial class MainWindow
         NavMenus.Add(new() { Icon = "\xe899", Title = "管理创意工坊", ViewName = "WorkshopView" });
         NavMenus.Add(new() { Icon = "\xe6a4", Title = "发布新MOD", ViewName = "PublishView" });
         NavMenus.Add(new() { Icon = "\xe77e", Title = "Steam云存储", ViewName = "StorageView" });
+        NavMenus.Add(new() { Icon = "\xe704", Title = "自定中文字体", ViewName = "GameFontView" });
+        NavMenus.Add(new() { Icon = "\xe606", Title = "常用工具", ViewName = "ToolkitView" });
         NavMenus.Add(new() { Icon = "\xe603", Title = "关于", ViewName = "AboutView" });
 
         NavMenus.ForEach(menu =>

@@ -23,4 +23,15 @@ public class MetroButton : Button
     }
     public static readonly DependencyProperty IconForegroundProperty =
         DependencyProperty.Register("IconForeground", typeof(Brush), typeof(MetroButton), new PropertyMetadata(new SolidColorBrush(Color.FromRgb(0, 0, 0))));
+
+    /// <summary>
+    /// 按钮图片
+    /// </summary>
+    public string Image
+    {
+        get { return (string)GetValue(ImageProperty); }
+        set { SetValue(ImageProperty, value); }
+    }
+    public static readonly DependencyProperty ImageProperty =
+        DependencyProperty.Register("Image", typeof(string), typeof(MetroButton), new PropertyMetadata(null));
 }

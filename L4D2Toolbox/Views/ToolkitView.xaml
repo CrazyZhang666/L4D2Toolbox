@@ -1,0 +1,118 @@
+﻿<UserControl
+    x:Class="L4D2Toolbox.Views.ToolkitView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:metro="https://github.com/CrazyZhang666/MetroSkin"
+    d:DesignHeight="720"
+    d:DesignWidth="1280"
+    mc:Ignorable="d">
+
+    <StackPanel Margin="5">
+        <WrapPanel>
+            <metro:MetroButton
+                x:Name="Button_VPKUnpack"
+                AllowDrop="True"
+                Command="{Binding ButtonClickCommand}"
+                CommandParameter="VPK解包"
+                Content="VPK解包"
+                Drop="Button_VPKUnpack_Drop"
+                Image="pack://application:,,,/L4D2Toolbox;component/Assets/Images/Tools/VPK.png"
+                Style="{StaticResource MetroButton_Image}"
+                ToolTip="支持拖放 .vpk 格式文件" />
+            <metro:MetroButton
+                x:Name="Button_RunGCFScape"
+                AllowDrop="True"
+                Command="{Binding ButtonClickCommand}"
+                CommandParameter="GCFScape"
+                Content="GCFScape"
+                Drop="Button_RunGCFScape_Drop"
+                Image="pack://application:,,,/L4D2Toolbox;component/Assets/Images/Tools/GCFScape.png"
+                Style="{StaticResource MetroButton_Image}"
+                ToolTip="支持拖放 .vpk 格式文件" />
+            <metro:MetroButton
+                x:Name="Button_RunVTFEdit"
+                AllowDrop="True"
+                Command="{Binding ButtonClickCommand}"
+                CommandParameter="VTFEdit"
+                Content="VTFEdit"
+                Drop="Button_RunVTFEdit_Drop"
+                Image="pack://application:,,,/L4D2Toolbox;component/Assets/Images/Tools/VTFEdit.png"
+                Style="{StaticResource MetroButton_Image}"
+                ToolTip="支持拖放 .vtf 格式文件" />
+            <metro:MetroButton
+                x:Name="Button_RunBSPSource"
+                AllowDrop="True"
+                Command="{Binding ButtonClickCommand}"
+                CommandParameter="BSPSource"
+                Content="BSPSource"
+                Drop="Button_RunBSPSource_Drop"
+                Image="pack://application:,,,/L4D2Toolbox;component/Assets/Images/Tools/BSPSource.png"
+                Style="{StaticResource MetroButton_Image}"
+                ToolTip="支持拖放 .bsp 格式文件" />
+            <metro:MetroButton
+                x:Name="Button_RunHammer"
+                AllowDrop="True"
+                Command="{Binding ButtonClickCommand}"
+                CommandParameter="Hammer"
+                Content="Hammer"
+                Drop="Button_RunHammer_Drop"
+                Image="pack://application:,,,/L4D2Toolbox;component/Assets/Images/Tools/Hammer.png"
+                Style="{StaticResource MetroButton_Image}"
+                ToolTip="支持拖放 .vmf 格式文件" />
+            <metro:MetroButton
+                x:Name="Button_RunCrowbar"
+                AllowDrop="True"
+                Command="{Binding ButtonClickCommand}"
+                CommandParameter="Crowbar"
+                Content="Crowbar"
+                Drop="Button_RunCrowbar_Drop"
+                Image="pack://application:,,,/L4D2Toolbox;component/Assets/Images/Tools/Crowbar.png"
+                Style="{StaticResource MetroButton_Image}"
+                ToolTip="支持拖放 .vpk .mdl 格式文件" />
+        </WrapPanel>
+        <!--  ///////////////////  -->
+        <WrapPanel>
+            <metro:MetroButton
+                x:Name="Button_SetRegionEnUS"
+                Command="{Binding ButtonClickCommand}"
+                CommandParameter="区域格式-英语美国"
+                Content="区域格式-英语美国"
+                Image="pack://application:,,,/L4D2Toolbox;component/Assets/Images/Tools/RegionEnUS.png"
+                Style="{StaticResource MetroButton_Image}" />
+            <metro:MetroButton
+                x:Name="Button_SetRegionZhCN"
+                Command="{Binding ButtonClickCommand}"
+                CommandParameter="区域格式-中文中国"
+                Content="区域格式-中文中国"
+                Image="pack://application:,,,/L4D2Toolbox;component/Assets/Images/Tools/RegionZhCN.png"
+                Style="{StaticResource MetroButton_Image}" />
+        </WrapPanel>
+        <!--  ///////////////////  -->
+        <WrapPanel>
+            <metro:MetroButton
+                x:Name="Button_L4D2Dir"
+                Command="{Binding ButtonClickCommand}"
+                CommandParameter="求生之路2目录"
+                Content="求生之路2目录"
+                Image="pack://application:,,,/L4D2Toolbox;component/Assets/Images/Tools/L4D2Dir.png"
+                Style="{StaticResource MetroButton_Image}" />
+            <metro:MetroButton
+                x:Name="Button_L4D2Dir_Addons"
+                Command="{Binding ButtonClickCommand}"
+                CommandParameter="Addons目录"
+                Content="Addons目录"
+                Image="pack://application:,,,/L4D2Toolbox;component/Assets/Images/Tools/Addons.png"
+                Style="{StaticResource MetroButton_Image}" />
+            <metro:MetroButton
+                x:Name="Button_L4D2Dir_Maps"
+                Command="{Binding ButtonClickCommand}"
+                CommandParameter="Maps目录"
+                Content="Maps目录"
+                Image="pack://application:,,,/L4D2Toolbox;component/Assets/Images/Tools/Maps.png"
+                Style="{StaticResource MetroButton_Image}" />
+        </WrapPanel>
+    </StackPanel>
+
+</UserControl>
