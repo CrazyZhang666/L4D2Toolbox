@@ -25,7 +25,7 @@
             HorizontalAlignment="Center"
             FontSize="36"
             FontWeight="Bold"
-            Text="求生之路2 工具箱" />
+            Text="求生之路2工具箱" />
         <!--  ///////////////////  -->
         <TextBlock Margin="5" HorizontalAlignment="Center">
             Copyright © 2022-2023 DS By CrazyZhang
