@@ -23,6 +23,7 @@
 		<DebugType>full</DebugType>
 	</PropertyGroup>
 
+
 	<ItemGroup>
 		<EmbeddedResource Include="Files\AppData.zip" />
 		<EmbeddedResource Include="Files\steam_api64.dll" />
@@ -45,6 +46,14 @@
 
 	<ItemGroup>
 		<Resource Include="Assets\favicon.ico" />
+		<Resource Include="Assets\Images\Avatar\select_bill.png" />
+		<Resource Include="Assets\Images\Avatar\select_francis.png" />
+		<Resource Include="Assets\Images\Avatar\select_louis.png" />
+		<Resource Include="Assets\Images\Avatar\select_zoey.png" />
+		<Resource Include="Assets\Images\Avatar\s_panel_lobby_coach.png" />
+		<Resource Include="Assets\Images\Avatar\s_panel_lobby_gambler.png" />
+		<Resource Include="Assets\Images\Avatar\s_panel_lobby_mechanic.png" />
+		<Resource Include="Assets\Images\Avatar\s_panel_lobby_producer.png" />
 		<Resource Include="Assets\Images\Tools\Addons.png" />
 		<Resource Include="Assets\Images\Tools\BSPSource.png" />
 		<Resource Include="Assets\Images\Tools\Crowbar.png" />

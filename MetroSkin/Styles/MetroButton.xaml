@@ -35,9 +35,9 @@
                                 Foreground="{TemplateBinding IconForeground}"
                                 Style="{DynamicResource TextBlockStyle_IconFontVerCen}"
                                 Text="{TemplateBinding Icon}" />
+                            <Grid x:Name="grid" Margin="5,0,0,0" />
                             <ContentPresenter
                                 x:Name="content"
-                                Margin="5,0,0,0"
                                 VerticalAlignment="Center"
                                 Focusable="False"
                                 SnapsToDevicePixels="True" />
@@ -53,7 +53,10 @@
                             <Setter TargetName="border" Property="BorderBrush" Value="Gray" />
                         </Trigger>
                         <DataTrigger Binding="{Binding ElementName=icon, Path=Text}" Value="">
-                            <Setter TargetName="content" Property="Margin" Value="0" />
+                            <Setter TargetName="grid" Property="Margin" Value="0" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Path=Content}" Value="{x:Null}">
+                            <Setter TargetName="grid" Property="Margin" Value="0" />
                         </DataTrigger>
                         <Trigger Property="IsEnabled" Value="false">
                             <Setter TargetName="border" Property="Opacity" Value="0.5" />
