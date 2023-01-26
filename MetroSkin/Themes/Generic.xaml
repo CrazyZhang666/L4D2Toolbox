@@ -9,6 +9,7 @@
         <ResourceDictionary Source="/MetroSkin;component/Styles/TextBlock.xaml" />
 
         <ResourceDictionary Source="/MetroSkin;component/Styles/TextBox.xaml" />
+        <ResourceDictionary Source="/MetroSkin;component/Styles/CheckBox.xaml" />
         <ResourceDictionary Source="/MetroSkin;component/Styles/ComboBox.xaml" />
 
         <ResourceDictionary Source="/MetroSkin;component/Styles/MetroButton.xaml" />
