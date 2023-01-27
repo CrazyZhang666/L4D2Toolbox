@@ -22,7 +22,7 @@
     <Grid>
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="180" />
+                <ColumnDefinition Width="170" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <!--  ////////// 左侧区域 //////////  -->
@@ -93,7 +93,7 @@
         </Grid>
         <!--  //////////////////////////  -->
         <notifications:NotificationArea
-            x:Name="WindowArea"
+            x:Name="MainWindowArea"
             MaxItems="5"
             Position="BottomCenter" />
     </Grid>

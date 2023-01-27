@@ -38,34 +38,19 @@ public static class NotifierHelper
     /// </summary>
     /// <param name="type"></param>
     /// <param name="message"></param>
-    public static void Show(NotifierType type, string message)
+    /// <param name="areaName"></param>
+    public static void Show(NotifierType type, string message, string areaName = "MainWindowArea")
     {
-        string title;
-        switch (type)
+        string title = type switch
         {
-            case NotifierType.None:
-                title = "";
-                break;
-            case NotifierType.Information:
-                title = "信息";
-                break;
-            case NotifierType.Success:
-                title = "成功";
-                break;
-            case NotifierType.Warning:
-                title = "警告";
-                break;
-            case NotifierType.Error:
-                title = "错误";
-                break;
-            case NotifierType.Notification:
-                title = "通知";
-                break;
-            default:
-                title = "";
-                break;
-        }
-
+            NotifierType.None => "",
+            NotifierType.Information => "信息",
+            NotifierType.Success => "成功",
+            NotifierType.Warning => "警告",
+            NotifierType.Error => "错误",
+            NotifierType.Notification => "通知",
+            _ => "",
+        };
         var clickContent = new NotificationContent
         {
             Title = title,
@@ -74,14 +59,15 @@ public static class NotifierHelper
             TrimType = NotificationTextTrimType.NoTrim,
         };
 
-        NotificationManager.Show(clickContent, "WindowArea", ExpirationTime, null, null, true, false);
+        NotificationManager.Show(clickContent, areaName, ExpirationTime, null, null, true, false);
     }
 
     /// <summary>
     /// 显示异常通知信息
     /// </summary>
     /// <param name="ex"></param>
-    public static void ShowException(Exception ex)
+    /// <param name="areaName"></param>
+    public static void ShowException(Exception ex, string areaName = "MainWindowArea")
     {
         var clickContent = new NotificationContent
         {
@@ -91,10 +77,13 @@ public static class NotifierHelper
             TrimType = NotificationTextTrimType.NoTrim,
         };
 
-        NotificationManager.Show(clickContent, "WindowArea", ExpirationTime, null, null, true, false);
+        NotificationManager.Show(clickContent, areaName, ExpirationTime, null, null, true, false);
     }
 }
 
+/// <summary>
+/// 通知类型
+/// </summary>
 public enum NotifierType
 {
     /// <summary>

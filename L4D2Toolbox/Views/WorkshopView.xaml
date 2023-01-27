@@ -58,7 +58,7 @@
         <ListBox
             x:Name="ListBox_Workshops"
             Grid.Row="1"
-            Margin="5,0,5,0"
+            Margin="5,0,5,5"
             ItemsSource="{Binding ItemInfoLists}"
             Style="{StaticResource ListBoxStyle_ItemInfo}">
             <ListBox.ItemTemplate>
@@ -84,7 +84,7 @@
                                 Margin="5,5,5,0"
                                 BorderBrush="#C2C3C9"
                                 BorderThickness="1">
-                                <Image Source="{Binding PreviewImage, Converter={StaticResource StringToImageSourceConverter}}">
+                                <Image Source="{Binding PreviewImage, Converter={StaticResource StringToImageSourceConverter}}" Style="{StaticResource ImageStyle_HighQuality}">
                                     <Image.ToolTip>
                                         <Image
                                             MaxWidth="400"
@@ -128,7 +128,7 @@
                                         Columns="2"
                                         DockPanel.Dock="Left">
                                         <StackPanel>
-                                            <TextBlock Text="{Binding FileSize, StringFormat='大小：{0}'}" />
+                                            <TextBlock Text="{Binding FileSize, StringFormat='文件大小：{0}'}" />
                                             <TextBlock Margin="0,3,0,3" Text="{Binding Updated, StringFormat='更新日期：{0}'}" />
                                             <TextBlock Text="{Binding Created, StringFormat='发布日期：{0}'}" />
                                         </StackPanel>
@@ -140,25 +140,24 @@
                                     </UniformGrid>
                                 </DockPanel>
                             </DockPanel>
-                            <StackPanel
-                                Grid.Row="1"
-                                Grid.Column="1"
-                                VerticalAlignment="Center"
-                                Orientation="Horizontal">
+                            <DockPanel Grid.Row="1" Grid.Column="1">
                                 <TextBlock
                                     Margin="5"
                                     VerticalAlignment="Center"
+                                    DockPanel.Dock="Left"
                                     Text="{Binding PublicState, StringFormat='可见性：{0}'}" />
                                 <TextBlock
                                     Margin="5"
                                     VerticalAlignment="Center"
+                                    DockPanel.Dock="Left"
                                     Text="|" />
                                 <TextBlock
                                     Margin="5"
                                     VerticalAlignment="Center"
+                                    DockPanel.Dock="Right"
                                     Text="{Binding TagsContent, StringFormat='标签：{0}'}"
                                     TextTrimming="CharacterEllipsis" />
-                            </StackPanel>
+                            </DockPanel>
                         </Grid>
                     </Border>
                 </DataTemplate>
