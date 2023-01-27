@@ -74,10 +74,17 @@
                         MaxLength="129"
                         Style="{StaticResource TextBoxStyle_InputBox}" />
                     <!--  //////////////////  -->
-                    <TextBlock
-                        Margin="5"
-                        FontWeight="Bold"
-                        Text="内容文件 ContentFile ( .vpk )" />
+                    <DockPanel>
+                        <TextBlock
+                            x:Name="TextBlock_FileSize"
+                            Margin="5"
+                            DockPanel.Dock="Right" />
+                        <TextBlock
+                            Margin="5"
+                            DockPanel.Dock="Left"
+                            FontWeight="Bold"
+                            Text="内容文件 ContentFile ( .vpk )" />
+                    </DockPanel>
                     <DockPanel>
                         <metro:MetroButton
                             x:Name="Button_SelectVPK"
@@ -157,9 +164,22 @@
         <!--  ////////////////////////////////////////  -->
         <DockPanel Grid.Column="1">
             <StackPanel DockPanel.Dock="Bottom">
-                <TextBlock Margin="5">
-                    <Hyperlink x:Name="Hyperlink_FileId" />
-                </TextBlock>
+                <DockPanel>
+                    <TextBlock Margin="5" DockPanel.Dock="Right">
+                        <Hyperlink NavigateUri="https://steamcommunity.com/workshop/workshoplegalagreement" RequestNavigate="Hyperlink_RequestNavigate">
+                            Steam 订户协议
+                        </Hyperlink>
+                    </TextBlock>
+                    <StackPanel DockPanel.Dock="Left">
+                        <TextBlock Margin="5">
+                            <Hyperlink x:Name="Hyperlink_FileId" />
+                        </TextBlock>
+                        <TextBlock
+                            x:Name="TextBlock_Id"
+                            Margin="5"
+                            Visibility="Collapsed" />
+                    </StackPanel>
+                </DockPanel>
                 <DockPanel>
                     <metro:MetroButton
                         x:Name="Button_PublishMod"

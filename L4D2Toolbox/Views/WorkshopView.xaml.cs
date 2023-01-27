@@ -72,4 +72,40 @@ public partial class WorkshopView : UserControl
         Button_RefushMODList.IsEnabled = true;
         NotifierHelper.Show(NotifierType.Success, "刷新玩家创意工坊项目列表成功");
     }
+
+    /// <summary>
+    /// 更新选中MOD信息
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void Button_UpdateSelectedMOD_Click(object sender, RoutedEventArgs e)
+    {
+        if (ListBox_Workshops.SelectedItem is ItemInfo info)
+        {
+            var publishWindow = new PublishWindow(info, false)
+            {
+                Owner = MainWindow.MainWindowInstance
+            };
+            publishWindow.ShowDialog();
+        }
+    }
+
+    /// <summary>
+    /// 删除选中MOD
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void Button_DeleteSelectedMOD_Click(object sender, RoutedEventArgs e)
+    {
+        if (ListBox_Workshops.SelectedItem is ItemInfo info)
+        {
+            if (MessageBox.Show($"您确定要删除这件物品吗？此操作不可撤销！\n\n标题：{info.Title}\n物品ID：{info.Id}",
+                "删除物品", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+            {
+                Workshop.DeletePublishedFile(info.Id);
+                ItemInfoLists.Remove(info);
+                NotifierHelper.Show(NotifierType.Success, $"删除物品 {info.Id} 成功");
+            }
+        }
+    }
 }

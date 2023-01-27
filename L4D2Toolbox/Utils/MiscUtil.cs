@@ -1,4 +1,6 @@
-﻿namespace L4D2Toolbox.Utils;
+﻿using L4D2Toolbox.Data;
+
+namespace L4D2Toolbox.Utils;
 
 public static class MiscUtil
 {
@@ -72,6 +74,21 @@ public static class MiscUtil
     public static string BoolToFlag(bool flag)
     {
         return flag ? "✔" : "";
+    }
+
+    /// <summary>
+    /// 获取子控件
+    /// </summary>
+    /// <param name="reference"></param>
+    /// <returns></returns>
+    public static List<DependencyObject> GetChildObject(DependencyObject reference)
+    {
+        var objects = new List<DependencyObject>();
+        for (int i = 0; i < VisualTreeHelper.GetChildrenCount(reference); i++)
+        {
+            objects.Add(VisualTreeHelper.GetChild(reference, i));
+        }
+        return objects;
     }
 
     /// <summary>

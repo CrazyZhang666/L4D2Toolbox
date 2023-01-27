@@ -1,8 +1,5 @@
-﻿using L4D2Toolbox.Core;
-using L4D2Toolbox.Data;
-using L4D2Toolbox.Steam;
+﻿using L4D2Toolbox.Data;
 using L4D2Toolbox.Utils;
-using L4D2Toolbox.Helper;
 
 using Steamworks;
 using Steamworks.Ugc;
@@ -16,9 +13,11 @@ namespace L4D2Toolbox.Windows;
 public partial class PublishWindow
 {
     /// <summary>
-    /// 是否为发布MOD，否则为更新MOD
+    /// 是否为发布Mod，否则为更新Mod
     /// </summary>
     private bool IsPublish = true;
+
+    private readonly List<CheckBox> CheckBoxList = new();
 
     //////////////////////////////////////////////////
 
@@ -27,9 +26,19 @@ public partial class PublishWindow
         InitializeComponent();
         this.DataContext = this;
 
+        // 发布更新Mod标志
         IsPublish = isPublish;
+        // 获取CheckBox控件集合
+        foreach (var childSP in MiscUtil.GetChildObject(Tags_CheckBoxGroup))
+        {
+            foreach (var child in MiscUtil.GetChildObject(childSP))
+            {
+                if (child is CheckBox)
+                    CheckBoxList.Add(child as CheckBox);
+            }
+        }
 
-        // 更新MOD 填充信息
+        // 更新Mod 填充信息
         if (!isPublish)
         {
             // 标题
@@ -39,6 +48,7 @@ public partial class PublishWindow
             Button_PreviewImage.Image = itemInfo.PreviewImage;
 
             // 文件ID
+            TextBlock_Id.Text = itemInfo.Id.ToString();
             Hyperlink_FileId.Inlines.Add($"文件ID：{itemInfo.Id}");
             Hyperlink_FileId.NavigateUri = new Uri(itemInfo.Url);
 
@@ -56,18 +66,13 @@ public partial class PublishWindow
                 RadioButton_IsUnlisted.IsChecked = true;
 
             // 标签
-            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(Tags_CheckBoxGroup); i++)
+            foreach (var checkBox in CheckBoxList)
             {
-                var child = VisualTreeHelper.GetChild(Tags_CheckBoxGroup, i);
-                if (child is CheckBox)
+                foreach (var tag in itemInfo.Tags)
                 {
-                    var checkBox = child as CheckBox;
-                    foreach (var tag in itemInfo.Tags)
+                    if (checkBox.Content as string == tag)
                     {
-                        if (checkBox.Content as string == tag)
-                        {
-                            checkBox.IsChecked = true;
-                        }
+                        checkBox.IsChecked = true;
                     }
                 }
             }
@@ -84,13 +89,13 @@ public partial class PublishWindow
         if (IsPublish)
         {
             Title = "求生之路2 发布创意工坊";
-            Button_PublishMod.Content = "发布MOD";
+            Button_PublishMod.Content = "发布Mod";
             ChangeLog_Visibility.Visibility = Visibility.Collapsed;
         }
         else
         {
             Title = "求生之路2 更新Mod信息";
-            Button_PublishMod.Content = "更新MOD";
+            Button_PublishMod.Content = "更新Mod";
             ChangeLog_Visibility.Visibility = Visibility.Visible;
         }
     }
@@ -103,6 +108,17 @@ public partial class PublishWindow
     private void Window_Publish_Closing(object sender, CancelEventArgs e)
     {
         ProcessUtil.ClearMemory();
+    }
+
+    /// <summary>
+    /// 超链接请求导航事件
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
+    {
+        ProcessUtil.OpenLink(e.Uri.OriginalString);
+        e.Handled = true;
     }
 
     /// <summary>
@@ -160,6 +176,16 @@ public partial class PublishWindow
         if (fileDialog.ShowDialog() == true)
         {
             TextBox_VPKPath.Text = fileDialog.FileName;
+            GetFileSize();
+        }
+    }
+
+    private void GetFileSize()
+    {
+        var path = TextBox_VPKPath.Text.Trim();
+        if (File.Exists(path))
+        {
+            TextBlock_FileSize.Text = $"文件大小：{MiscUtil.ByteConverterMB((int)new FileInfo(path).Length)}";
         }
     }
 
@@ -183,14 +209,17 @@ public partial class PublishWindow
     {
         var file = DropHelper(e, new string[] { ".vpk" });
         if (!string.IsNullOrEmpty(file))
+        {
             TextBox_VPKPath.Text = file;
+            GetFileSize();
+        }
     }
 
     private void Button_PreviewImage_Click(object sender, RoutedEventArgs e)
     {
         var fileDialog = new OpenFileDialog
         {
-            Title = "选择要上传MOD预览图",
+            Title = "选择要上传Mod预览图",
             RestoreDirectory = true,
             Filter = "图片文件 (*.png;*.jpg;*.bmp)|*.png;*.jpg;*.bmp",
             ValidateNames = true,
@@ -215,7 +244,7 @@ public partial class PublishWindow
     /////////////////////////////////////////////////////////////////////////////
 
     /// <summary>
-    /// 发布/更新MOD按钮点击事件
+    /// 发布/更新Mod按钮点击事件
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -236,7 +265,7 @@ public partial class PublishWindow
     /// </summary>
     private async Task PublishMod()
     {
-        ReportProgress(0.0);
+        ReportProgress(0.1);
 
         // 标题
         var title = TextBox_Title.Text.Trim();
@@ -247,14 +276,14 @@ public partial class PublishWindow
         }
 
         // 预览图绝对路径
-        //var imgPath = TextBox_PreviewImage.Text.Trim();
-        //if (!File.Exists(imgPath))
-        //{
-        //    MsgBoxUtil.Warning("Mod预览图文件为空或不存在，操作取消");
-        //    return;
-        //}
+        var imgPath = Button_PreviewImage.Image.Trim();
+        if (!File.Exists(imgPath))
+        {
+            MsgBoxUtil.Warning("Mod预览图文件为空或不存在，操作取消");
+            return;
+        }
         // 预览图名称
-        //var imgName = Path.GetFileName(imgPath);
+        var imgName = Path.GetFileName(imgPath);
 
         // VPK文件绝对路径
         var vpkPath = TextBox_VPKPath.Text.Trim();
@@ -269,6 +298,8 @@ public partial class PublishWindow
         // Mod描述
         var description = TextBox_Description.Text.Trim();
 
+        ReportProgress(0.2);
+
         // 可见性
         var visibility = new RemoteStoragePublishedFileVisibility();
         if (RadioButton_IsPublic.IsChecked == true)
@@ -280,22 +311,27 @@ public partial class PublishWindow
         else if (RadioButton_IsUnlisted.IsChecked == true)
             visibility = RemoteStoragePublishedFileVisibility.Unlisted;
 
+        ReportProgress(0.3);
+
         // 标签
-        //var tags = new List<string> { "Survivors" };
-        //var tag = TextBlock_Tags.Text.Replace("Survivors,", "").Trim();
-        //if (!string.IsNullOrWhiteSpace(tag))
-        //    tags.Add(tag);
+        var tags = new List<string> { };
+        foreach (var checkBox in CheckBoxList)
+        {
+            if (checkBox.IsChecked == true)
+            {
+                tags.Add(checkBox.Content as string);
+            }
+        }
+        ReportProgress(0.4);
 
-        //ReportProgress(0.2);
-
-        //// 预览图二进制文件
-        //var imgData = await File.ReadAllBytesAsync(imgPath);
-        //// 上传预览图文件到Steam云存储
-        //if (!SteamRemoteStorage.FileWrite(imgName, imgData))
-        //{
-        //    MsgBoxUtil.Error("上传预览图文件到Steam云存储失败，操作取消");
-        //    return;
-        //}
+        // 预览图二进制文件
+        var imgData = await File.ReadAllBytesAsync(imgPath);
+        // 上传预览图文件到Steam云存储
+        if (!SteamRemoteStorage.FileWrite(imgName, imgData))
+        {
+            MsgBoxUtil.Error("上传预览图文件到Steam云存储失败，操作取消");
+            return;
+        }
 
         ReportProgress(0.5);
 
@@ -311,17 +347,17 @@ public partial class PublishWindow
         ReportProgress(0.8);
 
         // 从Steam云存储发布
-        //var result_t = await SteamRemoteStorage.PublishWorkshopFile(vpkName, imgName, title, description, visibility, tags);
-        //if (result_t.Value.Result == Result.OK)
-        //{
-        //    ReportProgress(1.0);
-        //    MsgBoxUtil.Information($"发布L4D2创意工坊成功，物品Id：{result_t.Value.PublishedFileId.Value}");
-        //}
-        //else
-        //{
-        //    MsgBoxUtil.Error($"发布L4D2创意工坊失败 {result_t.Value.Result}，操作取消");
-        //    ReportProgress(0.0);
-        //}
+        var result_t = await SteamRemoteStorage.PublishWorkshopFile(vpkName, imgName, title, description, visibility, tags);
+        if (result_t.Value.Result == Result.OK)
+        {
+            ReportProgress(1.0);
+            MsgBoxUtil.Information($"发布L4D2创意工坊成功，物品Id：{result_t.Value.PublishedFileId.Value}");
+        }
+        else
+        {
+            MsgBoxUtil.Error($"发布L4D2创意工坊失败 {result_t.Value.Result}，操作取消");
+            ReportProgress(0.0);
+        }
     }
 
     /// <summary>
@@ -329,20 +365,22 @@ public partial class PublishWindow
     /// </summary>
     private async Task UpdateMod()
     {
+        ReportProgress(0.1);
+
         // 物品Id
-        //var id = TextBlock_Id.Text.Trim();
-        //if (string.IsNullOrWhiteSpace(id))
-        //{
-        //    MsgBoxUtil.Error("创意工坊物品Id不能为空，操作取消");
-        //    return;
-        //}
+        var id = TextBlock_Id.Text.Trim();
+        if (string.IsNullOrWhiteSpace(id))
+        {
+            MsgBoxUtil.Error("创意工坊物品Id不能为空，操作取消");
+            return;
+        }
 
         ///////////////////////////////////////////////////
 
         // 创建更新Mod请求
         var editor = new Editor(new PublishedFileId
         {
-            //Value = ulong.Parse(id)
+            Value = ulong.Parse(id)
         });
 
         // 标题
@@ -354,20 +392,20 @@ public partial class PublishWindow
         }
 
         // 预览图绝对路径
-        //var imgPath = TextBox_PreviewImage.Text.Trim();
-        //if (!imgPath.StartsWith("http"))
-        //{
-        //    if (!File.Exists(imgPath))
-        //    {
-        //        MsgBoxUtil.Warning("Mod预览图文件为空或不存在，操作取消");
-        //        return;
-        //    }
-        //    else
-        //    {
-        //        // 预览图
-        //        editor.WithPreviewFile(imgPath);
-        //    }
-        //}
+        var imgPath = Button_PreviewImage.Image.Trim();
+        if (!imgPath.StartsWith("http"))
+        {
+            if (!File.Exists(imgPath))
+            {
+                MsgBoxUtil.Warning("Mod预览图文件为空或不存在，操作取消");
+                return;
+            }
+            else
+            {
+                // 预览图
+                editor.WithPreviewFile(imgPath);
+            }
+        }
 
         ReportProgress(0.2);
 
@@ -388,12 +426,13 @@ public partial class PublishWindow
             editor.WithUnlistedVisibility();
 
         // 标签
-        //var tag = TextBlock_Tags.Text.Replace("Survivors,", "").Trim();
-        //if (!string.IsNullOrWhiteSpace(tag))
-        //{
-        //    editor.WithTag("Survivors");
-        //    editor.WithTag(tag);
-        //}
+        foreach (var checkBox in CheckBoxList)
+        {
+            if (checkBox.IsChecked == true)
+            {
+                editor.WithTag(checkBox.Content as string);
+            }
+        }
 
         ReportProgress(0.3);
 
@@ -428,7 +467,7 @@ public partial class PublishWindow
 
                     var fileId = new PublishedFileId
                     {
-                        //Value = ulong.Parse(id)
+                        Value = ulong.Parse(id)
                     };
                     var changeLog = TextBox_ChangeLog.Text.Trim();
                     // 更新VPK文件和分部分项日志

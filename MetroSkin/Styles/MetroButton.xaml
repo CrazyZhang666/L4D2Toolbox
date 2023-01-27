@@ -196,7 +196,7 @@
                             <TextBlock
                                 HorizontalAlignment="Center"
                                 FontSize="48"
-                                Foreground="#6CB5FE"
+                                Foreground="#139313"
                                 Style="{DynamicResource TextBlockStyle_IconFontVerCen}"
                                 Text="&#xe6de;" />
                             <Image
