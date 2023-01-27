@@ -1,8 +1,8 @@
 # 求生之路2工具箱
 
-我大求生之路2怎么能缺少这个工具呢
+我大求生之路2怎么能缺少这个工具呢，求生之路2天下第一.jpg
 
-![image](https://user-images.githubusercontent.com/28080853/215003268-f809c39f-1520-4bf2-ac20-dd2d7f72073d.png)
+<img src="https://user-images.githubusercontent.com/28080853/215003268-f809c39f-1520-4bf2-ac20-dd2d7f72073d.png" width="400">
 
 # 预览图片
 
