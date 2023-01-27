@@ -22,12 +22,73 @@
         <!--  ///////////////////////////  -->
         <DockPanel Grid.Column="1">
             <StackPanel DockPanel.Dock="Bottom">
+                <StackPanel Orientation="Horizontal">
+                    <metro:MetroButton
+                        x:Name="Button_RunL4D2ByMacLoader"
+                        Width="180"
+                        Height="40"
+                        Background="#49C633"
+                        Click="Button_RunL4D2ByMacLoader_Click"
+                        Content="开始游戏"
+                        Cursor="Hand"
+                        FontSize="16"
+                        Foreground="#FFFFFF"
+                        Icon="&#xe68a;"
+                        IconForeground="#FFFFFF"
+                        Style="{StaticResource MetroButton_IconFont2}" />
+                    <Border
+                        Width="20"
+                        Height="40"
+                        Margin="0,0,10,0"
+                        Background="#49C633">
+                        <Polygon
+                            x:Name="path"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Fill="#FFFFFF"
+                            Points="0,0 10,0 5,5"
+                            SnapsToDevicePixels="True"
+                            StrokeThickness="1" />
+                    </Border>
+                    <TextBlock
+                        Margin="10,5,10,5"
+                        VerticalAlignment="Center"
+                        FontSize="14">
+                        <Bold>云状态</Bold><LineBreak />
+                        已是最新</TextBlock>
+                    <TextBlock
+                        Margin="10,5,10,5"
+                        VerticalAlignment="Center"
+                        FontSize="14">
+                        <Bold>最后运行日期</Bold><LineBreak />
+                        今天</TextBlock>
+                    <TextBlock
+                        Margin="10,5,10,5"
+                        VerticalAlignment="Center"
+                        FontSize="14">
+                        <Bold>游戏时间</Bold><LineBreak />
+                        1024.0 小时</TextBlock>
+                    <TextBlock
+                        Margin="10,5,10,5"
+                        VerticalAlignment="Center"
+                        FontSize="14">
+                        <Bold>成就</Bold><LineBreak />
+                        101/101</TextBlock>
+                </StackPanel>
+                <!--  ///////////  -->
                 <TextBlock
                     Margin="5"
                     FontWeight="Bold"
                     Text="L4D2自定义字体名称" />
                 <TextBox
                     x:Name="TextBox_CustomFontName"
+                    Height="50"
+                    Padding="10,0,10,0"
+                    VerticalContentAlignment="Center"
+                    Cursor="Arrow"
+                    FontFamily="{Binding ElementName=ListBox_Fonts, Path=SelectedItem, TargetNullValue='微软雅黑'}"
+                    FontSize="20"
+                    IsReadOnly="True"
                     Style="{StaticResource TextBoxStyle_InputBox}"
                     Text="{Binding ElementName=ListBox_Fonts, Path=SelectedItem}" />
                 <!--  ///////////  -->
@@ -37,19 +98,9 @@
                     Text="L4D2自定义启动参数" />
                 <TextBox
                     x:Name="TextBox_CustomRunArgs"
-                    Height="100"
+                    Height="70"
                     Style="{StaticResource TextBoxStyle_InputBox}"
                     TextWrapping="Wrap" />
-                <!--  ///////////  -->
-                <metro:MetroButton
-                    x:Name="Button_RunL4D2ByMacLoader"
-                    Background="#49C633"
-                    Click="Button_RunL4D2ByMacLoader_Click"
-                    Content="使用字体加载器启动《求生之路2》"
-                    Foreground="#FFFFFF"
-                    Icon="&#xe68a;"
-                    IconForeground="#FFFFFF"
-                    Style="{StaticResource MetroButton_IconFont2}" />
             </StackPanel>
             <!--  /////////////////////////////////  -->
             <TextBlock
@@ -60,8 +111,8 @@
             <TextBox
                 x:Name="TextBox_SampleText"
                 DockPanel.Dock="Top"
-                FontFamily="{Binding ElementName=ListBox_Fonts, Path=SelectedItem}"
-                FontSize="26"
+                FontFamily="{Binding ElementName=ListBox_Fonts, Path=SelectedItem, TargetNullValue='宋体'}"
+                FontSize="22"
                 Style="{StaticResource TextBoxStyle_Logger}"
                 TextWrapping="Wrap" />
         </DockPanel>
