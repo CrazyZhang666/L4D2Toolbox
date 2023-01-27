@@ -167,7 +167,7 @@ public partial class ReCompileView : UserControl
 
     private void SelectUnPackDir()
     {
-        var folder = new OpenFileDialog
+        var fileDialog = new OpenFileDialog
         {
             Title = "VPK解包文件夹 addoninfo.txt",
             RestoreDirectory = true,
@@ -178,11 +178,11 @@ public partial class ReCompileView : UserControl
         };
 
         if (!string.IsNullOrEmpty(Globals.UnPackDir))
-            folder.InitialDirectory = Globals.UnPackDir;
+            fileDialog.InitialDirectory = Globals.UnPackDir;
 
-        if (folder.ShowDialog() == true)
+        if (fileDialog.ShowDialog() == true)
         {
-            Globals.UnPackDir = Path.GetDirectoryName(folder.FileName);
+            Globals.UnPackDir = Path.GetDirectoryName(fileDialog.FileName);
 
             CheckEnv();
         }

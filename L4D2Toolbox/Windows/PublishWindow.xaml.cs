@@ -15,9 +15,10 @@ namespace L4D2Toolbox.Windows;
 /// </summary>
 public partial class PublishWindow
 {
-    public bool IsPublish = true;
-
-    private const string NotUploadFile = "不上传VPK文件";
+    /// <summary>
+    /// 是否为发布MOD，否则为更新MOD
+    /// </summary>
+    private bool IsPublish = true;
 
     //////////////////////////////////////////////////
 
@@ -27,14 +28,24 @@ public partial class PublishWindow
         this.DataContext = this;
 
         IsPublish = isPublish;
+
+        // 更新MOD 填充信息
         if (!isPublish)
         {
+            // 标题
             TextBox_Title.Text = itemInfo.Title;
-            //TextBox_PreviewImage.Text = itemInfo.PreviewImage;
-            //TextBlock_Tags.Text = itemInfo.TagsContent;
-            //TextBlock_Id.Text = itemInfo.Id.ToString();
+
+            // 预览图
+            Button_PreviewImage.Image = itemInfo.PreviewImage;
+
+            // 文件ID
+            Hyperlink_FileId.Inlines.Add($"文件ID：{itemInfo.Id}");
+            Hyperlink_FileId.NavigateUri = new Uri(itemInfo.Url);
+
+            // 描述
             TextBox_Description.Text = itemInfo.Description;
 
+            // 可见性
             if (itemInfo.IsPublic)
                 RadioButton_IsPublic.IsChecked = true;
             else if (itemInfo.IsFriendsOnly)
@@ -43,28 +54,54 @@ public partial class PublishWindow
                 RadioButton_IsPrivate.IsChecked = true;
             else if (itemInfo.IsUnlisted)
                 RadioButton_IsUnlisted.IsChecked = true;
+
+            // 标签
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(Tags_CheckBoxGroup); i++)
+            {
+                var child = VisualTreeHelper.GetChild(Tags_CheckBoxGroup, i);
+                if (child is CheckBox)
+                {
+                    var checkBox = child as CheckBox;
+                    foreach (var tag in itemInfo.Tags)
+                    {
+                        if (checkBox.Content as string == tag)
+                        {
+                            checkBox.IsChecked = true;
+                        }
+                    }
+                }
+            }
         }
     }
 
+    /// <summary>
+    /// 窗口加载事件
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void Window_Publish_Loaded(object sender, RoutedEventArgs e)
     {
         if (IsPublish)
         {
             Title = "求生之路2 发布创意工坊";
-            Button_PublishMod.Content = "发布Mod";
-
-            RadioButton_IsFriendsOnly.IsChecked = true;
+            Button_PublishMod.Content = "发布MOD";
+            ChangeLog_Visibility.Visibility = Visibility.Collapsed;
         }
         else
         {
             Title = "求生之路2 更新Mod信息";
-            Button_PublishMod.Content = "更新Mod";
+            Button_PublishMod.Content = "更新MOD";
+            ChangeLog_Visibility.Visibility = Visibility.Visible;
         }
     }
 
+    /// <summary>
+    /// 窗口关闭事件
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void Window_Publish_Closing(object sender, CancelEventArgs e)
     {
-        Image_PreviewImage.Source = null;
         ProcessUtil.ClearMemory();
     }
 
@@ -80,6 +117,108 @@ public partial class PublishWindow
         });
     }
 
+    /////////////////////////////////////////////////////////////////////////////
+
+    /// <summary>
+    /// 文件拖放
+    /// </summary>
+    /// <param name="e"></param>
+    /// <param name="fileExte"></param>
+    /// <returns></returns>
+    private string DropHelper(DragEventArgs e, string[] fileExte)
+    {
+        if (e.Data.GetDataPresent(DataFormats.FileDrop))
+        {
+            var fileNames = e.Data.GetData(DataFormats.FileDrop) as string[];
+
+            if (fileExte.Contains(Path.GetExtension(fileNames[0]).ToLower()))
+                return fileNames[0];
+            else
+                MsgBoxUtil.Warning($"当前拖放的目标文件非 {string.Join(", ", fileExte)} 格式，操作取消");
+        }
+
+        return string.Empty;
+    }
+
+    /// <summary>
+    /// 选择VPK文件
+    /// </summary>
+    private void SelectVPKFile()
+    {
+        var fileDialog = new OpenFileDialog
+        {
+            Title = "选择要上传的VPK文件",
+            RestoreDirectory = true,
+            DefaultExt = ".vpk",
+            Filter = "VPK文件 (*.vpk)|*.vpk",
+            ValidateNames = true,
+            AddExtension = true,
+            CheckFileExists = false,
+            Multiselect = false
+        };
+
+        if (fileDialog.ShowDialog() == true)
+        {
+            TextBox_VPKPath.Text = fileDialog.FileName;
+        }
+    }
+
+    private void Button_SelectVPK_Click(object sender, RoutedEventArgs e)
+    {
+        SelectVPKFile();
+    }
+
+    private void TextBox_VPKPath_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+    {
+        SelectVPKFile();
+    }
+
+    private void TextBox_VPKPath_PreviewDragOver(object sender, DragEventArgs e)
+    {
+        e.Effects = DragDropEffects.Copy;
+        e.Handled = true;
+    }
+
+    private void TextBox_VPKPath_Drop(object sender, DragEventArgs e)
+    {
+        var file = DropHelper(e, new string[] { ".vpk" });
+        if (!string.IsNullOrEmpty(file))
+            TextBox_VPKPath.Text = file;
+    }
+
+    private void Button_PreviewImage_Click(object sender, RoutedEventArgs e)
+    {
+        var fileDialog = new OpenFileDialog
+        {
+            Title = "选择要上传MOD预览图",
+            RestoreDirectory = true,
+            Filter = "图片文件 (*.png;*.jpg;*.bmp)|*.png;*.jpg;*.bmp",
+            ValidateNames = true,
+            AddExtension = true,
+            CheckFileExists = false,
+            Multiselect = false
+        };
+
+        if (fileDialog.ShowDialog() == true)
+        {
+            Button_PreviewImage.Image = fileDialog.FileName;
+        }
+    }
+
+    private void Button_PreviewImage_Drop(object sender, DragEventArgs e)
+    {
+        var file = DropHelper(e, new string[] { ".png", ".jpg", ".bmp" });
+        if (!string.IsNullOrEmpty(file))
+            Button_PreviewImage.Image = file;
+    }
+
+    /////////////////////////////////////////////////////////////////////////////
+
+    /// <summary>
+    /// 发布/更新MOD按钮点击事件
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private async void Button_PublishMod_Click(object sender, RoutedEventArgs e)
     {
         Button_PublishMod.IsEnabled = false;

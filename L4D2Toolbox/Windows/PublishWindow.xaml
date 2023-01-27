@@ -34,87 +34,157 @@
     </metro:MetroWindow.TitleContent>
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <!--  ////////////////////////////////////////  -->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <!--  /////////////////////////////////  -->
         <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <!--  //////////////////////////////  -->
-            <StackPanel Grid.Column="0">
-                <TextBlock
-                    Margin="5"
-                    FontWeight="Bold"
-                    Text="预览图 PreviewImage" />
-                <Border
-                    Width="150"
-                    Height="150"
-                    Margin="5"
-                    BorderBrush="#ACACAC"
-                    BorderThickness="1">
-                    <Image x:Name="Image_PreviewImage" Margin="1" />
-                </Border>
-            </StackPanel>
-            <!--  //////////////////////////////  -->
-            <StackPanel Grid.Column="1">
-                <TextBlock
-                    Margin="5"
-                    FontWeight="Bold"
-                    Text="{Binding ElementName=TextBox_Title, Path=Text.Length, StringFormat='标题 Title ( {0} / 129 最大字符数 )'}" />
-                <TextBox
-                    x:Name="TextBox_Title"
-                    MaxLength="129"
-                    Style="{StaticResource TextBoxStyle_InputBox}" />
-                <!--  //////////////////  -->
-                <TextBlock
-                    Margin="5"
-                    FontWeight="Bold"
-                    Text="内容文件 ContentFile ( .vpk )" />
-                <TextBox x:Name="TextBox_VPKPath" Style="{StaticResource TextBoxStyle_InputBox}" />
-                <!--  //////////////////  -->
-                <TextBlock
-                    Margin="5"
-                    FontWeight="Bold"
-                    Text="可见性 Visibility" />
-                <WrapPanel>
-                    <RadioButton
-                        x:Name="RadioButton_IsPublic"
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Left">
+                    <TextBlock
                         Margin="5"
-                        Content="公开 Public"
-                        GroupName="Visibility" />
-                    <RadioButton
-                        x:Name="RadioButton_IsFriendsOnly"
+                        FontWeight="Bold"
+                        Text="预览图 PreviewImage" />
+                    <metro:MetroButton
+                        x:Name="Button_PreviewImage"
+                        Width="150"
+                        Height="150"
                         Margin="5"
-                        Content="仅限好友 FriendsOnly"
-                        GroupName="Visibility" />
-                    <RadioButton
-                        x:Name="RadioButton_IsPrivate"
-                        Margin="5"
-                        Content="隐藏 Private"
-                        GroupName="Visibility" />
-                    <RadioButton
-                        x:Name="RadioButton_IsUnlisted"
-                        Margin="5"
-                        Content="非公开 Unlisted"
-                        GroupName="Visibility" />
-                </WrapPanel>
+                        AllowDrop="True"
+                        BorderBrush="#ACACAC"
+                        BorderThickness="1"
+                        Click="Button_PreviewImage_Click"
+                        Drop="Button_PreviewImage_Drop"
+                        Style="{StaticResource MetroButton_SelectImageFile}" />
+                </StackPanel>
                 <!--  //////////////////////////////  -->
+                <StackPanel DockPanel.Dock="Right">
+                    <TextBlock
+                        Margin="5"
+                        FontWeight="Bold"
+                        Text="{Binding ElementName=TextBox_Title, Path=Text.Length, StringFormat='标题 Title ( {0} / 129 最大字符数 )'}" />
+                    <TextBox
+                        x:Name="TextBox_Title"
+                        MaxLength="129"
+                        Style="{StaticResource TextBoxStyle_InputBox}" />
+                    <!--  //////////////////  -->
+                    <TextBlock
+                        Margin="5"
+                        FontWeight="Bold"
+                        Text="内容文件 ContentFile ( .vpk )" />
+                    <DockPanel>
+                        <metro:MetroButton
+                            x:Name="Button_SelectVPK"
+                            Margin="0,5,5,5"
+                            BorderThickness="0,1,1,1"
+                            Click="Button_SelectVPK_Click"
+                            DockPanel.Dock="Right"
+                            Icon="&#xe865;"
+                            Style="{StaticResource MetroButton_IconFont}" />
+                        <TextBox
+                            x:Name="TextBox_VPKPath"
+                            Margin="5,5,0,5"
+                            VerticalContentAlignment="Center"
+                            AllowDrop="True"
+                            Drop="TextBox_VPKPath_Drop"
+                            MouseDoubleClick="TextBox_VPKPath_MouseDoubleClick"
+                            PreviewDragOver="TextBox_VPKPath_PreviewDragOver"
+                            Style="{StaticResource TextBoxStyle_InputBox}" />
+                    </DockPanel>
+                    <!--  //////////////////  -->
+                    <TextBlock
+                        Margin="5"
+                        FontWeight="Bold"
+                        Text="可见性 Visibility" />
+                    <WrapPanel>
+                        <RadioButton
+                            x:Name="RadioButton_IsPublic"
+                            Margin="5"
+                            Content="公开 Public"
+                            GroupName="Visibility" />
+                        <RadioButton
+                            x:Name="RadioButton_IsFriendsOnly"
+                            Margin="5"
+                            Content="仅限好友 FriendsOnly"
+                            GroupName="Visibility" />
+                        <RadioButton
+                            x:Name="RadioButton_IsPrivate"
+                            Margin="5"
+                            Content="隐藏 Private"
+                            GroupName="Visibility" />
+                        <RadioButton
+                            x:Name="RadioButton_IsUnlisted"
+                            Margin="5"
+                            Content="非公开 Unlisted"
+                            GroupName="Visibility" />
+                    </WrapPanel>
+                    <!--  //////////////////////////////  -->
+                </StackPanel>
+            </DockPanel>
+            <!--  ////////////////////////////////////////  -->
+            <DockPanel Grid.Row="1">
+                <TextBlock
+                    Margin="5"
+                    DockPanel.Dock="Top"
+                    FontWeight="Bold"
+                    Text="{Binding ElementName=TextBox_Description, Path=Text.Length, StringFormat='描述 Description ( {0} / 8000 最大字符数 )'}" />
+                <TextBox
+                    x:Name="TextBox_Description"
+                    Margin="5"
+                    DockPanel.Dock="Bottom"
+                    MaxLength="8000"
+                    Style="{StaticResource TextBoxStyle_InputBox2}" />
+            </DockPanel>
+            <!--  ////////////////////////////////////////  -->
+            <StackPanel x:Name="ChangeLog_Visibility" Grid.Row="2">
+                <TextBlock
+                    Margin="5"
+                    FontWeight="Bold"
+                    Text="{Binding ElementName=TextBox_ChangeLog, Path=Text.Length, StringFormat='更新日志 Change ( {0} / 8000 最大字符数 )'}" />
+                <TextBox
+                    x:Name="TextBox_ChangeLog"
+                    Height="80"
+                    MaxLength="8000"
+                    Style="{StaticResource TextBoxStyle_InputBox2}" />
             </StackPanel>
         </Grid>
         <!--  ////////////////////////////////////////  -->
-        <DockPanel Grid.Row="1">
-            <StackPanel DockPanel.Dock="Right">
+        <DockPanel Grid.Column="1">
+            <StackPanel DockPanel.Dock="Bottom">
+                <TextBlock Margin="5">
+                    <Hyperlink x:Name="Hyperlink_FileId" />
+                </TextBlock>
+                <DockPanel>
+                    <metro:MetroButton
+                        x:Name="Button_PublishMod"
+                        Width="100"
+                        Click="Button_PublishMod_Click"
+                        Content="更新MOD"
+                        DockPanel.Dock="Right"
+                        Style="{StaticResource MetroButton_IconFont}" />
+                    <ProgressBar
+                        x:Name="ProgressBar_Publish"
+                        Margin="5,5,0,5"
+                        BorderBrush="Gray"
+                        BorderThickness="1"
+                        DockPanel.Dock="Left"
+                        Maximum="1"
+                        Minimum="0"
+                        SnapsToDevicePixels="True" />
+                </DockPanel>
+            </StackPanel>
+            <StackPanel DockPanel.Dock="Top">
                 <TextBlock
                     Margin="5"
                     FontWeight="Bold"
                     Text="标签 Tags" />
-                <StackPanel Orientation="Horizontal">
+                <StackPanel x:Name="Tags_CheckBoxGroup" Orientation="Horizontal">
                     <StackPanel Margin="0,0,5,0">
                         <TextBlock Margin="5">
                             生还者<LineBreak />
@@ -128,8 +198,7 @@
                         <CheckBox Content="Ellis" />
                         <CheckBox Content="Nick" />
                         <CheckBox Content="Rochelle" />
-                    </StackPanel>
-                    <StackPanel Margin="0,0,5,0">
+                        <!--  ///////////////  -->
                         <TextBlock Margin="5">
                             感染者<LineBreak />
                             INFECTED</TextBlock>
@@ -157,8 +226,7 @@
                         <CheckBox Content="Miscellaneous" />
                         <CheckBox Content="Models" />
                         <CheckBox Content="Textures" />
-                    </StackPanel>
-                    <StackPanel Margin="0,0,5,0">
+                        <!--  ///////////////  -->
                         <TextBlock Margin="5">
                             游戏模式<LineBreak />
                             GAME MODES</TextBlock>
@@ -184,8 +252,7 @@
                         <CheckBox Content="SMG" />
                         <CheckBox Content="Sniper" />
                         <CheckBox Content="Throwable" />
-                    </StackPanel>
-                    <StackPanel Margin="0,0,5,0">
+                        <!--  ///////////////  -->
                         <TextBlock Margin="5">
                             物品<LineBreak />
                             ITEMS</TextBlock>
@@ -197,54 +264,6 @@
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
-            <!--  ///////////////  -->
-            <DockPanel DockPanel.Dock="Left">
-                <TextBlock
-                    Margin="5"
-                    DockPanel.Dock="Top"
-                    FontWeight="Bold"
-                    Text="{Binding ElementName=TextBox_Description, Path=Text.Length, StringFormat='描述 Description ( {0} / 8000 最大字符数 )'}" />
-                <TextBox
-                    x:Name="TextBox_Description"
-                    Margin="5"
-                    DockPanel.Dock="Bottom"
-                    MaxLength="8000"
-                    Style="{StaticResource TextBoxStyle_InputBox2}" />
-            </DockPanel>
-        </DockPanel>
-        <!--  ////////////////////////////////////////  -->
-        <StackPanel Grid.Row="2" DockPanel.Dock="Right">
-            <TextBlock
-                Margin="5"
-                DockPanel.Dock="Top"
-                FontWeight="Bold"
-                Text="{Binding ElementName=TextBox_ChangeLog, Path=Text.Length, StringFormat='更新日志 Change ( {0} / 8000 最大字符数 )'}" />
-            <TextBox
-                x:Name="TextBox_ChangeLog"
-                Height="70"
-                DockPanel.Dock="Bottom"
-                MaxLength="8000"
-                Style="{StaticResource TextBoxStyle_InputBox2}" />
-        </StackPanel>
-        <!--  ////////////////////////////////////////  -->
-        <DockPanel Grid.Row="3">
-            <metro:MetroButton
-                x:Name="Button_PublishMod"
-                Width="100"
-                Margin="0,0,5,5"
-                Click="Button_PublishMod_Click"
-                Content="更新Mod"
-                DockPanel.Dock="Right"
-                Style="{StaticResource MetroButton_IconFont}" />
-            <ProgressBar
-                x:Name="ProgressBar_Publish"
-                Margin="5,0,5,5"
-                BorderBrush="Gray"
-                BorderThickness="1"
-                DockPanel.Dock="Left"
-                Maximum="1"
-                Minimum="0"
-                SnapsToDevicePixels="True" />
         </DockPanel>
     </Grid>
 

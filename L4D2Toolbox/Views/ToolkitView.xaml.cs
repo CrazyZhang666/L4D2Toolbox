@@ -67,7 +67,7 @@ public partial class ToolkitView : UserControl
         {
             case "VPK解包":
                 {
-                    var folder = new OpenFileDialog
+                    var fileDialog = new OpenFileDialog
                     {
                         Title = "选择要解包的VPK文件",
                         RestoreDirectory = true,
@@ -79,9 +79,9 @@ public partial class ToolkitView : UserControl
                         Multiselect = false
                     };
 
-                    if (folder.ShowDialog() == true)
+                    if (fileDialog.ShowDialog() == true)
                     {
-                        ProcessUtil.OpenExecWithArgs(Globals.VPKExec, $"\"{folder.FileName}\"");
+                        ProcessUtil.OpenExecWithArgs(Globals.VPKExec, $"\"{fileDialog.FileName}\"");
                     }
                 }
                 break;
