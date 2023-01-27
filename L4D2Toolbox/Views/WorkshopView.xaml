@@ -84,14 +84,7 @@
                                 Margin="5,5,5,0"
                                 BorderBrush="#C2C3C9"
                                 BorderThickness="1">
-                                <Image Source="{Binding PreviewImage, Converter={StaticResource StringToImageSourceConverter}}" Style="{StaticResource ImageStyle_HighQuality}">
-                                    <Image.ToolTip>
-                                        <Image
-                                            MaxWidth="400"
-                                            MaxHeight="400"
-                                            Source="{Binding PreviewImage, Converter={StaticResource StringToImageSourceConverter}}" />
-                                    </Image.ToolTip>
-                                </Image>
+                                <Image RenderOptions.BitmapScalingMode="HighQuality" Source="{Binding PreviewImage, Converter={StaticResource StringToImageSourceConverter}}" />
                             </Border>
                             <TextBlock
                                 Grid.Row="1"

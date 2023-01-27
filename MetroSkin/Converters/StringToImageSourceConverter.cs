@@ -19,7 +19,8 @@ public class StringToImageSourceConverter : IValueConverter
             var bitmapImage = new BitmapImage
             {
                 CreateOptions = BitmapCreateOptions.DelayCreation,
-                CacheOption = BitmapCacheOption.OnLoad
+                CacheOption = BitmapCacheOption.OnLoad,
+                DecodePixelWidth = 100
             };
 
             bitmapImage.BeginInit();

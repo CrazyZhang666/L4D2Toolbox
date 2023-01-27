@@ -6,7 +6,6 @@ using L4D2Toolbox.Helper;
 using Steamworks;
 using Steamworks.Ugc;
 using Steamworks.Data;
-using System.IO;
 
 namespace L4D2Toolbox.Steam;
 

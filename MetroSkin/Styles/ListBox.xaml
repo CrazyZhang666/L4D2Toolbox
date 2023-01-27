@@ -132,11 +132,20 @@
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
                         SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
-                        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                        <ScrollViewer
+                            HorizontalScrollBarVisibility="Disabled"
+                            IsDeferredScrollingEnabled="True"
+                            VerticalScrollBarVisibility="Auto">
                             <vwp:VirtualizingWrapPanel
                                 IsItemsHost="True"
+                                MouseWheelDelta="1"
+                                MouseWheelDeltaItem="1"
                                 Orientation="Vertical"
+                                ScrollLineDelta="1"
+                                ScrollLineDeltaItem="1"
                                 SpacingMode="None"
+                                VirtualizingPanel.CacheLength="10,10"
+                                VirtualizingPanel.CacheLengthUnit="Item"
                                 VirtualizingPanel.IsVirtualizing="True"
                                 VirtualizingPanel.ScrollUnit="Item"
                                 VirtualizingPanel.VirtualizationMode="Recycling" />
