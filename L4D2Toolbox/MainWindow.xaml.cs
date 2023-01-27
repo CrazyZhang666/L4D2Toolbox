@@ -62,6 +62,8 @@ public partial class MainWindow
         NavMenus.Add(new() { Icon = "\xe61f", Title = "首页", ViewName = "HomeView" });
         NavMenus.Add(new() { Icon = "\xe899", Title = "管理创意工坊", ViewName = "WorkshopView" });
         NavMenus.Add(new() { Icon = "\xe77e", Title = "Steam云存储", ViewName = "StorageView" });
+        NavMenus.Add(new() { Icon = "\xe64e", Title = "订阅管理", ViewName = "SubscribeView" });
+        NavMenus.Add(new() { Icon = "\xe783", Title = "MOD管理", ViewName = "AddonsView" });
         NavMenus.Add(new() { Icon = "\xe704", Title = "自定中文字体", ViewName = "GameFontView" });
         NavMenus.Add(new() { Icon = "\xe606", Title = "常用工具", ViewName = "ToolkitView" });
         NavMenus.Add(new() { Icon = "\xe612", Title = "MDL重编译", ViewName = "ReCompileView" });
