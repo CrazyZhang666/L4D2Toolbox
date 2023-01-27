@@ -1,4 +1,7 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vwp="clr-namespace:WpfToolkit.Controls;assembly=VirtualizingWrapPanel">
 
     <Style x:Key="ListBoxStyle_Normal" TargetType="{x:Type ListBox}">
         <Setter Property="OverridesDefaultStyle" Value="True" />
@@ -130,7 +133,13 @@
                         BorderThickness="{TemplateBinding BorderThickness}"
                         SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
                         <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                            <WrapPanel IsItemsHost="True" />
+                            <vwp:VirtualizingWrapPanel
+                                IsItemsHost="True"
+                                Orientation="Vertical"
+                                SpacingMode="None"
+                                VirtualizingPanel.IsVirtualizing="True"
+                                VirtualizingPanel.ScrollUnit="Item"
+                                VirtualizingPanel.VirtualizationMode="Recycling" />
                         </ScrollViewer>
                     </Border>
                 </ControlTemplate>

@@ -10,6 +10,7 @@ public class StringToImageSourceConverter : IValueConverter
 
         if (File.Exists(path))
         {
+            // 本地图片
             var file = new FileInfo(path);
             var reader = new BinaryReader(File.Open(path, FileMode.Open));
             var bytes = reader.ReadBytes((int)file.Length);
@@ -17,6 +18,7 @@ public class StringToImageSourceConverter : IValueConverter
 
             var bitmapImage = new BitmapImage
             {
+                CreateOptions = BitmapCreateOptions.DelayCreation,
                 CacheOption = BitmapCacheOption.OnLoad
             };
 

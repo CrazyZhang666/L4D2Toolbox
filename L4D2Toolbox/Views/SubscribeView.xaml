@@ -9,6 +9,143 @@
     d:DesignWidth="1280"
     mc:Ignorable="d">
 
-    <Grid />
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <!--  //////////////////////  -->
+        <DockPanel Grid.Row="0">
+            <StackPanel Orientation="Horizontal">
+                <metro:MetroButton
+                    x:Name="Button_RefushSubscribeList"
+                    Margin="5,5,0,5"
+                    Click="Button_RefushSubscribeList_Click"
+                    Content="刷新列表"
+                    Icon="&#xec08;"
+                    IconForeground="Green"
+                    Style="{StaticResource MetroButton_IconFont}" />
+                <metro:MetroButton
+                    x:Name="Button_UnSubscribeItem"
+                    Margin="5,5,0,5"
+                    Click="Button_UnSubscribeItem_Click"
+                    Content="取消订阅"
+                    Icon="&#xe64f;"
+                    IconForeground="#F30000"
+                    IsEnabled="{Binding ElementName=ListBox_Workshops, Path=SelectedIndex, Converter={StaticResource IsSelectedNullConverter}}"
+                    Style="{StaticResource MetroButton_IconFont}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" />
+        </DockPanel>
+        <!--  //////////////////////  -->
+        <ListBox
+            x:Name="ListBox_Workshops"
+            Grid.Row="1"
+            Margin="5,0,5,5"
+            ItemsSource="{Binding ItemInfoLists}"
+            Style="{StaticResource ListBoxStyle_ItemInfo}">
+            <ListBox.ItemTemplate>
+                <DataTemplate DataType="{x:Type ListBoxItem}">
+                    <Border
+                        Width="530"
+                        BorderBrush="#C2C3C9"
+                        BorderThickness="1">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Border
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Width="90"
+                                Height="90"
+                                Margin="5,5,5,0"
+                                BorderBrush="#C2C3C9"
+                                BorderThickness="1">
+                                <Image Source="{Binding PreviewImage, IsAsync=True, Converter={StaticResource StringToImageSourceConverter}}" Style="{StaticResource ImageStyle_HighQuality}">
+                                    <Image.ToolTip>
+                                        <Image
+                                            MaxWidth="400"
+                                            MaxHeight="400"
+                                            Source="{Binding PreviewImage, IsAsync=True, Converter={StaticResource StringToImageSourceConverter}}" />
+                                    </Image.ToolTip>
+                                </Image>
+                            </Border>
+                            <TextBlock
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                ToolTip="{Binding Url}">
+                                <Hyperlink NavigateUri="{Binding Url}" RequestNavigate="Hyperlink_RequestNavigate">
+                                    <Run Text="{Binding Id}" />
+                                </Hyperlink>
+                            </TextBlock>
+                            <DockPanel Grid.Row="0" Grid.Column="1">
+                                <TextBlock
+                                    Margin="5,10,5,0"
+                                    DockPanel.Dock="Top"
+                                    FontSize="16"
+                                    FontWeight="Bold"
+                                    Text="{Binding Title}"
+                                    TextTrimming="CharacterEllipsis" />
+                                <DockPanel Margin="5,0,5,0" DockPanel.Dock="Bottom">
+                                    <TextBlock
+                                        Margin="5"
+                                        VerticalAlignment="Bottom"
+                                        DockPanel.Dock="Right">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}{0} / {1}">
+                                                <Binding Path="Index" />
+                                                <Binding ElementName="ListBox_Workshops" Path="Items.Count" />
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                    <UniformGrid
+                                        VerticalAlignment="Center"
+                                        Columns="2"
+                                        DockPanel.Dock="Left">
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding FileSize, StringFormat='文件大小：{0}'}" />
+                                            <TextBlock Margin="0,3,0,3" Text="{Binding Updated, StringFormat='更新日期：{0}'}" />
+                                            <TextBlock Text="{Binding Created, StringFormat='发布日期：{0}'}" />
+                                        </StackPanel>
+                                        <StackPanel Margin="10,0,0,0">
+                                            <TextBlock Text="{Binding NumUniqueWebsiteViews, StringFormat='不重复访客：{0}'}" />
+                                            <TextBlock Margin="0,3,0,3" Text="{Binding NumSubscriptions, StringFormat='当前订阅者：{0}'}" />
+                                            <TextBlock Text="{Binding NumFavorites, StringFormat='当前收藏数：{0}'}" />
+                                        </StackPanel>
+                                    </UniformGrid>
+                                </DockPanel>
+                            </DockPanel>
+                            <DockPanel Grid.Row="1" Grid.Column="1">
+                                <TextBlock
+                                    Margin="5"
+                                    VerticalAlignment="Center"
+                                    DockPanel.Dock="Left"
+                                    Text="{Binding PublicState, StringFormat='可见性：{0}'}" />
+                                <TextBlock
+                                    Margin="5"
+                                    VerticalAlignment="Center"
+                                    DockPanel.Dock="Left"
+                                    Text="|" />
+                                <TextBlock
+                                    Margin="5"
+                                    VerticalAlignment="Center"
+                                    DockPanel.Dock="Right"
+                                    Text="{Binding TagsContent, StringFormat='标签：{0}'}"
+                                    TextTrimming="CharacterEllipsis" />
+                            </DockPanel>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
 
 </UserControl>

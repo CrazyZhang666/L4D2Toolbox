@@ -27,6 +27,7 @@ public partial class LoadWindow
                 // 创建文件夹
                 Directory.CreateDirectory(Globals.OutputDir);
                 Directory.CreateDirectory(Globals.ConfigDir);
+                Directory.CreateDirectory(Globals.CacheDir);
 
                 if (!File.Exists(".\\AppData.bin"))
                 {

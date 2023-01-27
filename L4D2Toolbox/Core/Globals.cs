@@ -16,6 +16,7 @@ public static class Globals
 
     public const string OutputDir = ".\\__Output";
     public const string ConfigDir = ".\\Config";
+    public const string CacheDir = ".\\Cache";
 
     public const string AppDataDir = ".\\AppData";
 

@@ -16,6 +16,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <PackageReference Include="VirtualizingWrapPanel" Version="1.5.7" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<Resource Include="Fonts\iconfont.ttf" />
 	</ItemGroup>
 

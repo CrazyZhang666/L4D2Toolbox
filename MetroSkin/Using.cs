@@ -9,5 +9,4 @@ global using System.Windows.Markup;
 global using System.Windows.Controls;
 global using System.Windows.Media.Imaging;
 global using System.Runtime.InteropServices;
-global using System.Windows.Controls.Primitives;
 global using System.Globalization;

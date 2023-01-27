@@ -1,10 +1,12 @@
 ﻿using L4D2Toolbox.Core;
 using L4D2Toolbox.Data;
 using L4D2Toolbox.Utils;
+using L4D2Toolbox.Helper;
 
 using Steamworks;
 using Steamworks.Ugc;
 using Steamworks.Data;
+using System.IO;
 
 namespace L4D2Toolbox.Steam;
 
@@ -115,28 +117,40 @@ public static class Workshop
     }
 
     /// <summary>
-    /// 获取求生之路2玩家创意工坊物品列表
+    /// 获取求生之路2创意工坊物品列表
     /// </summary>
-    public static async Task<List<ItemInfo>> GetUserPublished()
+    /// <param name="isPublished">获取玩家发布或者订阅</param>
+    /// <returns></returns>
+    public static async Task<List<ItemInfo>> GetWorkshopItemList(bool isPublished = true)
     {
         var itemInfos = new List<ItemInfo>();
 
-        var published = Query.ItemsReadyToUse.WhereUserPublished().SortByUpdateDate();
+        Query query;
+        if (isPublished)
+            query = Query.ItemsReadyToUse.WhereUserPublished().SortByCreationDate();
+        else
+            query = Query.ItemsReadyToUse.WhereUserSubscribed().SortBySubscriptionDate();
 
         int page = 1, index = 1;
         ResultPage? result;
 
         do
         {
-            result = await published.GetPageAsync(page++);
-
+            result = await query.GetPageAsync(page++);
             foreach (var item in result.Value.Entries)
             {
+                var imgCahce = $"{Globals.CacheDir}\\{item.Id.Value}.jpg";
+                if (!File.Exists(imgCahce))
+                {
+                    _ = HttpHelper.DownloadImags(item.PreviewImageUrl, imgCahce);
+                    imgCahce = item.PreviewImageUrl;
+                }
+
                 itemInfos.Add(new()
                 {
                     Index = index++,
                     Id = item.Id.Value,
-                    PreviewImage = item.PreviewImageUrl,
+                    PreviewImage = imgCahce,
                     Title = item.Title.Replace("\n", " "),
                     Description = item.Description,
                     Url = item.Url,
@@ -165,17 +179,25 @@ public static class Workshop
     /// 删除创意工坊物品
     /// </summary>
     /// <param name="id"></param>
-    public static async void DeletePublishedFile(ulong id)
+    public static async Task<bool> DeletePublishedItem(ulong id)
     {
         var fileId = new PublishedFileId
         {
             Value = id
         };
+        return await SteamUGC.DeleteFileAsync(fileId);
+    }
 
-        var result = await SteamUGC.DeleteFileAsync(fileId);
-        if (result)
-            MsgBoxUtil.Information($"物品ID {fileId} 删除成功");
-        else
-            MsgBoxUtil.Error($"物品ID {fileId} 删除失败");
+    /// <summary>
+    /// 取消订阅创意工坊物品
+    /// </summary>
+    /// <param name="id"></param>
+    public static async Task<bool> UnSubscribeItem(ulong id)
+    {
+        var fileId = new PublishedFileId
+        {
+            Value = id
+        };
+        return await new Item(fileId).Unsubscribe();
     }
 }

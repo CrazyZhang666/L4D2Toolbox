@@ -47,7 +47,7 @@
                 <metro:MetroButton
                     x:Name="Button_RefreshStorageList"
                     Click="Button_RefreshStorageList_Click"
-                    Content="刷新"
+                    Content="刷新列表"
                     Icon="&#xec08;"
                     IconForeground="Green"
                     Style="{StaticResource MetroButton_IconFont}" />
@@ -55,8 +55,7 @@
                     x:Name="Button_DeleteStorage"
                     Margin="0,5,5,5"
                     Click="Button_DeleteStorage_Click"
-                    Content="删除"
-                    Foreground="Red"
+                    Content="删除选中文件"
                     Icon="&#xe8c1;"
                     IconForeground="Red"
                     IsEnabled="{Binding ElementName=ListBox_Storages, Path=SelectedIndex, Converter={StaticResource IsSelectedNullConverter}}"
@@ -65,7 +64,7 @@
                     x:Name="Button_ClearStorage"
                     Margin="0,5,5,5"
                     Click="Button_ClearStorage_Click"
-                    Content="清空"
+                    Content="清空全部文件"
                     Foreground="Red"
                     Icon="&#xe6dc;"
                     IconForeground="Red">

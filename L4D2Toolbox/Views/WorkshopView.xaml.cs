@@ -3,6 +3,7 @@ using L4D2Toolbox.Steam;
 using L4D2Toolbox.Utils;
 using L4D2Toolbox.Helper;
 using L4D2Toolbox.Windows;
+using Steamworks;
 
 namespace L4D2Toolbox.Views;
 
@@ -57,17 +58,14 @@ public partial class WorkshopView : UserControl
 
         ItemInfoLists.Clear();
 
-        var itemInfos = await Workshop.GetUserPublished();
-        if (itemInfos.Count > 0)
+        var itemInfos = await Workshop.GetWorkshopItemList();
+        itemInfos.ForEach(info =>
         {
-            itemInfos.ForEach(info =>
+            this.Dispatcher.BeginInvoke(DispatcherPriority.Background, () =>
             {
-                this.Dispatcher.BeginInvoke(DispatcherPriority.Background, () =>
-                {
-                    ItemInfoLists.Add(info);
-                });
+                ItemInfoLists.Add(info);
             });
-        }
+        });
 
         Button_RefushMODList.IsEnabled = true;
         NotifierHelper.Show(NotifierType.Success, "刷新玩家创意工坊项目列表成功");
@@ -95,16 +93,22 @@ public partial class WorkshopView : UserControl
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    private void Button_DeleteSelectedMOD_Click(object sender, RoutedEventArgs e)
+    private async void Button_DeleteSelectedMOD_Click(object sender, RoutedEventArgs e)
     {
         if (ListBox_Workshops.SelectedItem is ItemInfo info)
         {
             if (MessageBox.Show($"您确定要删除这件物品吗？此操作不可撤销！\n\n标题：{info.Title}\n物品ID：{info.Id}",
                 "删除物品", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
             {
-                Workshop.DeletePublishedFile(info.Id);
-                ItemInfoLists.Remove(info);
-                NotifierHelper.Show(NotifierType.Success, $"删除物品 {info.Id} 成功");
+                if (await Workshop.DeletePublishedItem(info.Id))
+                {
+                    ItemInfoLists.Remove(info);
+                    NotifierHelper.Show(NotifierType.Success, $"物品ID {info.Id} 删除成功");
+                }
+                else
+                {
+                    NotifierHelper.Show(NotifierType.Error, $"物品ID {info.Id} 删除失败");
+                }
             }
         }
     }
