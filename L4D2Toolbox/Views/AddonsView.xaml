@@ -9,6 +9,72 @@
     d:DesignWidth="1280"
     mc:Ignorable="d">
 
-    <Grid />
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <!--  //////////////////////  -->
+        <DockPanel Grid.Row="0">
+            <StackPanel Orientation="Horizontal">
+                <metro:MetroButton
+                    x:Name="Button_RefushAddonsList"
+                    Margin="5,5,0,5"
+                    Click="Button_RefushAddonsList_Click"
+                    Content="刷新列表"
+                    Icon="&#xec08;"
+                    IconForeground="Green"
+                    Style="{StaticResource MetroButton_IconFont}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" />
+        </DockPanel>
+        <!--  //////////////////////  -->
+        <ListView
+            x:Name="ListView_Addons"
+            Grid.Row="1"
+            Margin="5,0,5,5"
+            ItemsSource="{Binding AddonInfoLists}"
+            Style="{StaticResource ListViewStyle_Normal}">
+            <ListView.View>
+                <GridView AllowsColumnReorder="False" ColumnHeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle_Normal}">
+                    <GridViewColumn Header="序号">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock FontWeight="Bold" Text="{Binding Index}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Title}" Header="标题" />
+                    <GridViewColumn Header="状态">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    FontSize="20"
+                                    Foreground="{Binding StateColor}"
+                                    Style="{StaticResource TextBlockStyle_IconFontVerCen}"
+                                    Text="{Binding State}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Source}" Header="来源" />
+                    <GridViewColumn Header="文件大小">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Right" Text="{Binding FileSize}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="文件名">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Right" Text="{Binding FileName}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
 
 </UserControl>

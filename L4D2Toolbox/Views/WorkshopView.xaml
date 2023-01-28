@@ -138,7 +138,7 @@
                                     Margin="5"
                                     VerticalAlignment="Center"
                                     DockPanel.Dock="Left"
-                                    Text="{Binding PublicState, StringFormat='可见性：{0}'}" />
+                                    Text="{Binding VisState, StringFormat='可见性：{0}'}" />
                                 <TextBlock
                                     Margin="5"
                                     VerticalAlignment="Center"

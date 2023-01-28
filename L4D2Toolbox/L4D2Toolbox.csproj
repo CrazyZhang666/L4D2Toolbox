@@ -37,6 +37,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\MetroSkin\MetroSkin.csproj" />
+		<ProjectReference Include="..\SharpVPK\SharpVPK.csproj" />
 		<ProjectReference Include="..\Steamworks\Steamworks.csproj" />
 	</ItemGroup>
 

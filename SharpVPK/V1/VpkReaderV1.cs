@@ -10,6 +10,8 @@ internal class VpkReaderV1 : VpkReaderBase
     public override IVpkArchiveHeader ReadArchiveHeader()
     {
         var hdrStructSize = Marshal.SizeOf(typeof(VpkArchiveHeaderV1));
+        if (hdrStructSize != 12)
+            throw new InvalidDataException();
         var hdrBuff = Reader.ReadBytes(hdrStructSize);
         return BytesToStructure<VpkArchiveHeaderV1>(hdrBuff);
     }

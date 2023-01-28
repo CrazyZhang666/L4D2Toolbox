@@ -1,6 +1,4 @@
-﻿using L4D2Toolbox.Data;
-
-namespace L4D2Toolbox.Utils;
+﻿namespace L4D2Toolbox.Utils;
 
 public static class MiscUtil
 {

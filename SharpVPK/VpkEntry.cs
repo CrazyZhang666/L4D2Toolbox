@@ -56,17 +56,24 @@ public class VpkEntry
 
     private byte[] ReadData()
     {
-        var partFile = ParentArchive.Parts.FirstOrDefault(part => part.Index == ArchiveIndex);
-        if (partFile == null)
-            return null;
+        string partFile = ParentArchive.ArchivePath;
+        if (ArchiveIndex != 0x7fff)
+        {
+            var file = ParentArchive.Parts.FirstOrDefault(part => part.Index == ArchiveIndex);
+            if (file == null)
+                return null;
+            partFile = file.Filename;
+        }
+
         if (HasPreloadData)
             return ReadPreloadData();
         var buff = new byte[EntryLength];
-        using (var fs = new FileStream(partFile.Filename, FileMode.Open, FileAccess.Read))
+        using (var fs = new FileStream(partFile, FileMode.Open, FileAccess.Read))
         {
-            fs.Seek(EntryOffset, SeekOrigin.Begin);
+            fs.Seek((ArchiveIndex == 0x7fff ? ParentArchive.ArchiveOffset : 0) + EntryOffset, SeekOrigin.Begin);
             fs.Read(buff, 0, buff.Length);
         }
         return buff;
     }
+
 }

@@ -2,8 +2,6 @@
 using L4D2Toolbox.Steam;
 using L4D2Toolbox.Utils;
 using L4D2Toolbox.Helper;
-using L4D2Toolbox.Windows;
-using Steamworks;
 
 namespace L4D2Toolbox.Views;
 
@@ -48,6 +46,8 @@ public partial class SubscribeView : UserControl
     /// </summary>
     private async void Button_RefushSubscribeList_Click(object sender, RoutedEventArgs e)
     {
+        ProcessUtil.ClearMemory();
+
         Button_RefushSubscribeList.IsEnabled = false;
         NotifierHelper.Show(NotifierType.Notification, "正在刷新玩家求生之路2订阅列表...");
 

@@ -3,23 +3,23 @@
 internal abstract class VpkReaderBase
 {
     public BinaryReader Reader;
-    private readonly StringBuilder _strBuilder;
+    private readonly StringBuilder strBuilder;
 
     protected VpkReaderBase(string filename)
     {
         Reader = new BinaryReader(new FileStream(filename, FileMode.Open, FileAccess.Read));
-        _strBuilder = new StringBuilder(256);
+        strBuilder = new StringBuilder(256);
     }
 
     public abstract IVpkArchiveHeader ReadArchiveHeader();
 
     public string ReadNullTerminatedString()
     {
-        _strBuilder.Clear();
+        strBuilder.Clear();
         char chr;
-        while ((chr = Reader.ReadChar()) != 0x0)
-            _strBuilder.Append(chr);
-        return _strBuilder.ToString();
+        while ((chr = (char)Reader.ReadByte()) != 0x0)
+            strBuilder.Append(chr);
+        return strBuilder.ToString();
     }
 
     protected T BytesToStructure<T>(byte[] bytearray)
@@ -66,7 +66,9 @@ internal abstract class VpkReaderBase
             var entryOffset = Reader.ReadUInt32();
             var entryLen = Reader.ReadUInt32();
             // skip terminator
-            Reader.ReadUInt16();
+            if (Reader.ReadUInt16() != 0xFFFF)
+                throw new Exception();
+
             var preloadDataOffset = (uint)Reader.BaseStream.Position;
             if (preloadBytes > 0)
                 Reader.BaseStream.Position += preloadBytes;
@@ -77,4 +79,3 @@ internal abstract class VpkReaderBase
 
     public abstract uint CalculateEntryOffset(uint offset);
 }
-

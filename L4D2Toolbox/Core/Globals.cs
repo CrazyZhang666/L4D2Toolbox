@@ -109,6 +109,11 @@ public static class Globals
         get { return $"{L4D2MainDir}\\left4dead2\\addons"; }
     }
 
+    public static string L4D2WorkshopDir
+    {
+        get { return $"{L4D2MainDir}\\left4dead2\\addons\\workshop"; }
+    }
+
     public static string L4D2MapsDir
     {
         get { return $"{L4D2MainDir}\\left4dead2\\maps"; }

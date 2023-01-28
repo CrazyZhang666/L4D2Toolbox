@@ -2,11 +2,11 @@
 
 public class AddonInfo
 {
-    public string AddonImage { get; set; }
-    public string AddonTitle { get; set; }
-    public string AddonAuthor { get; set; }
-    public string AddonURL0 { get; set; }
-    public string AddonDescription { get; set; }
-    public string Survivor { get; set; }
-    public string Description { get; set; }
+    public int Index { get; set; }
+    public string Title { get; set; }
+    public string State { get; set; }
+    public string StateColor { get; set; }
+    public string Source { get; set; }
+    public string FileSize { get; set; }
+    public string FileName { get; set; }
 }

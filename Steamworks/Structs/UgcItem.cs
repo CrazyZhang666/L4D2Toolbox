@@ -262,7 +262,7 @@ public struct Item
             details = details,
             Title = details.TitleUTF8(),
             Description = details.DescriptionUTF8(),
-            Tags = details.TagsUTF8().ToLower().Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+            Tags = details.TagsUTF8().Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
         };
 
         return d;

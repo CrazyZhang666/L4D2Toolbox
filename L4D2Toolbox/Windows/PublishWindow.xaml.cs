@@ -118,7 +118,7 @@ public partial class PublishWindow
     /// <param name="e"></param>
     private void Window_Publish_Closing(object sender, CancelEventArgs e)
     {
-        ProcessUtil.ClearMemory();
+
     }
 
     /// <summary>

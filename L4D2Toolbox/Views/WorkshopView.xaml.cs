@@ -53,6 +53,8 @@ public partial class WorkshopView : UserControl
     /// </summary>
     private async void Button_RefushMODList_Click(object sender, RoutedEventArgs e)
     {
+        ProcessUtil.ClearMemory();
+
         Button_RefushMODList.IsEnabled = false;
         NotifierHelper.Show(NotifierType.Notification, "正在刷新玩家创意工坊项目列表...");
 

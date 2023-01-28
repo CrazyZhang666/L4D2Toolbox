@@ -55,7 +55,7 @@ public static class Workshop
     /// <param name="isPrivate"></param>
     /// <param name="isUnlisted"></param>
     /// <returns></returns>
-    public static string GetPublicState(bool isPublic, bool isFriendsOnly, bool isPrivate, bool isUnlisted)
+    public static string GetVisState(bool isPublic, bool isFriendsOnly, bool isPrivate, bool isUnlisted)
     {
         // 当前可见性： 公开
         if (isPublic)
@@ -71,19 +71,6 @@ public static class Workshop
             return "非公开";
 
         return "其他";
-    }
-
-    /// <summary>
-    /// 获取Mod标志字符串
-    /// </summary>
-    /// <param name="tags"></param>
-    /// <returns></returns>
-    public static string GetTagsContent(string[] tags)
-    {
-        for (int i = 0; i < tags.Length; i++)
-            tags[i] = MiscUtil.UpperCaseFirstChar(tags[i]);
-
-        return string.Join(", ", tags);
     }
 
     /////////////////////////////////////////////////////////////////////////////////
@@ -158,11 +145,11 @@ public static class Workshop
                     IsFriendsOnly = item.IsFriendsOnly,
                     IsPrivate = item.IsPrivate,
                     IsUnlisted = item.IsUnlisted,
-                    PublicState = GetPublicState(item.IsPublic, item.IsFriendsOnly, item.IsPrivate, item.IsUnlisted),
+                    VisState = GetVisState(item.IsPublic, item.IsFriendsOnly, item.IsPrivate, item.IsUnlisted),
                     Updated = MiscUtil.FormatDateTime(item.Updated),
                     Created = MiscUtil.FormatDateTime(item.Created),
                     Tags = item.Tags,
-                    TagsContent = GetTagsContent(item.Tags),
+                    TagsContent = string.Join(", ", item.Tags),
                     Owner = item.Owner.Name,
                     NumUniqueWebsiteViews = item.NumUniqueWebsiteViews,
                     NumSubscriptions = item.NumSubscriptions,

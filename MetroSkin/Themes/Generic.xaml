@@ -16,6 +16,7 @@
 
         <ResourceDictionary Source="/MetroSkin;component/Styles/ListBox.xaml" />
         <ResourceDictionary Source="/MetroSkin;component/Styles/TabControl.xaml" />
+        <ResourceDictionary Source="/MetroSkin;component/Styles/ListView.xaml" />
 
         <ResourceDictionary Source="/MetroSkin;component/Styles/MetroWindow.xaml" />
     </ResourceDictionary.MergedDictionaries>

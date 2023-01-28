@@ -15,7 +15,7 @@ public class ItemInfo
     public bool IsFriendsOnly { get; set; }
     public bool IsPrivate { get; set; }
     public bool IsUnlisted { get; set; }
-    public string PublicState { get; set; }
+    public string VisState { get; set; }
     public string Updated { get; set; }
     public string Created { get; set; }
     public string[] Tags { get; set; }
