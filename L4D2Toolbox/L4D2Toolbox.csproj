@@ -23,7 +23,6 @@
 		<DebugType>full</DebugType>
 	</PropertyGroup>
 
-
 	<ItemGroup>
 		<EmbeddedResource Include="Files\AppData.zip" />
 		<EmbeddedResource Include="Files\steam_api64.dll" />

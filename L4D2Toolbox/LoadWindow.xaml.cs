@@ -2,8 +2,6 @@
 using L4D2Toolbox.Steam;
 using L4D2Toolbox.Utils;
 
-using Steamworks;
-
 namespace L4D2Toolbox;
 
 /// <summary>

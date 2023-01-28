@@ -123,18 +123,16 @@ public partial class AddonsView : UserControl
     {
         var vpk = new VpkArchive();
         vpk.Load(vpkPath);
-        vpk.MergeDirectories();
 
         foreach (var directory in vpk.Directories)
         {
             foreach (var entry in directory.Entries)
             {
-                if (entry.Filename != "addoninfo" && entry.Extension != "txt")
+                if (entry.Filename != "addoninfo" || entry.Extension != "txt")
                     continue;
 
                 using var stream = new MemoryStream(entry.Data);
-                using var sr = new StreamReader(stream, Encoding.Default);
-
+                using var sr = new StreamReader(stream);
                 string line = string.Empty;
                 while ((line = sr.ReadLine()) != null)
                 {
@@ -142,12 +140,20 @@ public partial class AddonsView : UserControl
                     {
                         sr.Close();
                         stream.Close();
-                        return line.Replace("addontitle", "", StringComparison.OrdinalIgnoreCase).Replace("\"", "").Trim();
+
+                        line = line.Replace("addontitle", "", StringComparison.OrdinalIgnoreCase).Trim();
+                        var index = line.LastIndexOf("\"");
+                        if (index != -1)
+                        {
+                            line = line[..index].Replace("\"", "").Trim();
+                        }
+
+                        return string.IsNullOrEmpty(line) ? "<未找到MOD标题>" : line;
                     }
                 }
             }
         }
 
-        return string.Empty;
+        return "<未找到MOD标题>";
     }
 }
