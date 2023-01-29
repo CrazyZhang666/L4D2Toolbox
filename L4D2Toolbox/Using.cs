@@ -14,6 +14,7 @@ global using System.Windows.Media;
 global using System.Windows.Controls;
 global using System.Windows.Threading;
 global using System.Windows.Navigation;
+global using System.Threading;
 global using System.Threading.Tasks;
 global using System.Reflection;
 global using System.Diagnostics;

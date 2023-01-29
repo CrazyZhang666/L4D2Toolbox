@@ -1,7 +1,6 @@
 ﻿using L4D2Toolbox.Core;
 using L4D2Toolbox.Utils;
 using L4D2Toolbox.Helper;
-using Steamworks.Ugc;
 
 namespace L4D2Toolbox.Views;
 
