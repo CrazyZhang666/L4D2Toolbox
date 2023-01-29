@@ -2,20 +2,26 @@
 
 我大求生之路2怎么能缺少这个工具呢，求生之路2天下第一.jpg
 
-<img src="https://user-images.githubusercontent.com/28080853/215003268-f809c39f-1520-4bf2-ac20-dd2d7f72073d.png" width="400">
+# 运行库
 
-# 预览图片
+.NET 6.0 Desktop Runtime (v6.0.13)
 
-![image](https://user-images.githubusercontent.com/28080853/215002774-b36a2b66-2b58-49af-afb3-074db0c8f278.png)
+https://dotnet.microsoft.com/zh-cn/download/dotnet/thank-you/runtime-desktop-6.0.13-windows-x64-installer
 
-![image](https://user-images.githubusercontent.com/28080853/215002800-f3c04de6-4452-4a6b-9fe5-28e6c1754528.png)
+# 预览图
 
-![image](https://user-images.githubusercontent.com/28080853/215002812-2ee9654c-68f9-41b3-9b4d-f3e65db6b85f.png)
+![image](https://user-images.githubusercontent.com/28080853/215319109-27ee6535-9afc-4e0b-9a2a-047ee2a41129.png)
 
-![image](https://user-images.githubusercontent.com/28080853/215002827-38d23bc7-5aff-4d05-af9d-bf469b0078b5.png)
+![image](https://user-images.githubusercontent.com/28080853/215319119-6f6dae83-3c4b-4136-b0cd-15d19fd360bc.png)
 
-![image](https://user-images.githubusercontent.com/28080853/215002837-35da1ad0-6ef2-474c-ba6e-0512bfd22efc.png)
+![image](https://user-images.githubusercontent.com/28080853/215319123-7ca0b1f4-d5d5-42fc-8756-65da11e77c5f.png)
 
-![image](https://user-images.githubusercontent.com/28080853/215002855-03ffb853-690b-46a0-afb6-739ce676eea1.png)
+![image](https://user-images.githubusercontent.com/28080853/215319155-22c727fe-4d8b-4ea2-8d36-37f6fe987925.png)
 
-![image](https://user-images.githubusercontent.com/28080853/215002869-7238863d-ade4-4591-b068-30d7602fcc8c.png)
+![image](https://user-images.githubusercontent.com/28080853/215319135-0846328e-0d0b-4b5d-ae32-7aa01cd3880f.png)
+
+![image](https://user-images.githubusercontent.com/28080853/215319163-18c50a3c-93aa-488b-8653-d0ec6bdc0b36.png)
+
+![image](https://user-images.githubusercontent.com/28080853/215319167-1437f307-cba0-4428-9f9d-ad1e1ca51397.png)
+
+![image](https://user-images.githubusercontent.com/28080853/215319173-00c2f1b6-d00c-44e8-b73d-bece57278364.png)
