@@ -72,7 +72,7 @@ public partial class AddonInfoView : UserControl
         var fileDialog = new SaveFileDialog
         {
             RestoreDirectory = true,
-            Filter = "文本文件(*.txt)|*.txt",
+            Filter = "文本文件 (*.txt)|*.txt",
             FileName = "addoninfo.txt"
         };
 

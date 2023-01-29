@@ -1,6 +1,7 @@
 ﻿using L4D2Toolbox.Core;
 using L4D2Toolbox.Utils;
 using L4D2Toolbox.Helper;
+using Steamworks.Ugc;
 
 namespace L4D2Toolbox.Views;
 
@@ -31,6 +32,30 @@ public partial class ToolkitView : UserControl
     private void Button_VPKUnpack_Drop(object sender, DragEventArgs e)
     {
         DropHelper(e, Globals.VPKExec, new string[] { ".vpk" });
+    }
+
+    private void Button_VPKPack_Drop(object sender, DragEventArgs e)
+    {
+        if (e.Data.GetDataPresent(DataFormats.FileDrop))
+        {
+            var fileNames = e.Data.GetData(DataFormats.FileDrop) as string[];
+
+            if (Directory.Exists(fileNames[0]))
+            {
+                if (File.Exists($"{fileNames[0]}\\addoninfo.txt"))
+                {
+                    Compile.RunL4D2DevExec(Globals.VPKExec, $"\"{fileNames[0]}\"");
+                }
+                else
+                {
+                    NotifierHelper.Show(NotifierType.Warning, "未发现 addoninfo.txt 文件，操作取消");
+                }
+            }
+            else
+            {
+                NotifierHelper.Show(NotifierType.Warning, "当前拖放的目标非文件夹，操作取消");
+            }
+        }
     }
 
     private void Button_RunGCFScape_Drop(object sender, DragEventArgs e)
@@ -82,6 +107,27 @@ public partial class ToolkitView : UserControl
                     if (fileDialog.ShowDialog() == true)
                     {
                         ProcessUtil.OpenExecWithArgs(Globals.VPKExec, $"\"{fileDialog.FileName}\"");
+                    }
+                }
+                break;
+            case "VPK打包":
+                {
+                    var fileDialog = new OpenFileDialog
+                    {
+                        Title = "选择要打包的VPK资源文件夹",
+                        RestoreDirectory = true,
+                        DefaultExt = ".txt",
+                        FileName = "addoninfo.txt",
+                        Filter = "文本文件 (*.txt)|*.txt",
+                        ValidateNames = true,
+                        AddExtension = true,
+                        CheckFileExists = false,
+                        Multiselect = false
+                    };
+
+                    if (fileDialog.ShowDialog() == true)
+                    {
+                        Compile.RunL4D2DevExec(Globals.VPKExec, $"\"{Path.GetDirectoryName(fileDialog.FileName)}\"");
                     }
                 }
                 break;

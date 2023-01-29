@@ -18,9 +18,19 @@
                 CommandParameter="VPK解包"
                 Content="VPK解包"
                 Drop="Button_VPKUnpack_Drop"
-                Image="pack://application:,,,/L4D2Toolbox;component/Assets/Images/Tools/VPK.png"
+                Image="pack://application:,,,/L4D2Toolbox;component/Assets/Images/Tools/VPK1.png"
                 Style="{StaticResource MetroButton_Image}"
                 ToolTip="支持拖放 .vpk 格式文件" />
+            <metro:MetroButton
+                x:Name="Button_VPKPack"
+                AllowDrop="True"
+                Command="{Binding ButtonClickCommand}"
+                CommandParameter="VPK打包"
+                Content="VPK打包"
+                Drop="Button_VPKPack_Drop"
+                Image="pack://application:,,,/L4D2Toolbox;component/Assets/Images/Tools/VPK2.png"
+                Style="{StaticResource MetroButton_Image}"
+                ToolTip="支持拖放VPK资源文件夹" />
             <metro:MetroButton
                 x:Name="Button_RunGCFScape"
                 AllowDrop="True"

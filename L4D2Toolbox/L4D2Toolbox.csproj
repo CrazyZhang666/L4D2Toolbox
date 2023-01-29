@@ -60,7 +60,9 @@
 		<Resource Include="Assets\Images\Tools\Maps.png" />
 		<Resource Include="Assets\Images\Tools\RegionEnUS.png" />
 		<Resource Include="Assets\Images\Tools\RegionZhCN.png" />
-		<Resource Include="Assets\Images\Tools\VPK.png" />
+		<Resource Include="Assets\Images\Tools\VPK0.png" />
+		<Resource Include="Assets\Images\Tools\VPK1.png" />
+		<Resource Include="Assets\Images\Tools\VPK2.png" />
 		<Resource Include="Assets\Images\Tools\VTFEdit.png" />
 		<Resource Include="Assets\l4d2.png" />
 	</ItemGroup>
