@@ -31,28 +31,61 @@
         <!--  //////////////////////  -->
         <DockPanel Grid.Row="1">
             <StackPanel Width="300" DockPanel.Dock="Right">
+                <TextBlock
+                    Margin="5"
+                    FontSize="14"
+                    FontWeight="Bold"
+                    Text="预览图" />
                 <Border
                     Height="180"
-                    Margin="5,0,5,5"
+                    Margin="5"
                     BorderBrush="#ACACAC"
                     BorderThickness="1">
                     <Image />
                 </Border>
+                <!--  /////////////  -->
                 <TextBlock
                     Margin="5"
                     FontSize="14"
-                    Text="{Binding ElementName=ListView_Addons, Path=SelectedItem.FileName}"
-                    TextWrapping="Wrap" />
-                <TextBlock
-                    Margin="5"
-                    FontSize="14"
-                    Text="{Binding ElementName=ListView_Addons, Path=SelectedItem.FileSize}"
-                    TextWrapping="Wrap" />
-                <TextBlock
-                    Margin="5"
-                    FontSize="18"
                     FontWeight="Bold"
+                    Text="文件信息" />
+                <TextBlock
+                    Margin="5"
+                    Text="{Binding ElementName=ListView_Addons, Path=SelectedItem.FileName, StringFormat='文件名称：{0}'}"
+                    TextWrapping="Wrap" />
+                <TextBlock
+                    Margin="5"
+                    Text="{Binding ElementName=ListView_Addons, Path=SelectedItem.FileSize, StringFormat='文件大小：{0}'}"
+                    TextWrapping="Wrap" />
+                <!--  /////////////  -->
+                <TextBlock
+                    Margin="5"
+                    FontSize="14"
+                    FontWeight="Bold"
+                    Text="标题" />
+                <TextBlock
+                    Margin="5"
                     Text="{Binding ElementName=ListView_Addons, Path=SelectedItem.Title}"
+                    TextWrapping="Wrap" />
+                <!--  /////////////  -->
+                <TextBlock
+                    Margin="5"
+                    FontSize="14"
+                    FontWeight="Bold"
+                    Text="作者" />
+                <TextBlock
+                    Margin="5"
+                    Text="{Binding ElementName=ListView_Addons, Path=SelectedItem.Author}"
+                    TextWrapping="Wrap" />
+                <!--  /////////////  -->
+                <TextBlock
+                    Margin="5"
+                    FontSize="14"
+                    FontWeight="Bold"
+                    Text="描述" />
+                <TextBlock
+                    Margin="5"
+                    Text="{Binding ElementName=ListView_Addons, Path=SelectedItem.Description}"
                     TextWrapping="Wrap" />
             </StackPanel>
             <ListView

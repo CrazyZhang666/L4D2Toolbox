@@ -4,6 +4,8 @@ public class AddonInfo
 {
     public int Index { get; set; }
     public string Title { get; set; }
+    public string Description { get; set; }
+    public string Author { get; set; }
     public string State { get; set; }
     public string StateColor { get; set; }
     public string Source { get; set; }

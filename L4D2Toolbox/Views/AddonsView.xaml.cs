@@ -67,6 +67,8 @@ public partial class AddonsView : UserControl
         int index = 1;
         AddonInfoLists.Clear();
 
+        var addonList = GetAddonList();
+
         // 本地MOD
         foreach (var vpk in Directory.GetFiles(Globals.L4D2AddonsDir))
         {
@@ -75,14 +77,26 @@ public partial class AddonsView : UserControl
             if (file.Extension != ".vpk")
                 continue;
 
+            var addonData = GetAddonData(vpk);
+
+            var state = "\xe724";
+            var stateColor = "#FF0000";
+            if (addonList.ContainsKey(file.Name) && addonList[file.Name])
+            {
+                state = "\xe730";
+                stateColor = "#00CC00";
+            }
+
             this.Dispatcher.BeginInvoke(DispatcherPriority.Background, () =>
             {
                 AddonInfoLists.Add(new()
                 {
                     Index = index++,
-                    Title = GetVPKTitle(vpk),
-                    State = "\xe724",
-                    StateColor = "#FF0000",
+                    Title = addonData.Title,
+                    Description = addonData.Description,
+                    Author = addonData.Author,
+                    State = state,
+                    StateColor = stateColor,
                     Source = "本地",
                     FileSize = MiscUtil.ByteConverterMB((ulong)file.Length),
                     FileName = file.Name,
@@ -98,15 +112,27 @@ public partial class AddonsView : UserControl
             if (file.Extension != ".vpk")
                 continue;
 
+            var addonData = GetAddonData(vpk);
+
+            var state = "\xe724";
+            var stateColor = "#FF0000";
+            if (addonList.ContainsKey($"workshop\\{file.Name}") && addonList[$"workshop\\{file.Name}"])
+            {
+                state = "\xe730";
+                stateColor = "#00CC00";
+            }
+
             this.Dispatcher.BeginInvoke(DispatcherPriority.Background, () =>
             {
                 AddonInfoLists.Add(new()
                 {
                     Index = index++,
-                    Title = GetVPKTitle(vpk),
-                    State = "\xe730",
+                    Title = addonData.Title,
+                    Description = addonData.Description,
+                    Author = addonData.Author,
+                    State = state,
+                    StateColor = stateColor,
                     Source = "创意工坊",
-                    StateColor = "#00CC00",
                     FileSize = MiscUtil.ByteConverterMB((ulong)file.Length),
                     FileName = file.Name,
                 });
@@ -119,8 +145,15 @@ public partial class AddonsView : UserControl
         AutoColumWidth();
     }
 
-    private string GetVPKTitle(string vpkPath)
+    private AddonData GetAddonData(string vpkPath)
     {
+        var addonData = new AddonData
+        {
+            Title = "<无标题>",
+            Description = "",
+            Author = ""
+        };
+
         using var package = new Package();
         package.Read(vpkPath);
 
@@ -133,25 +166,70 @@ public partial class AddonsView : UserControl
             if (str.Contains('�'))
                 str = Encoding.GetEncoding("GB2312").GetString(output);
 
-            var lines = str.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            var lines = str.Split(new string[] { "\r\n", "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
 
             foreach (var line in lines)
             {
-                var title = line.Replace("\"", "").Trim().ToLower();
-                if (title.StartsWith("addontitle"))
+                if (line.Contains("addonTitle ", StringComparison.OrdinalIgnoreCase))
                 {
-                    title = line.Replace("addontitle", "", StringComparison.OrdinalIgnoreCase).Trim();
-                    var index = title.LastIndexOf("\"");
-                    if (index != -1)
-                    {
-                        title = title[..index].Replace("\"", "").Trim();
-                    }
+                    addonData.Title = GetAddonInfoValue(line, "addonTitle");
+                }
 
-                    return string.IsNullOrEmpty(title) ? "<无标题>" : title;
+                if (line.Contains("addonDescription ", StringComparison.OrdinalIgnoreCase))
+                {
+                    addonData.Description = GetAddonInfoValue(line, "addonDescription");
+                }
+
+                if (line.Contains("addonAuthor ", StringComparison.OrdinalIgnoreCase))
+                {
+                    addonData.Author = GetAddonInfoValue(line, "addonAuthor");
                 }
             }
         }
 
-        return "<无标题>";
+        return addonData;
+    }
+
+    private string GetAddonInfoValue(string content, string key)
+    {
+        var temp = content.Replace("\"", "").Trim();
+        if (temp.StartsWith(key, StringComparison.OrdinalIgnoreCase))
+        {
+            var value = temp.Replace(key, "", StringComparison.OrdinalIgnoreCase).Trim();
+            var index = value.IndexOf("//");
+            if (index != -1)
+                value = value[..index].Trim();
+
+            return value;
+        }
+
+        return string.Empty;
+    }
+
+    private Dictionary<string, bool> GetAddonList()
+    {
+        var addonList = new Dictionary<string, bool>();
+
+        if (File.Exists(Globals.L4D2AddonListTxt))
+        {
+            foreach (var line in File.ReadAllLines(Globals.L4D2AddonListTxt))
+            {
+                if (line.Contains("AddonList"))
+                    continue;
+
+                if (line.StartsWith("{"))
+                    continue;
+
+                if (line.StartsWith("}"))
+                    continue;
+
+                var keyValueArray = Regex.Split(line, ".vpk");
+                var key = keyValueArray[0].Replace("\"", "").Trim() + ".vpk";
+                var value = keyValueArray[1].Replace("\"", "").Trim() == "1";
+                addonList.Add(key, value);
+            }
+        }
+
+        return addonList;
     }
 }

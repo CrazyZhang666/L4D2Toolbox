@@ -94,6 +94,11 @@ public static class Globals
         get { return $"{L4D2MainDir}\\bin\\hammer.exe"; }
     }
 
+    public static string L4D2AddonListTxt
+    {
+        get { return $"{L4D2MainDir}\\left4dead2\\addonlist.txt"; }
+    }
+
     public static string L4D2SurvivorsDir
     {
         get { return $"{L4D2MainDir}\\left4dead2\\models\\survivors"; }
