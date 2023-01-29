@@ -3,7 +3,7 @@ using L4D2Toolbox.Data;
 using L4D2Toolbox.Utils;
 using L4D2Toolbox.Helper;
 
-using SharpVPK;
+using ValvePak;
 
 namespace L4D2Toolbox.Views;
 
@@ -121,39 +121,43 @@ public partial class AddonsView : UserControl
 
     private string GetVPKTitle(string vpkPath)
     {
-        var vpk = new VpkArchive();
-        vpk.Load(vpkPath);
+        using var package = new Package();
+        package.Read(vpkPath);
 
-        foreach (var directory in vpk.Directories)
+        var addoninfo = package.FindEntry("addoninfo.txt");
+        if (addoninfo != null)
         {
-            foreach (var entry in directory.Entries)
+            package.ReadEntry(addoninfo, out byte[] output);
+
+            using var memoryStream = new MemoryStream(output);
+
+            var streamReader = new StreamReader(memoryStream, Encoding.UTF8);
+            if (streamReader.ReadToEnd().Contains('�'))
+                streamReader = new StreamReader(memoryStream, Encoding.GetEncoding("GB2312"));
+
+            streamReader.BaseStream.Seek(0, SeekOrigin.Begin);
+            streamReader.DiscardBufferedData();
+
+            string line = string.Empty;
+            while ((line = streamReader.ReadLine()) != null)
             {
-                if (entry.Filename != "addoninfo" || entry.Extension != "txt")
-                    continue;
-
-                using var stream = new MemoryStream(entry.Data);
-                using var sr = new StreamReader(stream);
-                string line = string.Empty;
-                while ((line = sr.ReadLine()) != null)
+                if (line.Trim().ToLower().StartsWith("addontitle"))
                 {
-                    if (line.Trim().ToLower().StartsWith("addontitle"))
+                    streamReader.Close();
+                    memoryStream.Close();
+
+                    line = line.Replace("addontitle", "", StringComparison.OrdinalIgnoreCase).Trim();
+                    var index = line.LastIndexOf("\"");
+                    if (index != -1)
                     {
-                        sr.Close();
-                        stream.Close();
-
-                        line = line.Replace("addontitle", "", StringComparison.OrdinalIgnoreCase).Trim();
-                        var index = line.LastIndexOf("\"");
-                        if (index != -1)
-                        {
-                            line = line[..index].Replace("\"", "").Trim();
-                        }
-
-                        return string.IsNullOrEmpty(line) ? "<未找到MOD标题>" : line;
+                        line = line[..index].Replace("\"", "").Trim();
                     }
+
+                    return string.IsNullOrEmpty(line) ? "<无标题>" : line;
                 }
             }
         }
 
-        return "<未找到MOD标题>";
+        return "<无标题>";
     }
 }

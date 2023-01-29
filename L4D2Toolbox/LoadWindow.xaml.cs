@@ -62,7 +62,10 @@ public partial class LoadWindow
 
                 /////////////////////////////////////////////////////////////////////
 
-                await Task.Delay(500);
+                // 注册编码
+                Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
+                await Task.Delay(200);
 
                 this.Dispatcher.Invoke(() =>
                 {

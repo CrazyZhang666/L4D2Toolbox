@@ -32,12 +32,14 @@
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
 		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
 		<PackageReference Include="Notification.Wpf" Version="6.1.0.5" />
+		<PackageReference Include="System.Text.Encoding.CodePages" Version="7.0.0" />
+		<PackageReference Include="UTF.Unknown" Version="2.5.1" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\MetroSkin\MetroSkin.csproj" />
-		<ProjectReference Include="..\SharpVPK\SharpVPK.csproj" />
 		<ProjectReference Include="..\Steamworks\Steamworks.csproj" />
+		<ProjectReference Include="..\ValvePak\ValvePak.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -29,52 +29,79 @@
             <StackPanel Orientation="Horizontal" />
         </DockPanel>
         <!--  //////////////////////  -->
-        <ListView
-            x:Name="ListView_Addons"
-            Grid.Row="1"
-            Margin="5,0,5,5"
-            ItemsSource="{Binding AddonInfoLists}"
-            Style="{StaticResource ListViewStyle_Normal}">
-            <ListView.View>
-                <GridView AllowsColumnReorder="False" ColumnHeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle_Normal}">
-                    <GridViewColumn Header="序号">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock FontWeight="Bold" Text="{Binding Index}" />
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn DisplayMemberBinding="{Binding Title}" Header="标题" />
-                    <GridViewColumn Header="状态">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock
-                                    HorizontalAlignment="Center"
-                                    FontSize="20"
-                                    Foreground="{Binding StateColor}"
-                                    Style="{StaticResource TextBlockStyle_IconFontVerCen}"
-                                    Text="{Binding State}" />
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn DisplayMemberBinding="{Binding Source}" Header="来源" />
-                    <GridViewColumn Header="文件大小">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock HorizontalAlignment="Right" Text="{Binding FileSize}" />
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="文件名">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock HorizontalAlignment="Right" Text="{Binding FileName}" />
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                </GridView>
-            </ListView.View>
-        </ListView>
+        <DockPanel Grid.Row="1">
+            <StackPanel Width="300" DockPanel.Dock="Right">
+                <Border
+                    Height="180"
+                    Margin="5,0,5,5"
+                    BorderBrush="#ACACAC"
+                    BorderThickness="1">
+                    <Image />
+                </Border>
+                <TextBlock
+                    Margin="5"
+                    FontSize="14"
+                    Text="{Binding ElementName=ListView_Addons, Path=SelectedItem.FileName}"
+                    TextWrapping="Wrap" />
+                <TextBlock
+                    Margin="5"
+                    FontSize="14"
+                    Text="{Binding ElementName=ListView_Addons, Path=SelectedItem.FileSize}"
+                    TextWrapping="Wrap" />
+                <TextBlock
+                    Margin="5"
+                    FontSize="18"
+                    FontWeight="Bold"
+                    Text="{Binding ElementName=ListView_Addons, Path=SelectedItem.Title}"
+                    TextWrapping="Wrap" />
+            </StackPanel>
+            <ListView
+                x:Name="ListView_Addons"
+                Margin="5,0,5,5"
+                DockPanel.Dock="Left"
+                ItemsSource="{Binding AddonInfoLists}"
+                Style="{StaticResource ListViewStyle_Normal}">
+                <ListView.View>
+                    <GridView AllowsColumnReorder="False" ColumnHeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle_Normal}">
+                        <GridViewColumn Header="序号">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock FontWeight="Bold" Text="{Binding Index}" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn DisplayMemberBinding="{Binding Title}" Header="标题" />
+                        <GridViewColumn Header="状态">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock
+                                        HorizontalAlignment="Center"
+                                        FontSize="20"
+                                        Foreground="{Binding StateColor}"
+                                        Style="{StaticResource TextBlockStyle_IconFontVerCen}"
+                                        Text="{Binding State}" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn DisplayMemberBinding="{Binding Source}" Header="来源" />
+                        <GridViewColumn Header="文件大小">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock HorizontalAlignment="Right" Text="{Binding FileSize}" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="文件名">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock HorizontalAlignment="Right" Text="{Binding FileName}" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </DockPanel>
     </Grid>
 
 </UserControl>
