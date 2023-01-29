@@ -60,6 +60,7 @@ public partial class MainWindow
     private void CreateNavMenu()
     {
         NavMenus.Add(new() { Icon = "\xe61f", Title = "首页", ViewName = "HomeView" });
+        NavMenus.Add(new() { Icon = "\xe738", Title = "MOD信息模板", ViewName = "AddonInfoView" });
         NavMenus.Add(new() { Icon = "\xe899", Title = "管理创意工坊", ViewName = "WorkshopView" });
         NavMenus.Add(new() { Icon = "\xe77e", Title = "Steam云存储", ViewName = "StorageView" });
         NavMenus.Add(new() { Icon = "\xe64e", Title = "订阅管理", ViewName = "SubscribeView" });
