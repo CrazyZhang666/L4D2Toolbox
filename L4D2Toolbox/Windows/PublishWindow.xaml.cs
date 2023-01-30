@@ -2,11 +2,6 @@
 using L4D2Toolbox.Utils;
 using L4D2Toolbox.Helper;
 
-using Steamworks;
-using Steamworks.Ugc;
-using Steamworks.Data;
-using System.Windows;
-
 namespace L4D2Toolbox.Windows;
 
 /// <summary>

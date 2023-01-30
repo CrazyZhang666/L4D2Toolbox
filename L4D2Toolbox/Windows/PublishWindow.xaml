@@ -174,7 +174,7 @@
                     </TextBlock>
                     <StackPanel DockPanel.Dock="Left">
                         <TextBlock Margin="5">
-                            <Hyperlink x:Name="Hyperlink_FileId" />
+                            <Hyperlink x:Name="Hyperlink_FileId" RequestNavigate="Hyperlink_RequestNavigate" />
                         </TextBlock>
                     </StackPanel>
                 </DockPanel>
