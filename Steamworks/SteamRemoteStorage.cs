@@ -1,5 +1,6 @@
 ﻿using Steamworks.Data;
 using Steamworks.Ugc;
+using System.Threading;
 
 namespace Steamworks;
 
@@ -184,21 +185,44 @@ public class SteamRemoteStorage : SteamClientClass<SteamRemoteStorage>
 
     public static readonly AppId L4D2AppId = new() { Value = 550 };
 
+    public static UGCFileWriteStreamHandle_t FileWriteStreamOpen(string fileName)
+    {
+        return Internal.FileWriteStreamOpen(fileName);
+    }
+
+    public unsafe static bool FileWriteStreamWriteChunk(UGCFileWriteStreamHandle_t writeHandle, byte[] data, int byteCountRead)
+    {
+        fixed (byte* ptr = data)
+        {
+            return Internal.FileWriteStreamWriteChunk(writeHandle, (IntPtr)ptr, byteCountRead);
+        }
+    }
+
+    public static bool FileWriteStreamClose(UGCFileWriteStreamHandle_t writeHandle)
+    {
+        return Internal.FileWriteStreamClose(writeHandle);
+    }
+
     /// <summary>
     /// 发布求生之路2创意工坊Mod
     /// </summary>
-    public static async Task<RemoteStoragePublishFileResult_t?> PublishWorkshopFile(string fileName, string previewFileName, string title, string description, RemoteStoragePublishedFileVisibility fileVisibility, List<string> tags)
+    public static async Task<RemoteStoragePublishFileResult_t?> PublishWorkshopFile(string fileName, string previewFileName, string title, string description, int fileVisibility, List<string> tags)
     {
         using var val = SteamParamStringArray.From(tags.ToArray());
-        return await Internal.PublishWorkshopFile(fileName, previewFileName, L4D2AppId, title, description, fileVisibility, val.Value, WorkshopFileType.Community);
+        return await Internal.PublishWorkshopFile(fileName, previewFileName, L4D2AppId, title, description, (RemoteStoragePublishedFileVisibility)fileVisibility, val.Value, WorkshopFileType.Community);
     }
 
     /// <summary>
     /// 更新求生之路2已发布创意工坊Mod
     /// </summary>
-    public static bool UpdatePublished(PublishedFileId fileId, string changeLog, string fileName)
+    public static bool UpdatePublished(ulong fileId, string changeLog, string fileName)
     {
-        var updateHandle_t = Internal.CreatePublishedFileUpdateRequest(fileId);
+        var publishedFileId = new PublishedFileId
+        {
+            Value = fileId
+        };
+
+        var updateHandle_t = Internal.CreatePublishedFileUpdateRequest(publishedFileId);
         if (updateHandle_t.Value != 0)
         {
             // 更新日志

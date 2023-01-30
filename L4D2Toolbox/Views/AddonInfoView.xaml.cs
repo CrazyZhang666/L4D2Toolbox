@@ -1,5 +1,4 @@
 ﻿using L4D2Toolbox.Helper;
-using Microsoft.Win32;
 
 namespace L4D2Toolbox.Views;
 
@@ -13,6 +12,8 @@ public partial class AddonInfoView : UserControl
         InitializeComponent();
         this.DataContext = this;
         MainWindow.WindowClosingEvent += MainWindow_WindowClosingEvent;
+
+        TextBox_AddonInfo.Text = BuildAddonInfo();
     }
 
     private void MainWindow_WindowClosingEvent()
@@ -20,7 +21,7 @@ public partial class AddonInfoView : UserControl
 
     }
 
-    private void Button_BuildAddonInfo_Click(object sender, RoutedEventArgs e)
+    private string BuildAddonInfo()
     {
         var addonTitle = TextBox_addonTitle.Text.Trim();
         var addonVersion = TextBox_addonVersion.Text.Trim();
@@ -56,8 +57,12 @@ public partial class AddonInfoView : UserControl
         builder.AppendLine($"\t\"addonContent_Script\"            \"{Convert.ToInt32(CheckBox_Script.IsChecked == true)}\"");
         builder.Append('}');
 
-        TextBox_AddonInfo.Text = builder.ToString();
+        return builder.ToString();
+    }
 
+    private void Button_BuildAddonInfo_Click(object sender, RoutedEventArgs e)
+    {
+        TextBox_AddonInfo.Text = BuildAddonInfo();
         NotifierHelper.Show(NotifierType.Success, "生成AddonInfo内容成功");
     }
 

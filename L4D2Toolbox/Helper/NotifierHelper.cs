@@ -38,8 +38,7 @@ public static class NotifierHelper
     /// </summary>
     /// <param name="type"></param>
     /// <param name="message"></param>
-    /// <param name="areaName"></param>
-    public static void Show(NotifierType type, string message, string areaName = "MainWindowArea")
+    public static void Show(NotifierType type, string message)
     {
         string title = type switch
         {
@@ -59,15 +58,14 @@ public static class NotifierHelper
             TrimType = NotificationTextTrimType.NoTrim,
         };
 
-        NotificationManager.Show(clickContent, areaName, ExpirationTime, null, null, true, false);
+        NotificationManager.Show(clickContent, string.Empty, ExpirationTime, null, null, true, false);
     }
 
     /// <summary>
     /// 显示异常通知信息
     /// </summary>
     /// <param name="ex"></param>
-    /// <param name="areaName"></param>
-    public static void ShowException(Exception ex, string areaName = "MainWindowArea")
+    public static void ShowException(Exception ex)
     {
         var clickContent = new NotificationContent
         {
@@ -77,7 +75,7 @@ public static class NotifierHelper
             TrimType = NotificationTextTrimType.NoTrim,
         };
 
-        NotificationManager.Show(clickContent, areaName, ExpirationTime, null, null, true, false);
+        NotificationManager.Show(clickContent, string.Empty, ExpirationTime, null, null, true, false);
     }
 }
 

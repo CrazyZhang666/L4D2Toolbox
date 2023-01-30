@@ -1,0 +1,56 @@
+﻿<metro:MetroWindow
+    x:Class="L4D2Toolbox.Windows.UploadWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:metro="https://github.com/CrazyZhang666/MetroSkin"
+    x:Name="Window_Upload"
+    Title="正在上传中..."
+    Width="600"
+    Height="350"
+    Closing="Window_Upload_Closing"
+    Loaded="Window_Upload_Loaded"
+    ResizeMode="NoResize"
+    Style="{StaticResource MetroSystemWindow}"
+    WindowStartupLocation="CenterOwner"
+    mc:Ignorable="d">
+
+    <metro:MetroWindow.TitleContent>
+        <StackPanel DockPanel.Dock="Left" Orientation="Horizontal">
+            <Image
+                Width="24"
+                Height="24"
+                Margin="5"
+                Source="\Assets\Favicon.ico"
+                Style="{StaticResource ImageStyle_HighQuality}" />
+            <TextBlock
+                Margin="0,0,5,0"
+                VerticalAlignment="Center"
+                FontSize="18"
+                FontWeight="Bold"
+                Text="{Binding ElementName=Window_Upload, Path=Title}" />
+        </StackPanel>
+    </metro:MetroWindow.TitleContent>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <!--  /////////////////////////  -->
+        <TextBox x:Name="TextBox_Logger" Style="{StaticResource TextBoxStyle_Logger}" />
+        <!--  /////////////////////////  -->
+        <ProgressBar
+            x:Name="ProgressBar_Upload"
+            Grid.Row="1"
+            Height="30"
+            Margin="5,0,5,5"
+            Background="White"
+            BorderBrush="Gray"
+            BorderThickness="1"
+            IsIndeterminate="True"
+            SnapsToDevicePixels="True" />
+    </Grid>
+
+</metro:MetroWindow>
