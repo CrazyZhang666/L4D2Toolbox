@@ -5,6 +5,7 @@ using L4D2Toolbox.Helper;
 using Steamworks;
 using Steamworks.Ugc;
 using Steamworks.Data;
+using System.Windows;
 
 namespace L4D2Toolbox.Windows;
 
@@ -18,14 +19,15 @@ public partial class PublishWindow
     /// </summary>
     private bool IsPublish = true;
 
-    private readonly ItemInfo OriginItemInfo;
+    /// <summary>
+    /// 保存更新MOD的原始信息
+    /// </summary>
+    private ItemInfo OriginItemInfo { get; }
 
     /// <summary>
     /// 标签 CheckBox 集合
     /// </summary>
     private readonly List<CheckBox> CheckBoxList = new();
-
-    private const string AreaName = "PublishWindowArea";
 
     //////////////////////////////////////////////////
 
@@ -132,18 +134,6 @@ public partial class PublishWindow
         e.Handled = true;
     }
 
-    /// <summary>
-    /// 报告进度
-    /// </summary>
-    /// <param name="progress"></param>
-    private void ReportProgress(double progress)
-    {
-        this.Dispatcher.BeginInvoke(DispatcherPriority.Background, () =>
-        {
-            this.ProgressBar_Publish.Value = progress;
-        });
-    }
-
     /////////////////////////////////////////////////////////////////////////////
 
     /// <summary>
@@ -161,7 +151,7 @@ public partial class PublishWindow
             if (fileExte.Contains(Path.GetExtension(fileNames[0]).ToLower()))
                 return fileNames[0];
             else
-                NotifierHelper.Show(NotifierType.Warning, $"当前拖放的目标文件非 {string.Join(", ", fileExte)} 格式，操作取消", AreaName);
+                NotifierHelper.Show(NotifierType.Warning, $"当前拖放的目标文件非 {string.Join(", ", fileExte)} 格式，操作终止");
         }
 
         return string.Empty;
@@ -264,9 +254,9 @@ public partial class PublishWindow
         Button_PublishMod.IsEnabled = false;
 
         if (IsPublish)
-            await PublishMod();
+            PublishMod();
         else
-            await UpdateMod();
+            UpdateMod();
 
         Button_PublishMod.IsEnabled = true;
     }
@@ -274,15 +264,12 @@ public partial class PublishWindow
     /// <summary>
     /// 发布L4D2创意工坊
     /// </summary>
-    private async Task PublishMod()
+    private void PublishMod()
     {
-        ReportProgress(0.1);
-
         // 标题
         if (string.IsNullOrWhiteSpace(TextBox_Title.Text))
         {
-            NotifierHelper.Show(NotifierType.Warning, "Mod标题不能为空，操作取消", AreaName);
-            ReportProgress(0.0);
+            NotifierHelper.Show(NotifierType.Warning, "Mod标题不能为空，操作终止");
             return;
         }
         var title = TextBox_Title.Text.Trim();
@@ -290,49 +277,40 @@ public partial class PublishWindow
         // 预览图绝对路径
         if (string.IsNullOrEmpty(Button_PreviewImage.Image))
         {
-            NotifierHelper.Show(NotifierType.Warning, "Mod预览图不能为空，操作取消", AreaName);
-            ReportProgress(0.0);
+            NotifierHelper.Show(NotifierType.Warning, "Mod预览图不能为空，操作终止");
             return;
         }
         var imgPath = Button_PreviewImage.Image.Trim();
         if (!File.Exists(imgPath))
         {
-            NotifierHelper.Show(NotifierType.Warning, "Mod预览图文件为空或不存在，操作取消", AreaName);
-            ReportProgress(0.0);
+            NotifierHelper.Show(NotifierType.Warning, "Mod预览图文件为空或不存在，操作终止");
             return;
         }
-        // 预览图名称
-        var imgName = Path.GetFileName(imgPath);
 
         // VPK文件绝对路径
         var vpkPath = TextBox_VPKPath.Text.Trim();
         if (!File.Exists(vpkPath))
         {
-            NotifierHelper.Show(NotifierType.Warning, "Mod主体VPK文件不能为空或不存在，操作取消", AreaName);
-            ReportProgress(0.0);
+            NotifierHelper.Show(NotifierType.Warning, "Mod主体VPK文件不能为空或不存在，操作终止");
             return;
         }
-        // VPK文件名称
-        var vpkName = Path.GetFileName(vpkPath);
 
         // Mod描述
         var description = TextBox_Description.Text.Trim();
 
-        ReportProgress(0.2);
-
         // 可见性
-        var visibility = new RemoteStoragePublishedFileVisibility();
+        var visibility = 0;
         if (RadioButton_IsPublic.IsChecked == true)
-            visibility = RemoteStoragePublishedFileVisibility.Public;
+            visibility = 0;
         else if (RadioButton_IsFriendsOnly.IsChecked == true)
-            visibility = RemoteStoragePublishedFileVisibility.FriendsOnly;
+            visibility = 1;
         else if (RadioButton_IsPrivate.IsChecked == true)
-            visibility = RemoteStoragePublishedFileVisibility.Private;
+            visibility = 2;
         else if (RadioButton_IsUnlisted.IsChecked == true)
-            visibility = RemoteStoragePublishedFileVisibility.Unlisted;
+            visibility = 3;
 
         // 标签
-        var tags = new List<string> { };
+        var tags = new List<string>();
         foreach (var checkBox in CheckBoxList)
         {
             if (checkBox.IsChecked == true)
@@ -340,64 +318,32 @@ public partial class PublishWindow
                 tags.Add(checkBox.Content as string);
             }
         }
-        ReportProgress(0.3);
 
-        // 预览图二进制文件
-        var imgData = await File.ReadAllBytesAsync(imgPath);
-        ReportProgress(0.4);
-
-        // 上传预览图文件到Steam云存储
-        if (!SteamRemoteStorage.FileWrite(imgName, imgData))
+        var uploadData = new UploadData
         {
-            NotifierHelper.Show(NotifierType.Error, "上传预览图文件到Steam云存储失败，操作取消", AreaName);
-            ReportProgress(0.0);
-            return;
-        }
-        ReportProgress(0.5);
-
-        // VPK二进制文件
-        var vpkData = await File.ReadAllBytesAsync(vpkPath);
-        ReportProgress(0.6);
-
-        // 上传VPK文件到Steam云存储
-        if (!SteamRemoteStorage.FileWrite(vpkName, vpkData))
+            IsPublish = true,
+            IMGPath = imgPath,
+            VPKPath = vpkPath,
+            Title = title,
+            Description = description,
+            Visibility = visibility,
+            Tags = tags
+        };
+        // 启动上传窗口
+        var uploadWindow = new UploadWindow(uploadData)
         {
-            NotifierHelper.Show(NotifierType.Error, "上传VPK文件到Steam云存储失败，操作取消", AreaName);
-            ReportProgress(0.0);
-            return;
-        }
-        ReportProgress(0.8);
-
-        // 从Steam云存储发布
-        var result_t = await SteamRemoteStorage.PublishWorkshopFile(vpkName, imgName, title, description, visibility, tags);
-        if (result_t.Value.Result == Result.OK)
-        {
-            ReportProgress(1.0);
-            NotifierHelper.Show(NotifierType.Success, $"发布L4D2创意工坊成功，物品Id：{result_t.Value.PublishedFileId.Value}", AreaName);
-        }
-        else
-        {
-            NotifierHelper.Show(NotifierType.Error, $"发布L4D2创意工坊失败 {result_t.Value.Result}，操作取消", AreaName);
-            ReportProgress(0.0);
-        }
-
-        SteamRemoteStorage.FileDelete(imgName);
-        await Task.Delay(200);
-        SteamRemoteStorage.FileDelete(vpkName);
+            Owner = this
+        };
+        uploadWindow.ShowDialog();
     }
 
     /// <summary>
     /// 更新选中Mod信息
     /// </summary>
-    private async Task UpdateMod()
+    private void UpdateMod()
     {
-        ReportProgress(0.1);
-
-        // 创建更新Mod请求
-        var editor = new Editor(new PublishedFileId
-        {
-            Value = OriginItemInfo.Id
-        });
+        var uploadData = new UploadData();
+        uploadData.FileId = OriginItemInfo.Id;
 
         // 标题
         var title = TextBox_Title.Text.Trim();
@@ -405,11 +351,10 @@ public partial class PublishWindow
         {
             if (string.IsNullOrWhiteSpace(title))
             {
-                NotifierHelper.Show(NotifierType.Warning, "Mod标题不能为空，操作取消", AreaName);
-                ReportProgress(0.0);
+                NotifierHelper.Show(NotifierType.Warning, "Mod标题不能为空，操作终止");
                 return;
             }
-            editor.WithTitle(title);
+            uploadData.Title = title;
         }
 
         // 预览图
@@ -418,104 +363,51 @@ public partial class PublishWindow
         {
             if (!File.Exists(imgPath))
             {
-                NotifierHelper.Show(NotifierType.Warning, "Mod预览图文件为空或不存在，操作取消", AreaName);
-                ReportProgress(0.0);
+                NotifierHelper.Show(NotifierType.Warning, "Mod预览图文件为空或不存在，操作终止");
                 return;
             }
-            editor.WithPreviewFile(imgPath);
+            uploadData.IMGPath = imgPath;
         }
-
-        ReportProgress(0.2);
 
         // 描述
         var description = TextBox_Description.Text.Trim();
         if (description != OriginItemInfo.Description)
-            editor.WithDescription(description);
+            uploadData.Description = description;
 
         // 可见性
         if (RadioButton_IsPublic.IsChecked == true)
-            editor.WithPublicVisibility();
+            uploadData.Visibility = 0;
         else if (RadioButton_IsFriendsOnly.IsChecked == true)
-            editor.WithFriendsOnlyVisibility();
+            uploadData.Visibility = 1;
         else if (RadioButton_IsPrivate.IsChecked == true)
-            editor.WithPrivateVisibility();
+            uploadData.Visibility = 2;
         else if (RadioButton_IsUnlisted.IsChecked == true)
-            editor.WithUnlistedVisibility();
+            uploadData.Visibility = 3;
 
         // 标签
         foreach (var checkBox in CheckBoxList)
         {
             if (checkBox.IsChecked == true)
             {
-                editor.WithTag(checkBox.Content as string);
+                uploadData.Tags.Add(checkBox.Content as string);
             }
         }
 
-        ReportProgress(0.3);
-
-        // 提交更新请求
-        var result = await editor.SubmitAsync();
-        if (!result.Success)
-        {
-            NotifierHelper.Show(NotifierType.Error, $"更新选中Mod信息失败 {result.Result}，操作取消", AreaName);
-            ReportProgress(0.0);
-            return;
-        }
-
-        ReportProgress(0.5);
-
         // VPK文件绝对路径
         var vpkPath = TextBox_VPKPath.Text.Trim();
-        if (string.IsNullOrWhiteSpace(vpkPath))
-        {
-            NotifierHelper.Show(NotifierType.Success, $"更新选中Mod信息成功 {result.Result}", AreaName);
-            ReportProgress(1.0);
-            return;
-        }
+        if (!string.IsNullOrWhiteSpace(vpkPath))
+            uploadData.VPKPath = vpkPath;
 
-        // 玩家更新了VPK文件
-        if (!File.Exists(vpkPath))
-        {
-            NotifierHelper.Show(NotifierType.Warning, "Mod主体VPK文件不能为空或不存在，操作取消", AreaName);
-            ReportProgress(0.0);
-            return;
-        }
-
-        // VPK文件名称
-        var vpkName = Path.GetFileName(vpkPath);
-        // VPK二进制文件
-        var vpkData = await File.ReadAllBytesAsync(vpkPath);
-
-        ReportProgress(0.6);
-
-        // 上传VPK文件到Steam云存储
-        if (!SteamRemoteStorage.FileWrite(vpkName, vpkData))
-        {
-            NotifierHelper.Show(NotifierType.Error, "上传VPK文件到Steam云存储失败，操作取消", AreaName);
-            ReportProgress(0.0);
-            return;
-        }
-
-        ReportProgress(0.8);
-
-        var fileId = new PublishedFileId
-        {
-            Value = OriginItemInfo.Id
-        };
+        // 更新日志
         var changeLog = TextBox_ChangeLog.Text.Trim();
-        // 更新VPK文件和分部分项日志
-        if (!SteamRemoteStorage.UpdatePublished(fileId, changeLog, vpkName))
-        {
-            NotifierHelper.Show(NotifierType.Error, "更新已发布物品VPK文件失败，操作取消", AreaName);
-            ReportProgress(0.0);
-            return;
-        }
+        if (!string.IsNullOrWhiteSpace(changeLog))
+            uploadData.ChangeLog = changeLog;
 
-        ReportProgress(1.0);
-        if (MessageBox.Show("更新已发布物品VPK文件成功，现在关闭窗口吗？", "更新成功",
-            MessageBoxButton.OKCancel, MessageBoxImage.Information) == MessageBoxResult.OK)
+        // 启动上传窗口
+        var uploadWindow = new UploadWindow(uploadData)
         {
-            this.Close();
-        }
+            Owner = this
+        };
+        uploadWindow.ShowDialog();
     }
 }
