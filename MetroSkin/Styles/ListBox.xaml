@@ -132,10 +132,7 @@
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
                         SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
-                        <ScrollViewer
-                            HorizontalScrollBarVisibility="Disabled"
-                            IsDeferredScrollingEnabled="True"
-                            VerticalScrollBarVisibility="Auto">
+                        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                             <vwp:VirtualizingWrapPanel
                                 IsItemsHost="True"
                                 MouseWheelDelta="1"
