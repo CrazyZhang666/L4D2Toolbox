@@ -67,7 +67,10 @@
                                 Margin="5,5,5,0"
                                 BorderBrush="#C2C3C9"
                                 BorderThickness="1">
-                                <Image RenderOptions.BitmapScalingMode="HighQuality" Source="{Binding PreviewImage, IsAsync=True, Converter={StaticResource StringToImageSourceConverter}}" />
+                                <Image
+                                    RenderOptions.BitmapScalingMode="HighQuality"
+                                    Source="{Binding PreviewImage, IsAsync=True, Converter={StaticResource StringToImageSourceConverter}}"
+                                    Stretch="UniformToFill" />
                             </Border>
                             <TextBlock
                                 Grid.Row="1"

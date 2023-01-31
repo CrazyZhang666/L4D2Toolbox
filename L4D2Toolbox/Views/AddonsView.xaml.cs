@@ -59,8 +59,6 @@ public partial class AddonsView : UserControl
     /// <param name="e"></param>
     private void Button_RefushAddonsList_Click(object sender, RoutedEventArgs e)
     {
-        ProcessUtil.ClearMemory();
-
         Button_RefushAddonsList.IsEnabled = false;
         NotifierHelper.Show(NotifierType.Notification, "正在刷新求生之路2MOD列表...");
 

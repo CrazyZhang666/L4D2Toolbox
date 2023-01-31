@@ -244,7 +244,7 @@ public partial class PublishWindow
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    private async void Button_PublishMod_Click(object sender, RoutedEventArgs e)
+    private void Button_PublishMod_Click(object sender, RoutedEventArgs e)
     {
         Button_PublishMod.IsEnabled = false;
 

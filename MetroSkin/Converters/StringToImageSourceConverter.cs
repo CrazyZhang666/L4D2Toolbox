@@ -26,6 +26,7 @@ public class StringToImageSourceConverter : IValueConverter
             bitmapImage.BeginInit();
             bitmapImage.StreamSource = new MemoryStream(bytes);
             bitmapImage.EndInit();
+            bitmapImage.Freeze();
 
             return bitmapImage;
         }

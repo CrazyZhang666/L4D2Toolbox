@@ -13,15 +13,6 @@ public static class ProcessUtil
     }
 
     /// <summary>
-    /// 垃圾回收
-    /// </summary>
-    public static void ClearMemory()
-    {
-        GC.Collect();
-        GC.WaitForPendingFinalizers();
-    }
-
-    /// <summary>
     /// 打开指定文件夹路径或Web链接
     /// </summary>
     /// <param name="path"></param>

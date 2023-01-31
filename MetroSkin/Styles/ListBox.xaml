@@ -141,7 +141,7 @@
                                 ScrollLineDelta="1"
                                 ScrollLineDeltaItem="1"
                                 SpacingMode="None"
-                                VirtualizingPanel.CacheLength="10,10"
+                                VirtualizingPanel.CacheLength="1,10"
                                 VirtualizingPanel.CacheLengthUnit="Item"
                                 VirtualizingPanel.IsVirtualizing="True"
                                 VirtualizingPanel.ScrollUnit="Item"

@@ -3,7 +3,6 @@ using L4D2Toolbox.Steam;
 using L4D2Toolbox.Utils;
 using L4D2Toolbox.Helper;
 using L4D2Toolbox.Windows;
-using Steamworks;
 
 namespace L4D2Toolbox.Views;
 
@@ -53,19 +52,20 @@ public partial class WorkshopView : UserControl
     /// </summary>
     private async void Button_RefushMODList_Click(object sender, RoutedEventArgs e)
     {
-        ProcessUtil.ClearMemory();
-
         Button_RefushMODList.IsEnabled = false;
         NotifierHelper.Show(NotifierType.Notification, "正在刷新玩家创意工坊项目列表...");
 
         ItemInfoLists.Clear();
 
-        var itemInfos = await Workshop.GetWorkshopItemList();
-        itemInfos.ForEach(info =>
+        await Task.Run(async () =>
         {
-            this.Dispatcher.BeginInvoke(DispatcherPriority.Background, () =>
+            var itemInfos = await Workshop.GetWorkshopItemList();
+            itemInfos.ForEach(info =>
             {
-                ItemInfoLists.Add(info);
+                this.Dispatcher.Invoke(() =>
+                {
+                    ItemInfoLists.Add(info);
+                });
             });
         });
 

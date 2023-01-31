@@ -1,14 +1,14 @@
-# æ±‚ç”Ÿä¹‹è·¯2å·¥å…·ç®±
+# ÇóÉúÖ®Â·2¹¤¾ßÏä
 
-æˆ‘å¤§æ±‚ç”Ÿä¹‹è·¯2æ€ä¹ˆèƒ½ç¼ºå°‘è¿™ä¸ªå·¥å…·å‘¢ï¼Œæ±‚ç”Ÿä¹‹è·¯2å¤©ä¸‹ç¬¬ä¸€.jpg
+ÎÒ´óÇóÉúÖ®Â·2ÔõÃ´ÄÜÈ±ÉÙÕâ¸ö¹¤¾ßÄØ£¬ÇóÉúÖ®Â·2ÌìÏÂµÚÒ».jpg
 
-# è¿è¡Œåº“
+# ÔËĞĞ¿â
 
 .NET 6.0 Desktop Runtime (v6.0.13)
 
 https://dotnet.microsoft.com/zh-cn/download/dotnet/thank-you/runtime-desktop-6.0.13-windows-x64-installer
 
-# é¢„è§ˆå›¾
+# Ô¤ÀÀÍ¼
 
 ![image](https://user-images.githubusercontent.com/28080853/215319109-27ee6535-9afc-4e0b-9a2a-047ee2a41129.png)
 
