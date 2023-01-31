@@ -43,6 +43,10 @@
                         FontWeight="Bold"
                         Text="L4D2工具箱" />
                 </StackPanel>
+                <!--  ////////// 底部区 //////////  -->
+                <TextBlock Margin="10" DockPanel.Dock="Bottom">
+                    <Hyperlink x:Name="Hyperlink_AppUpdate" RequestNavigate="Hyperlink_RequestNavigate" />
+                </TextBlock>
                 <!--  ////////// 导航区 //////////  -->
                 <ListBox
                     x:Name="ListBox_NavMenu"

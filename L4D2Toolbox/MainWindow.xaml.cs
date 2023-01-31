@@ -1,5 +1,7 @@
 ﻿using L4D2Toolbox.Data;
+using L4D2Toolbox.Helper;
 using L4D2Toolbox.Steam;
+using L4D2Toolbox.Utils;
 
 namespace L4D2Toolbox;
 
@@ -45,7 +47,22 @@ public partial class MainWindow
 
     private void Window_Main_Loaded(object sender, RoutedEventArgs e)
     {
-
+        Task.Run(async () =>
+        {
+            var version = await HttpHelper.DownloadString("https://raw.githubusercontent.com/CrazyZhang666/L4D2Toolbox/main/version.txt");
+            if (Version.TryParse(version, out Version result))
+            {
+                if (result != MiscUtil.VersionInfo)
+                {
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        Hyperlink_AppUpdate.Inlines.Add($"发现新版本 v{result}");
+                        Hyperlink_AppUpdate.NavigateUri = new Uri("https://github.com/CrazyZhang666/L4D2Toolbox/releases");
+                        NotifierHelper.Show(NotifierType.Notification, "发现新版本，请前往GitHub下载");
+                    });
+                }
+            }
+        });
     }
 
     private void Window_Main_Closing(object sender, CancelEventArgs e)
@@ -88,5 +105,16 @@ public partial class MainWindow
         {
             ContentControl_NavRegion.Content = NavDictionary[viewName];
         }
+    }
+
+    /// <summary>
+    /// 超链接请求导航事件
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
+    {
+        ProcessUtil.OpenLink(e.Uri.OriginalString);
+        e.Handled = true;
     }
 }
